@@ -21,7 +21,7 @@ export const HowItWorks = ({ onExploreDemo }) => {
       icon: IconClipboardList,
       preview: {
         badge: 'Program Definition',
-        name: '21-Day Habit & Metabolic Reset',
+        name: '21-Day Illustrative Habit Plan (Demo)',
         detail: '4 daily anchor actions • 21-day duration • Category: Habits & Wellness'
       }
     },
