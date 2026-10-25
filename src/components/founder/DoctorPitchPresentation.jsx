@@ -19,7 +19,7 @@ export const DoctorPitchPresentation = ({ pitchData, onClose, onOpenClinicWorksp
   // Computed intelligence insights based on specialty
   const specialtyInsights = {
     'Metabolic Health & PCOS Dietetics': {
-      dropoffStat: '68% of PCOS patients abandon dietary changes within 14 days without daily check-ins.',
+      dropoffStat: 'could structured daily check-ins help PCOS patients follow a doctor-authored dietary plan between visits?',
       rootCause: 'Complex seed cycling, spearmint tea timing, and low-GI meal planning feel overwhelming at home alone.',
       solutionProtocol: 'PCOS & Insulin Resistance 21-Day Daily Habit Protocol',
       sampleTasks: [
@@ -28,10 +28,10 @@ export const DoctorPitchPresentation = ({ pitchData, onClose, onOpenClinicWorksp
         { title: '15-min Post-Lunch NEAT Walk', detail: 'Gentle insulin-sensitizing outdoor movement' },
         { title: 'Evening Magnesium & Wind-Down Log', detail: 'Target 7+ hours restorative sleep' }
       ],
-      monthlyRevenueUnlock: '₹75,000 - ₹1,20,000 / month in renewed 30-day cohort retention'
+      monthlyRevenueUnlock: '₹75,000 - ₹1,20,000 / month (assumption for discussion, not a forecast)'
     },
     'Diabetes & Glycemic Management': {
-      dropoffStat: '74% of Type 2 diabetics experience post-dinner glucose spikes due to unmonitored evening snacking.',
+      dropoffStat: 'could daily check-ins help Type 2 diabetics follow a doctor-authored evening routine between visits?',
       rootCause: 'Patients lack real-time accountability between quarterly HbA1c blood tests.',
       solutionProtocol: '30-Day Indian Diabetes & Glycemic Reset',
       sampleTasks: [
@@ -40,10 +40,10 @@ export const DoctorPitchPresentation = ({ pitchData, onClose, onOpenClinicWorksp
         { title: 'Daily Fasting Sugar Log', detail: 'Quick one-tap entry for physician review' },
         { title: 'Evening Carb-Cutoff Rule', detail: 'No refined carbs within 3 hours of sleep' }
       ],
-      monthlyRevenueUnlock: '₹90,000 - ₹1,50,000 / month in chronic care management fees'
+      monthlyRevenueUnlock: '₹90,000 - ₹1,50,000 / month (assumption for discussion, not a forecast)'
     },
     'Sports Physiotherapy & Orthopedic Rehab': {
-      dropoffStat: '58% of rehabilitation clients stop doing home exercises once acute pain subsides to a mild ache.',
+      dropoffStat: 'could daily check-ins help rehabilitation clients keep up a doctor-prescribed home-exercise plan?',
       rootCause: 'Home exercise sheets get lost; clients worry mild soreness might be reinjury.',
       solutionProtocol: 'Lumbar Spine & Core Functional Rehabilitation',
       sampleTasks: [
@@ -52,10 +52,10 @@ export const DoctorPitchPresentation = ({ pitchData, onClose, onOpenClinicWorksp
         { title: 'Desk Ergonomics Micro-Break', detail: 'Standing lumbar extension every 45 mins' },
         { title: 'Evening Discomfort Scale (0-10)', detail: 'Direct flag if pain score exceeds threshold' }
       ],
-      monthlyRevenueUnlock: '₹60,000 - ₹1,10,000 / month in sustained rehabilitation package renewals'
+      monthlyRevenueUnlock: '₹60,000 - ₹1,10,000 / month (assumption for discussion, not a forecast)'
     },
     'Preventive Cardiology & Hypertension': {
-      dropoffStat: '62% of hypertensive patients struggle with sodium reduction and evening stress regulation.',
+      dropoffStat: 'could daily check-ins help hypertensive patients follow a doctor-authored sodium and stress plan?',
       rootCause: 'Lack of daily micro-habits to counteract sedentary work routines.',
       solutionProtocol: 'Cardiometabolic 28-Day Habit Architecture',
       sampleTasks: [
@@ -64,7 +64,7 @@ export const DoctorPitchPresentation = ({ pitchData, onClose, onOpenClinicWorksp
         { title: '4-7-8 Breathwork Protocol', detail: '8 mins parasympathetic tone regulation' },
         { title: 'Resting Blood Pressure Entry', detail: 'Weekly trending graph for physician' }
       ],
-      monthlyRevenueUnlock: '₹70,000 - ₹1,30,000 / month in ongoing lifestyle cardiology supervision'
+      monthlyRevenueUnlock: '₹70,000 - ₹1,30,000 / month (assumption for discussion, not a forecast)'
     }
   };
 
@@ -114,7 +114,7 @@ I hope you're having a productive week at ${clinicName}.
 
 We built Careloop specifically to solve the patient follow-through gap between consultations in ${specialty}.
 
-Our clinic data shows that ${currentInsight.dropoffStat}
+The open question we are exploring with clinics: ${currentInsight.dropoffStat}
 
 Careloop gives your practice a 100% WhatsApp-native check-in loop:
 1. You assign your custom ${currentInsight.solutionProtocol} via a printable clinic QR stand at your desk.
@@ -138,7 +138,7 @@ Target Monthly Volume: ${patientVolume} patients
 
 PROBLEM DIAGNOSIS:
 • Current Bottleneck: ${painPoint}
-• Clinical Drop-Off Risk: ${currentInsight.dropoffStat}
+• Clinical Follow-Through Hypothesis (unvalidated research question): ${currentInsight.dropoffStat}
 • Structural Driver: ${currentInsight.rootCause}
 
 CARELOOP INTERVENTION:
@@ -146,10 +146,10 @@ CARELOOP INTERVENTION:
 • Check-in Channel: WhatsApp Native (No App Store barrier)
 • Clinical Dashboard: Real-time adherence scores, red-flag triage, and clinic QR stand
 
-PROJECTED PRACTICE IMPACT:
-• Estimated Monthly Clinic Revenue Unlock: ${currentInsight.monthlyRevenueUnlock}
-• Front-Desk Admin Time Saved: ~2 hours/day by automating manual WhatsApp replies
-• Adherence Goal: Target 80%+ 30-day program completion`;
+PRACTICE IMPACT ASSUMPTIONS (NOT FORECASTS):
+• Revenue Assumption for Discussion (input assumption, not a forecast; not validated): ${currentInsight.monthlyRevenueUnlock}
+• Front-Desk Admin Time: automation of manual WhatsApp replies (time saving varies by clinic)
+• Adherence Goal: target 80%+ 30-day program completion (a goal, not a guaranteed outcome)`;
 
     navigator.clipboard.writeText(memo);
     setCopiedMemo(true);
@@ -236,7 +236,7 @@ PROJECTED PRACTICE IMPACT:
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                 <div className="p-6 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-3">
-                  <div className="text-xs font-bold uppercase tracking-wider text-amber-800">The Drop-off Statistic</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-amber-800">The Follow-Through Question</div>
                   <div className="text-2xl sm:text-3xl font-black text-amber-950">
                     {currentInsight.dropoffStat}
                   </div>
@@ -525,7 +525,7 @@ PROJECTED PRACTICE IMPACT:
               </div>
 
               <div className="pt-4 border-t border-[#F0F2EF] flex items-center justify-between text-xs text-gray-500">
-                <span>Careloop Early Access Validation · ₹0 Setup Spend Guaranteed</span>
+                <span>Careloop Early Access Validation · demo uses free tiers; real pilot costs not established</span>
                 <button
                   onClick={onOpenClinicWorkspace}
                   className="font-bold text-[#2D6A4F] hover:underline"

@@ -75,7 +75,7 @@ export const FirebaseSetupModal = ({ isOpen, onClose }) => {
         <div className="bg-[#F8F9F7] rounded-xl p-4 border border-[#E8EAE7] text-xs text-[#405347] space-y-2">
           <div className="font-semibold text-[#18231C] flex items-center gap-1.5 text-sm">
             <IconShield className="w-4 h-4 text-[#2D6A4F]" />
-            Free Tier (Spark Plan) - ₹0 Cost Guarantee
+            Free Tier (Spark Plan) - ₹0 within Spark usage limits
           </div>
           <p>
             Firebase provides a completely free Spark tier requiring <strong>no credit card</strong>:

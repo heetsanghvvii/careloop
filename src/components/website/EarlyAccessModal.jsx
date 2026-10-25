@@ -95,7 +95,7 @@ export const EarlyAccessModal = ({ isOpen, onClose }) => {
           <div className="p-4 bg-[#FAFAF8] rounded-xl border border-[#E8EAE7] text-left text-xs text-[#405347] space-y-2">
             <div className="font-semibold text-[#18231C] flex items-center gap-1.5">
               <IconSparkles className="w-4 h-4 text-[#2D6A4F]" />
-              Early Access Guarantee:
+              Early Access Benefits:
             </div>
             <ul className="list-disc pl-5 space-y-1 text-[11px] text-[#5C6E63]">
               <li>Lock in proposed early-bird pricing (starting at ₹499/mo).</li>
