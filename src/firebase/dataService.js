@@ -12,6 +12,7 @@ import {
   onSnapshot 
 } from 'firebase/firestore';
 import { INITIAL_DEMO_DATA, getIsoDateOffset } from '../data/initialDemoData.js';
+import { DEFAULT_TZ, DEFAULT_AVAILABILITY, todayInTz, addDays, zonedTimeToUtc } from '../data/followUpScheduler.js';
 import { DEFAULT_PROGRAM_TEMPLATES } from '../data/programTemplates.js';
 
 const STORAGE_KEY_LOCAL_DB = 'careloop_local_data_v1';
@@ -474,6 +475,59 @@ export const dataService = {
     rem.repliedAt = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     localStore.notify();
     return rem;
+  },
+
+  // --- FOLLOW-UP BOOKING PROTOTYPE (synthetic - local store only, no real calendar writes) ---
+  // Materializes seed bookings (stored as dayOffset from today) into concrete instants.
+  getFollowUpState() {
+    const tz = localStore.data.doctorCalendar?.timezone || DEFAULT_TZ;
+    const today = todayInTz(tz);
+    const raw = localStore.data.doctorCalendar || { timezone: tz, availability: null, bookings: [] };
+    const bookings = (raw.bookings || []).map(b => {
+      if (b.dayOffset == null) return b;
+      const dateStr = addDays(today, b.dayOffset);
+      const start = zonedTimeToUtc(dateStr, b.startMin, tz);
+      const end = zonedTimeToUtc(dateStr, b.startMin + b.durationMin, tz);
+      return { ...b, startISO: start.toISOString(), endISO: end.toISOString() };
+    });
+    return {
+      rules: localStore.data.followUpRules || [],
+      events: localStore.data.followUpEvents || [],
+      calendar: {
+        timezone: tz,
+        availability: raw.availability || DEFAULT_AVAILABILITY,
+        bookings,
+      },
+      today,
+    };
+  },
+
+  async saveFollowUpRule(rule) {
+    const rules = localStore.data.followUpRules || (localStore.data.followUpRules = []);
+    const idx = rules.findIndex(r => r.id === rule.id);
+    if (idx >= 0) rules[idx] = { ...rules[idx], ...rule };
+    else rules.push({ id: 'fur_' + Date.now(), intervalDays: 7, durationMin: 20, active: true, timezone: DEFAULT_TZ, createdAt: new Date().toISOString(), ...rule });
+    localStore.notify();
+    return idx >= 0 ? rules[idx] : rules[rules.length - 1];
+  },
+
+  async saveFollowUpEvent(event) {
+    const events = localStore.data.followUpEvents || (localStore.data.followUpEvents = []);
+    const idx = events.findIndex(e => e.id === event.id);
+    if (idx >= 0) events[idx] = event; else events.push(event);
+    localStore.notify();
+    return event;
+  },
+
+  async saveDoctorCalendar(calendar) {
+    // Persist only concrete bookings (drop derived seed fields); availability/timezone preserved.
+    localStore.data.doctorCalendar = {
+      timezone: calendar.timezone,
+      availability: localStore.data.doctorCalendar?.availability || null,
+      bookings: calendar.bookings.map(b => b.dayOffset == null ? b : { id: b.id, startISO: b.startISO, endISO: b.endISO, title: b.title, source: b.source }),
+    };
+    localStore.notify();
+    return localStore.data.doctorCalendar;
   },
 
   // --- RESET DEMO ---
