@@ -1,0 +1,20 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome-stable', args: ['--no-sandbox'] });
+const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+const errors = [];
+page.on('console', m => { if (m.type() === 'error') errors.push(m.text().slice(0,200)); });
+page.on('pageerror', e => errors.push('PAGEERROR: ' + String(e).slice(0,200)));
+await page.goto('http://localhost:4173/', { waitUntil: 'networkidle' });
+console.log('LANDING H1:', await page.locator('h1').first().innerText().catch(()=> 'NONE'));
+// find enter-demo button
+const btns = await page.locator('button').allInnerTexts();
+console.log('BUTTONS:', JSON.stringify(btns.slice(0, 30)));
+const demoBtn = page.locator('button', { hasText: /demo|workspace|launch|try/i }).first();
+console.log('DEMO BTN:', await demoBtn.innerText().catch(()=>'NONE'));
+await demoBtn.click();
+await page.waitForTimeout(1500);
+console.log('AFTER ENTER URL:', page.url());
+console.log('NAV TABS:', JSON.stringify(await page.locator('nav button').allInnerTexts()));
+console.log('H1/H2:', JSON.stringify(await page.locator('h1, h2').allInnerTexts()));
+console.log('ERRORS:', JSON.stringify(errors));
+await browser.close();
