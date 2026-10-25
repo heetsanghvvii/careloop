@@ -118,6 +118,62 @@ export const dataService = {
     return localStore.data.workspace;
   },
 
+  async createCustomWorkspace(config) {
+    if (!config || !config.clinicName || !config.doctorName || !config.doctorEmail) {
+      throw new Error('Explicit exception: Incomplete workspace profile provided. Clinic name, doctor name, and email are required.');
+    }
+    const wsId = config.id || ('ws_custom_' + Date.now());
+    const newWorkspace = {
+      id: wsId,
+      name: config.clinicName,
+      practitionerName: config.doctorName,
+      practitionerEmail: config.doctorEmail,
+      phone: config.phone || '',
+      category: config.specialty || 'General Health',
+      brandColor: config.brandColor || '#2D6A4F',
+      tagline: config.tagline || '',
+      avatarEmoji: config.avatarEmoji || '🩺',
+      plan: config.plan || 'Starter',
+      intakeQuestions: config.intakeQuestions || [],
+      followupRules: {
+        inactivityDays: config.inactivityDays || 3,
+        riskThresholdPercent: config.riskThresholdPercent || 60,
+        nudgeTime: config.nudgeTime || '08:00 AM',
+        allowSkipDays: config.allowSkipDays !== false
+      },
+      createdAt: new Date().toISOString()
+    };
+
+    if (this.isLiveFirebase()) {
+      try {
+        await setDoc(doc(firestoreDb, 'workspaces', wsId), newWorkspace);
+      } catch (err) {
+        console.error('Careloop: Firestore error in createCustomWorkspace:', err);
+        throw new CloudSyncError('createCustomWorkspace', err);
+      }
+    }
+
+    localStore.data.workspace = newWorkspace;
+    localStore.data.participants = [];
+    localStore.data.taskCompletions = [];
+    localStore.data.simulatedReminders = [];
+
+    if (config.selectedTemplates && config.selectedTemplates.length > 0) {
+      const allTemplates = DEFAULT_PROGRAM_TEMPLATES || [];
+      const templatesToClone = allTemplates.filter(t => config.selectedTemplates.includes(t.id));
+      localStore.data.programs = templatesToClone.map(t => ({
+        ...t,
+        id: 'prog_' + t.id.replace('template-', '') + '_' + Date.now(),
+        workspaceId: wsId,
+        isTemplate: false,
+        createdAt: new Date().toISOString()
+      }));
+    }
+
+    localStore.notify();
+    return newWorkspace;
+  },
+
   // --- PARTICIPANTS ---
   async getParticipants(workspaceId = 'ws_demo_001') {
     if (this.isLiveFirebase()) {

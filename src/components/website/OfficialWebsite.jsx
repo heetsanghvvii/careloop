@@ -21,7 +21,8 @@ export const OfficialWebsite = ({
   onLaunchParticipant, 
   onLaunchFounder,
   onOpenFirebaseModal,
-  onOpenPitchDeck
+  onOpenPitchDeck,
+  onOpenOnboarding
 }) => {
   const [isEarlyAccessOpen, setIsEarlyAccessOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -41,14 +42,25 @@ export const OfficialWebsite = ({
         >
           Doctor Sandbox →
         </button>
+        {onOpenOnboarding && (
+          <>
+            <span className="text-white/40">•</span>
+            <button 
+              onClick={onOpenOnboarding}
+              className="text-[#52B788] font-bold underline hover:text-white"
+            >
+              🩺 Doctor Self-Serve Onboarding →
+            </button>
+          </>
+        )}
         {onLaunchFounder && (
           <>
             <span className="text-white/40">•</span>
             <button 
               onClick={onLaunchFounder}
-              className="text-[#52B788] font-bold underline hover:text-white"
+              className="text-[#D8F3DC] font-bold underline hover:text-white"
             >
-              👑 Founder Command & Pitch Generator →
+              👑 Founder HQ →
             </button>
           </>
         )}
@@ -71,6 +83,7 @@ export const OfficialWebsite = ({
         onOpenSignIn={() => setIsSignInOpen(true)}
         onExploreDemo={onExploreDemo}
         onOpenPitchDeck={onOpenPitchDeck}
+        onOpenOnboarding={onOpenOnboarding}
       />
 
       {/* Main Content Sections */}
@@ -142,6 +155,7 @@ export const OfficialWebsite = ({
         onLaunchDemo={onExploreDemo}
         onLaunchParticipant={onLaunchParticipant}
         onLaunchFounder={onLaunchFounder}
+        onOpenOnboarding={onOpenOnboarding}
       />
 
       <PolicyModal

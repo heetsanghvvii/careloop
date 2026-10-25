@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IconChevronRight } from '../Icons.jsx';
 
-export const WebsiteNavbar = ({ onOpenEarlyAccess, onOpenSignIn, onExploreDemo, onOpenPitchDeck }) => {
+export const WebsiteNavbar = ({ onOpenEarlyAccess, onOpenSignIn, onExploreDemo, onOpenPitchDeck, onOpenOnboarding }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -73,6 +73,14 @@ export const WebsiteNavbar = ({ onOpenEarlyAccess, onOpenSignIn, onExploreDemo, 
 
           {/* Right Action CTAs */}
           <div className="hidden sm:flex items-center gap-3">
+            {onOpenOnboarding && (
+              <button
+                onClick={onOpenOnboarding}
+                className="px-3.5 py-2 text-xs font-bold text-[#1B4332] bg-[#EBF7EE] border border-[#2D6A4F] rounded-xl hover:bg-[#D8F3DC] transition-colors"
+              >
+                🩺 Onboard Clinic
+              </button>
+            )}
             {onOpenPitchDeck && (
               <button
                 onClick={onOpenPitchDeck}

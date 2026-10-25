@@ -1,10 +1,41 @@
 # Careloop Autonomous Release Status
 
 ## Current Phase
-Phase 8: Strict Assertion Visual Proof QA & Recapture (Complete - All 21 Views Verified)
+Phase 9: Self-Serve Doctor Onboarding, Honesty Sweep, and Local-Files Preview (Complete)
 
 ## Completed Work
-1. **Screenshot QA Remediation & Strict View Assertion Engine**:
+1. **Honesty Pass in Standalone `pitch-decks.html`**:
+   - Swept all slides across all three decks in `pitch-decks.html`:
+     - Removed unvalidated claims ("70% drop off by Day 14" -> "Stop Drop-Off: Help clients stay consistent with their daily habits between visits. Client drop-off is a common clinical challenge; unvalidated target").
+     - Replaced "3x Renewals" with "Improved Retention: (target, not yet validated: higher program renewals via habit tracking)".
+     - Added standard KaTeX/Markdown medical disclaimers across all slides: `* Medical Disclaimer: Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.`
+     - Clarified that WhatsApp Phase 1 click-to-chat is live today, while Phase 2 automated bot is simulated demo (live Meta integration not connected).
+     - Labeled all financial projections and TAM figures as illustrative assumptions (not validated).
+
+2. **Self-Serve Doctor Onboarding Experience**:
+   - Created `src/components/onboarding/DoctorSelfServeOnboarding.jsx`:
+     - Guided ONE-form setup covering (1) Practice & Clinician Profile, (2) Branding Choices (accent color palette, welcome tagline, avatar emoji), (3) Patient Intake Questions (selection + custom question), (4) Starter Protocols selection, and (5) Follow-Up & Adherence Rules (inactivity threshold in days, adherence risk %, morning prompt time, guilt-free rest days policy).
+     - Real-Time Live Preview sidebar updating dynamically (Workspace Header, Patient Mobile Checklist, WhatsApp Prompt, and Clinic Desk QR Stand).
+     - Strict synchronous validation throwing explicit exceptions on missing/invalid input (minimum lengths, regex email, valid phone, min. 2 intake questions, min. 1 template). Never guesses or defaults silently.
+     - Automatic workspace synthesis: Generates isolated workspace record in `dataService`, clones selected starter protocols, and logs doctor in directly to review their workspace and begin patient intake with zero owner intervention.
+
+3. **5 Synthetic Clients End-to-End Test Suite**:
+   - Created `tests/verify-self-serve-onboarding.js` and added `npm run test:onboarding`:
+     - **Failure Path Tests**: Verified explicit exceptions thrown for empty profile, missing email, and invalid input.
+     - **Workspace Synthesis**: Successfully synthesized "Arogya Metabolic & Hormonal Clinic" for Dr. Kavita Rao with Clinical Teal theme (`#0F766E`).
+     - **Client 1 (Meera Joshi)**: Flawless adherence (100% completions across 3 tasks, streak active, zero risk flags).
+     - **Client 2 (Rohan Varma)**: Drop-off test; inactive for 4 days, successfully triggered Dr. Kavita's inactivity alert threshold (≥ 3 days).
+     - **Client 3 (Sunita Deshmukh)**: Mid-program Day 11; tested guilt-free SKIP rest days via WhatsApp bot. Maintained streak non-punitively.
+     - **Client 4 (Vikram Malhotra)**: Assistance request; WhatsApp "HELP" message triggered urgent clinical alert triage to doctor dashboard (`flaggedAtRisk: true`).
+     - **Client 5 (Pooja Hegde)**: Custom intake questionnaire response persisted on patient record.
+
+4. **Zero-Cost CLI Preview Deployment (Local Files Only)**:
+   - Deployed current Vite static frontend bundle using Vercel CLI from local files without connecting GitHub:
+     - **Preview URL**: `https://rapid-nova-gmxf1rl.tmp.now`
+     - **Claim URL**: `https://vercel.com/claim-deployment?code=83c3e005-76da-4dbd-9923-858dda668c5e`
+     - Completely ₹0 spend; static SPA only; WhatsApp server disabled from public deployment; no real secrets or tokens; no billing attached.
+
+5. **Visual Proof Manifest (21/21 Verified Unique)**:
    - Diagnosed root causes of identical screenshot captures:
      - `IconMessageSquare` in `Navbar.jsx` was not imported from `./Icons.jsx`, causing a `ReferenceError` that unmounted the React component tree when opening the practitioner workspace.
      - `App.jsx` and `AuthContext.jsx` did not initialize session state from query parameters on fresh browser sessions, defaulting to the marketing landing page.

@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { isConfigured } from '../../firebase/config.js';
 import { IconCheckCircle, IconUsers, IconSparkles, IconShield } from '../Icons.jsx';
 
-export const SignInModal = ({ isOpen, onClose, onLaunchDemo, onLaunchParticipant, onLaunchFounder }) => {
+export const SignInModal = ({ isOpen, onClose, onLaunchDemo, onLaunchParticipant, onLaunchFounder, onOpenOnboarding }) => {
   const { signInWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -60,6 +60,26 @@ export const SignInModal = ({ isOpen, onClose, onLaunchDemo, onLaunchParticipant
 
         {/* Demo Fast Track Options */}
         <div className="space-y-2">
+          {onOpenOnboarding && (
+            <button
+              onClick={() => {
+                onOpenOnboarding();
+                onClose();
+              }}
+              className="w-full p-3 rounded-xl bg-[#EBF7EE] border border-[#2D6A4F] hover:bg-[#D8F3DC] text-left transition-colors flex items-center justify-between group shadow-xs"
+            >
+              <div>
+                <div className="font-bold text-xs flex items-center gap-1.5 text-[#1B4332]">
+                  🩺 Create Practice Workspace (Self-Serve)
+                </div>
+                <div className="text-[11px] text-[#5C6E63]">
+                  Guided 3-minute setup: branding, intake questions & protocols
+                </div>
+              </div>
+              <span className="text-xs font-bold text-[#2D6A4F] group-hover:translate-x-0.5 transition-transform">→</span>
+            </button>
+          )}
+
           {onLaunchFounder && (
             <button
               onClick={() => {

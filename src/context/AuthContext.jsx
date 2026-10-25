@@ -153,6 +153,19 @@ export const AuthProvider = ({ children }) => {
     setCurrentUser(demoUser);
   };
 
+  const signInAsCustomPractitioner = ({ name, email, workspaceId }) => {
+    const user = {
+      uid: 'user_' + Date.now(),
+      email: email || 'doctor@careloop.health',
+      displayName: name || 'Practitioner',
+      role: 'practitioner',
+      workspaceId: workspaceId || 'ws_custom',
+      isDemo: true
+    };
+    setCurrentUser(user);
+    return user;
+  };
+
   const signInAsCoordinator = () => {
     const coordinatorUser = {
       uid: 'user_clinic_coordinator',
@@ -212,6 +225,7 @@ export const AuthProvider = ({ children }) => {
     signInWithGoogle,
     signInAsFounder,
     signInAsDemoPractitioner,
+    signInAsCustomPractitioner,
     signInAsCoordinator,
     signInAsParticipant,
     signOut,

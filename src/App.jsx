@@ -19,6 +19,7 @@ import { PricingSettings } from './components/practitioner/PricingSettings.jsx';
 import { WhatsAppLab } from './components/practitioner/WhatsAppLab.jsx';
 import { ClinicQrModal } from './components/practitioner/ClinicQrModal.jsx';
 import { PitchDeck } from './components/deck/PitchDeck.jsx';
+import { DoctorSelfServeOnboarding } from './components/onboarding/DoctorSelfServeOnboarding.jsx';
 
 // Founder & Operator Experience
 import { FounderDashboard } from './components/founder/FounderDashboard.jsx';
@@ -27,14 +28,24 @@ import { FounderDashboard } from './components/founder/FounderDashboard.jsx';
 import { ParticipantPortal } from './components/participant/ParticipantPortal.jsx';
 
 export default function App() {
-  const { currentUser, signInAsFounder, signInAsDemoPractitioner, signInAsCoordinator, signInAsParticipant, switchRole, signOut } = useAuth();
+  const { 
+    currentUser, 
+    signInAsFounder, 
+    signInAsDemoPractitioner, 
+    signInAsCustomPractitioner,
+    signInAsCoordinator, 
+    signInAsParticipant, 
+    switchRole, 
+    signOut 
+  } = useAuth();
 
-  // Primary View Mode: 'website' (Official Marketing Website) vs 'app' (Practitioner/Participant Workspace)
+  // Primary View Mode: 'website' | 'onboarding' | 'app'
   const [currentView, setCurrentView] = useState(() => {
     try {
       if (typeof window !== 'undefined') {
         const params = new URLSearchParams(window.location.search);
         const urlView = params.get('view');
+        if (urlView === 'onboarding' || params.get('onboarding') === 'true') return 'onboarding';
         if (urlView === 'website') return 'website';
         if (['app', 'dashboard', 'whatsapp_lab', 'participant', 'founder'].includes(urlView)) {
           return 'app';
@@ -246,6 +257,27 @@ export default function App() {
     return await dataService.updateWorkspace(wsId, { plan: targetPlan });
   };
 
+  const handleCompleteSelfServeOnboarding = async (formData) => {
+    const newWs = await dataService.createCustomWorkspace(formData);
+    signInAsCustomPractitioner({
+      name: formData.doctorName,
+      email: formData.doctorEmail,
+      workspaceId: newWs.id
+    });
+    setCurrentView('app');
+    setActiveTab('dashboard');
+  };
+
+  // --- VIEW 0.5: SELF-SERVE DOCTOR ONBOARDING WIZARD ---
+  if (currentView === 'onboarding') {
+    return (
+      <DoctorSelfServeOnboarding
+        onBack={() => setCurrentView('website')}
+        onCompleteWorkspace={handleCompleteSelfServeOnboarding}
+      />
+    );
+  }
+
   // --- VIEW 1: OFFICIAL MARKETING WEBSITE ---
   if (currentView === 'website' || !currentUser) {
     return (
@@ -256,6 +288,7 @@ export default function App() {
           onLaunchFounder={handleLaunchFounderMode}
           onOpenFirebaseModal={() => setIsFirebaseModalOpen(true)}
           onOpenPitchDeck={() => setIsPitchDeckOpen(true)}
+          onOpenOnboarding={() => setCurrentView('onboarding')}
         />
         <FirebaseSetupModal
           isOpen={isFirebaseModalOpen}
