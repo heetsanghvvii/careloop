@@ -293,7 +293,7 @@ export const Analytics = ({ workspace, participants, programs, completions }) =>
           Measurement Transparency & Clinical Integrity
         </div>
         <p>
-          Calculations reflect participant-reported action logs. Careloop tracks program adherence and habit compliance; adherence metrics do not represent clinical medical diagnosis, therapeutic guarantee, or biometric curative outcomes.
+          Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice. Adherence metrics reflect participant-logged check-ins, not clinical diagnosis or therapeutic guarantees.
         </p>
       </div>
 

@@ -18,8 +18,8 @@ export const AutomationVision = ({ onExploreDemo }) => {
     },
     {
       title: 'Two-Way WhatsApp Follow-Ups',
-      desc: 'Send daily checklists and receive "Done" or "Need help" replies directly within WhatsApp without app installation.',
-      badge: 'Planned v2 Integration',
+      desc: 'Send daily checklists and receive "Done" or "Need help" replies directly within WhatsApp. (Current status: simulated demo - live Meta integration not connected).',
+      badge: 'Simulated Demo (Port 4000)',
       icon: IconMessageSquare
     },
     {

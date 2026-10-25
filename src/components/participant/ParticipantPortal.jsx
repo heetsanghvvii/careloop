@@ -400,6 +400,10 @@ export const ParticipantPortal = ({
           </div>
         )}
 
+        {/* Educational & Clinical Disclaimer */}
+        <div className="pt-6 pb-4 text-center text-[10px] text-[#7B8B80] leading-relaxed">
+          Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.
+        </div>
       </main>
     </div>
   );

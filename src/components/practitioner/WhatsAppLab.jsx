@@ -118,11 +118,11 @@ export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#25D366] animate-pulse" />
             <h2 className="text-xl font-extrabold text-[#18231C]">
-              WhatsApp Two-Way Automation Lab
+              WhatsApp Bot (simulated demo - live Meta integration not connected)
             </h2>
           </div>
           <p className="text-xs text-gray-500 mt-0.5">
-            Test how patients in India interact with Careloop via WhatsApp. Fully wired to the actual Node.js webhook engine.
+            Interactive simulation of patient WhatsApp check-ins. Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.
           </p>
         </div>
 

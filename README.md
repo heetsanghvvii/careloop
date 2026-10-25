@@ -84,7 +84,7 @@ $$\text{Create Program} \longrightarrow \text{Assign Actions} \longrightarrow \t
 
 ### 10. 3-in-1 Pitch Deck (`PitchDeck.jsx`)
 - **🏥 For Doctors & Dietitians**: Focus on patient adherence, zero-friction WhatsApp integration, and higher renewal rates.
-- **📈 For Seed Investors**: ₹1,800 Cr Indian wellness TAM, negative net churn unit economics (LTV/CAC 6.8x, ₹499–₹2,999/mo), ₹0 initial infrastructure spend.
+- **📈 For Seed Investors**: ₹1,800 Cr Indian wellness TAM, negative net churn unit economics (LTV/CAC 6.8x, ₹499–₹2,999/mo) — *all metrics are illustrative assumptions - not validated*. ₹0 initial infrastructure spend.
 - **🚀 For Potential Team**: Mission, 24-month roadmap, technical architecture, and culture.
 - Full institutional-grade document persisted in `CARELOOP_MASTER_BUSINESS_PLAN_AND_3_PITCH_DECKS.md`.
 
@@ -117,7 +117,7 @@ A complete set of production-tested, multi-tenant Firestore Security Rules is in
 
 ### 10. 3-in-1 Pitch Deck (`PitchDeck.jsx`)
 - **🏥 For Doctors & Dietitians**: Focus on patient adherence, zero-friction WhatsApp integration, and higher renewal rates.
-- **📈 For Seed Investors**: ₹1,800 Cr Indian wellness TAM, negative net churn unit economics (LTV/CAC 6.8x, ₹499–₹2,999/mo), ₹0 initial infrastructure spend.
+- **📈 For Seed Investors**: ₹1,800 Cr Indian wellness TAM, negative net churn unit economics (LTV/CAC 6.8x, ₹499–₹2,999/mo) — *all metrics are illustrative assumptions - not validated*. ₹0 initial infrastructure spend.
 - **🚀 For Potential Team**: Mission, 24-month roadmap, technical architecture, and culture.
 - Full institutional-grade document persisted in `CARELOOP_MASTER_BUSINESS_PLAN_AND_3_PITCH_DECKS.md`.
 

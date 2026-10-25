@@ -5,6 +5,8 @@
 > **Prepared by**: Office of the Chief Strategy Officer & Lead Financial Modeler  
 > **Entity**: Careloop Health Technologies Private Limited  
 > **Target Audience**: Board of Directors, Venture Capital Partners, Clinical Advisory Board, Executive Talent  
+> **Clinical & Medical Outcome Notice**: Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.  
+> **Financial & Market Notice**: All TAM/SAM/SOM figures, practitioner volumes, unit economics, and revenue models represent illustrative assumptions - not validated by historical audited data. All pricing tiers represent pilot pricing hypotheses - under validation. WhatsApp bot operates as a simulated demo - live Meta integration not connected.  
 
 ---
 
@@ -180,7 +182,7 @@ sequenceDiagram
 
 ### 2.3 Phase 3: Clinical AI Copilot (Long-Term Scalability)
 
-Reading 100 check-in notes daily across 100 active patients takes an independent dietitian 2.5 hours. Phase 3 deploys a **Gemini-powered Clinical AI Copilot** directly into the Practitioner Workspace:
+Reading 100 check-in notes daily across 100 active patients requires significant administrative time (target, not yet validated: potential time saved). Phase 3 deploys a **Gemini-powered Clinical AI Copilot** directly into the Practitioner Workspace:
 
 1. **Automated Weekly Triage Summaries**:
    - The Copilot ingests 7 days of binary completion data, subjective reflection notes, and skipping patterns.
@@ -574,7 +576,7 @@ flowchart TD
   >
   > In Phase 2, we introduce our WhatsApp Cloud API micro-bot layer. With 98% open rates in India, patients can log habits via interactive WhatsApp buttons, automatically updating their clinical record.
   >
-  > In Phase 3, we deploy our proprietary Clinical AI Copilot. Instead of a doctor spending 2 hours reading patient notes, Gemini ingests 7-day logs and generates a 3-bullet clinical brief with automated triage tags: Red, Yellow, and Green."
+  > In Phase 3, we deploy our proprietary Clinical AI Copilot. Instead of a doctor spending hours manually reading patient notes (target, not yet validated: potential time saved), Gemini ingests 7-day logs and generates a 3-bullet clinical brief with automated triage tags: Red, Yellow, and Green."
 
 ---
 
@@ -798,18 +800,19 @@ flowchart TD
 
 ### 9.1 Indian Regulatory & Healthcare Compliance Architecture
 
-Careloop is designed from the database level up to comply with the evolving regulatory frameworks governing digital health and data protection in India:
+Careloop is designed with Indian data-protection principles in mind; not a compliance guarantee. The following technical architecture reflects our voluntary security practices:
 
 ```mermaid
 flowchart TD
-    subgraph "Careloop Compliance & Trust Shield"
-        DPDP["Digital Personal Data Protection (DPDP) Act 2023\n- Explicit Consent Logging\n- Right to Erasure / Data Portability\n- Localized Indian Cloud Residency"]
+    subgraph "Careloop Technical Principles & Trust Shield"
+        DPDP["Indian Data-Protection Principles (DPDP Alignment - Not a Compliance Guarantee)\n- Explicit Consent Logging\n- Right to Erasure / Data Portability\n- Localized Indian Cloud Residency"]
         DISHA["DISHA & Electronic Health Record Standards\n- Role-Based Access Scoping\n- Cryptographic Audit Trails\n- Multi-Tenant Row-Level Firestore Isolation"]
         ABDM["Ayushman Bharat Digital Mission (ABDM)\n- Phase 3 ABHA ID Linking Readiness\n- FHIR / M1-M2-M3 Health Data Standard Alignment"]
     end
 ```
 
-1. **Digital Personal Data Protection (DPDP) Act 2023**:
+1. **Digital Personal Data Protection (DPDP) Principles**:
+   - **Regulatory Notice**: Designed with Indian data-protection principles in mind; not a compliance guarantee.
    - **Consent Architecture**: Explicit, granular digital consent logged upon patient enrollment via tokenized web link.
    - **Data Minimization & Purpose Limitation**: Careloop collects only actionable behavioral and adherence indicators. No financial credentials or irrelevant identifiers are stored.
    - **Right to Erasure & Portability**: Integrated 1-click CSV export and complete patient profile deletion honoring DPDP mandates.

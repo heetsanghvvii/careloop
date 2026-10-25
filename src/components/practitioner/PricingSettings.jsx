@@ -31,6 +31,7 @@ export const PricingSettings = ({ workspace, participants, onUpdatePlan }) => {
       name: 'Starter',
       price: '₹499',
       period: '/month',
+      hypothesisNote: 'Pilot pricing hypothesis - under validation',
       limit: 25,
       description: 'Ideal for solo trainers, dietitians, or coaches launching their first structured cohort.',
       features: [
@@ -45,6 +46,7 @@ export const PricingSettings = ({ workspace, participants, onUpdatePlan }) => {
       name: 'Growth',
       price: '₹1,499',
       period: '/month',
+      hypothesisNote: 'Pilot pricing hypothesis - under validation',
       limit: 100,
       description: 'For growing transformation practices and multiple simultaneous health challenges.',
       features: [
@@ -58,6 +60,9 @@ export const PricingSettings = ({ workspace, participants, onUpdatePlan }) => {
     {
       name: 'Scale',
       price: '₹2,999',
+      period: '/month',
+      hypothesisNote: 'Pilot pricing hypothesis - under validation',
+      limit: 300,
       period: '/month',
       limit: 300,
       description: 'For established wellness influencers, clinics, and multi-coach fitness operations.',
@@ -213,6 +218,9 @@ export const PricingSettings = ({ workspace, participants, onUpdatePlan }) => {
                   <div className="mt-4 flex items-baseline gap-1">
                     <span className="text-3xl font-extrabold text-[#18231C]">{p.price}</span>
                     <span className="text-xs text-gray-500">{p.period}</span>
+                  </div>
+                  <div className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full inline-block mt-1">
+                    {p.hypothesisNote}
                   </div>
                   <div className="text-xs font-semibold text-[#2D6A4F] mt-1">
                     Cap: Up to {p.limit} active participants

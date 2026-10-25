@@ -84,6 +84,19 @@ export const WebsiteFooter = ({ onOpenEarlyAccess, onOpenPolicy, onExploreDemo }
 
         </div>
 
+        {/* Regulatory & Clinical Honesty Disclaimers */}
+        <div className="py-6 border-b border-[#F0F2EF] text-[11px] text-[#7B8B80] space-y-1.5 leading-relaxed">
+          <p>
+            <strong>Medical & Health Outcome Disclaimer:</strong> Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.
+          </p>
+          <p>
+            <strong>Data Protection & Regulatory Notice:</strong> Built with evidence-based adherence architecture and designed with Indian data-protection principles in mind; not a compliance guarantee.
+          </p>
+          <p>
+            <strong>WhatsApp Integration Status:</strong> Current WhatsApp bot features operate as a simulated demo - live Meta integration not connected.
+          </p>
+        </div>
+
         {/* Bottom Copyright & Status */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7B8B80]">
           <div>

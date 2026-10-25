@@ -71,13 +71,16 @@ export const PricingSection = ({ onOpenEarlyAccess, onExploreDemo }) => {
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center space-y-3 mb-16">
           <span className="text-xs font-bold uppercase tracking-wider text-[#2D6A4F] bg-white px-3 py-1 rounded-full border border-[#D5D9D4]">
-            Transparent Validation Pricing
+            Pilot pricing hypothesis - under validation
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#18231C] tracking-tight">
             Plans that grow with your program.
           </h2>
           <p className="text-sm sm:text-base text-[#5C6E63] leading-relaxed">
             Proposed early-access pricing hypotheses designed around active participant enrollment. No per-seat penalties.
+          </p>
+          <p className="text-xs text-[#7B8B80] italic">
+            Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.
           </p>
         </div>
 
@@ -112,7 +115,10 @@ export const PricingSection = ({ onOpenEarlyAccess, onExploreDemo }) => {
                   <span className="text-4xl font-extrabold text-[#18231C]">{tier.price}</span>
                   <span className="text-xs text-[#5C6E63] font-medium">{tier.period}</span>
                 </div>
-                <div className="text-xs font-bold text-[#2D6A4F] mt-1">
+                <div className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full inline-block mt-1">
+                  Pilot pricing hypothesis - under validation
+                </div>
+                <div className="text-xs font-bold text-[#2D6A4F] mt-1.5">
                   {tier.capacity}
                 </div>
 

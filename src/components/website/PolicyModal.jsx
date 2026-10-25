@@ -47,9 +47,9 @@ export const PolicyModal = ({ isOpen, onClose, policyType }) => {
             </div>
 
             <div>
-              <h4 className="font-bold text-sm text-[#18231C] mb-1">4. Zero Monetization of User Data</h4>
+              <h4 className="font-bold text-sm text-[#18231C] mb-1">5. Data Protection Notice</h4>
               <p>
-                Careloop will never sell, lease, or broker participant or practitioner data to third-party ad networks or brokers.
+                Careloop is designed with Indian data-protection principles in mind; not a compliance guarantee. Export features allow practitioners to retrieve cohort data in open CSV formats.
               </p>
             </div>
           </>
