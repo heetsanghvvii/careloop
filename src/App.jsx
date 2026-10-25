@@ -19,6 +19,7 @@ import { Analytics } from './components/practitioner/Analytics.jsx';
 import { RemindersSimulation } from './components/practitioner/RemindersSimulation.jsx';
 import { PricingSettings } from './components/practitioner/PricingSettings.jsx';
 import { WhatsAppLab } from './components/practitioner/WhatsAppLab.jsx';
+import { FollowUpScheduling } from './components/practitioner/FollowUpScheduling.jsx';
 import { ClinicQrModal } from './components/practitioner/ClinicQrModal.jsx';
 import { PitchDeck } from './components/deck/PitchDeck.jsx';
 
@@ -107,7 +108,7 @@ export default function App() {
       name: 'Sarah Chen',
       email: 'sarah.chen@example.com',
       currentProgramId: 'template-habits-21d',
-      currentProgramTitle: '21-Day Habit & Metabolic Reset'
+      currentProgramTitle: '21-Day Illustrative Habit Plan (Demo)'
     };
     signInAsParticipant(sarah);
     setCurrentView('app');
@@ -329,12 +330,15 @@ export default function App() {
         )}
 
         {activeTab === 'reminders' && (
+          <>
+          <FollowUpScheduling participants={store.participants} />
           <RemindersSimulation
             reminders={store.simulatedReminders}
             participants={store.participants}
             onAddReminder={handleAddReminder}
             onSimulateReply={handleSimulateReply}
           />
+          </>
         )}
 
         {activeTab === 'pricing' && (
