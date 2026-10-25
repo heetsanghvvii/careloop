@@ -20,49 +20,49 @@ export const DoctorPitchPresentation = ({ pitchData, onClose, onOpenClinicWorksp
   const specialtyInsights = {
     'Metabolic Health & PCOS Dietetics': {
       dropoffStat: 'could structured daily check-ins help PCOS patients follow a doctor-authored dietary plan between visits?',
-      rootCause: 'Complex seed cycling, spearmint tea timing, and low-GI meal planning feel overwhelming at home alone.',
-      solutionProtocol: 'PCOS & Insulin Resistance 21-Day Daily Habit Protocol',
+      rootCause: 'Multi-step daily routines and meal planning feel overwhelming at home alone.',
+      solutionProtocol: 'Doctor-authored 21-day plan (illustrative)',
       sampleTasks: [
-        { title: 'Morning Fenugreek/Spearmint Anchor', detail: '300ml lukewarm infused water before caffeine' },
-        { title: '30g Protein Breakfast Plate', detail: 'Fiber-first breakfast to blunt morning glucose spikes' },
-        { title: '15-min Post-Lunch NEAT Walk', detail: 'Gentle insulin-sensitizing outdoor movement' },
-        { title: 'Evening Magnesium & Wind-Down Log', detail: 'Target 7+ hours restorative sleep' }
+        { title: 'Doctor-authored task 1 (placeholder)', detail: "The doctor's own programme guidance appears here" },
+        { title: 'Doctor-authored task 2 (placeholder)', detail: 'Daily check-ins track whatever plan the doctor writes' },
+        { title: 'Doctor-authored task 3 (placeholder)', detail: 'Completion is self-reported by the patient' },
+        { title: 'Doctor-authored task 4 (placeholder)', detail: 'Streaks and flags surface in the doctor dashboard' }
       ],
       monthlyRevenueUnlock: '₹75,000 - ₹1,20,000 / month (assumption for discussion, not a forecast)'
     },
     'Diabetes & Glycemic Management': {
       dropoffStat: 'could daily check-ins help Type 2 diabetics follow a doctor-authored evening routine between visits?',
       rootCause: 'Patients lack real-time accountability between quarterly HbA1c blood tests.',
-      solutionProtocol: '30-Day Indian Diabetes & Glycemic Reset',
+      solutionProtocol: 'Doctor-authored 30-day plan (illustrative)',
       sampleTasks: [
-        { title: 'Pre-Meal Fiber Preload', detail: 'Raw cucumber/salad 10 mins before carbohydrates' },
-        { title: 'Post-Prandial 1,500 Steps', detail: 'Brisk walk within 30 mins of heaviest meal' },
-        { title: 'Daily Fasting Sugar Log', detail: 'Quick one-tap entry for physician review' },
-        { title: 'Evening Carb-Cutoff Rule', detail: 'No refined carbs within 3 hours of sleep' }
+        { title: 'Doctor-authored task 1 (placeholder)', detail: "The doctor's own programme guidance appears here" },
+        { title: 'Doctor-authored task 2 (placeholder)', detail: 'Daily check-ins track whatever plan the doctor writes' },
+        { title: 'Doctor-authored task 3 (placeholder)', detail: 'Completion is self-reported by the patient' },
+        { title: 'Doctor-authored task 4 (placeholder)', detail: 'Streaks and flags surface in the doctor dashboard' }
       ],
       monthlyRevenueUnlock: '₹90,000 - ₹1,50,000 / month (assumption for discussion, not a forecast)'
     },
     'Sports Physiotherapy & Orthopedic Rehab': {
       dropoffStat: 'could daily check-ins help rehabilitation clients keep up a doctor-prescribed home-exercise plan?',
       rootCause: 'Home exercise sheets get lost; clients worry mild soreness might be reinjury.',
-      solutionProtocol: 'Lumbar Spine & Core Functional Rehabilitation',
+      solutionProtocol: 'Doctor-authored home-exercise plan (illustrative)',
       sampleTasks: [
-        { title: 'McGill Big 3 Stabilization', detail: 'Curl-up, side bridge, and bird-dog sequence' },
-        { title: 'Glute Activation Sequence', detail: 'Banded bridges with slow 3-sec eccentric lower' },
-        { title: 'Desk Ergonomics Micro-Break', detail: 'Standing lumbar extension every 45 mins' },
-        { title: 'Evening Discomfort Scale (0-10)', detail: 'Direct flag if pain score exceeds threshold' }
+        { title: 'Doctor-authored task 1 (placeholder)', detail: "The doctor's own programme guidance appears here" },
+        { title: 'Doctor-authored task 2 (placeholder)', detail: 'Daily check-ins track whatever plan the doctor writes' },
+        { title: 'Doctor-authored task 3 (placeholder)', detail: 'Completion is self-reported by the patient' },
+        { title: 'Doctor-authored task 4 (placeholder)', detail: 'Streaks and flags surface in the doctor dashboard' }
       ],
       monthlyRevenueUnlock: '₹60,000 - ₹1,10,000 / month (assumption for discussion, not a forecast)'
     },
     'Preventive Cardiology & Hypertension': {
       dropoffStat: 'could daily check-ins help hypertensive patients follow a doctor-authored sodium and stress plan?',
       rootCause: 'Lack of daily micro-habits to counteract sedentary work routines.',
-      solutionProtocol: 'Cardiometabolic 28-Day Habit Architecture',
+      solutionProtocol: 'Doctor-authored 28-day plan (illustrative)',
       sampleTasks: [
-        { title: 'Morning 20-min Zone 2 Walk', detail: 'Natural sunlight and steady nasal breathing' },
-        { title: 'DASH Sodium Pre-Check', detail: 'Low-sodium home-cooked meal verification' },
-        { title: '4-7-8 Breathwork Protocol', detail: '8 mins parasympathetic tone regulation' },
-        { title: 'Resting Blood Pressure Entry', detail: 'Weekly trending graph for physician' }
+        { title: 'Doctor-authored task 1 (placeholder)', detail: "The doctor's own programme guidance appears here" },
+        { title: 'Doctor-authored task 2 (placeholder)', detail: 'Daily check-ins track whatever plan the doctor writes' },
+        { title: 'Doctor-authored task 3 (placeholder)', detail: 'Completion is self-reported by the patient' },
+        { title: 'Doctor-authored task 4 (placeholder)', detail: 'Streaks and flags surface in the doctor dashboard' }
       ],
       monthlyRevenueUnlock: '₹70,000 - ₹1,30,000 / month (assumption for discussion, not a forecast)'
     }
@@ -189,14 +189,19 @@ PRACTICE IMPACT ASSUMPTIONS (NOT FORECASTS):
           {/* SLIDE 0: COVER */}
           {currentSlide === 0 && (
             <div className="space-y-6 animate-in fade-in duration-200">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF7EE] text-[#2D6A4F] text-xs font-bold">
-                <span className="w-2 h-2 rounded-full bg-[#2D6A4F] animate-pulse" />
-                Confidential Clinical Onboarding Proposal · Careloop
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF7EE] text-[#2D6A4F] text-xs font-bold">
+                  <span className="w-2 h-2 rounded-full bg-[#2D6A4F] animate-pulse" />
+                  Confidential Clinical Onboarding Proposal · Careloop
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-300 text-xs font-bold">
+                  SYNTHETIC EXAMPLE · fictional doctor & clinic, generated from sample inputs · no outcome is promised
+                </div>
               </div>
 
               <div>
                 <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#18231C] leading-tight">
-                  Eliminating Patient Drop-Off for <br />
+                  Supporting patient follow-through for <br />
                   <span className="text-[#2D6A4F] underline decoration-wavy decoration-[#52B788]/40">
                     {doctorName}
                   </span>
