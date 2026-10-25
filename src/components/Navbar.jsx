@@ -277,7 +277,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenFirebaseModal, onBackToW
                         name: 'Sarah Chen',
                         email: 'sarah.chen@example.com',
                         currentProgramId: 'template-habits-21d',
-                        currentProgramTitle: '21-Day Habit & Metabolic Reset'
+                        currentProgramTitle: '21-Day Illustrative Habit Plan (Demo)'
                       });
                       setRoleDropdownOpen(false);
                     }}
@@ -287,7 +287,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenFirebaseModal, onBackToW
                   >
                     <div>
                       <div className="font-medium">Sarah Chen</div>
-                      <div className="text-[10px] text-gray-500">21-Day Habit & Metabolic Reset (Day 13)</div>
+                      <div className="text-[10px] text-gray-500">21-Day Illustrative Habit Plan (Demo) (Day 13)</div>
                     </div>
                     {currentUser?.uid === 'part_001' && <IconCheckCircle className="w-4 h-4 text-[#2D6A4F]" />}
                   </button>
