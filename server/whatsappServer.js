@@ -34,12 +34,33 @@ const parseRawAndJsonBody = (req, maxBytes = 65536) => {
   });
 };
 
-const sendJson = (res, statusCode, data) => {
+const ALLOWED_ORIGINS = new Set([
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'https://sheetsanghvvii.github.io',
+  'https://careloop-health.web.app',
+  'https://careloop-health.firebaseapp.com'
+]);
+
+if (process.env.ALLOWED_ORIGIN) {
+  ALLOWED_ORIGINS.add(process.env.ALLOWED_ORIGIN);
+}
+
+const getCorsHeaders = (req) => {
+  const origin = req?.headers?.origin;
+  const isAllowed = !origin || ALLOWED_ORIGINS.has(origin) || process.env.NODE_ENV !== 'production';
+  return {
+    'Access-Control-Allow-Origin': isAllowed ? (origin || 'http://localhost:3000') : 'null',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Hub-Signature-256',
+    'Access-Control-Max-Age': '86400'
+  };
+};
+
+const sendJson = (res, statusCode, data, req = null) => {
   res.writeHead(statusCode, {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Hub-Signature-256'
+    ...getCorsHeaders(req)
   });
   res.end(JSON.stringify(data));
 };
@@ -48,13 +69,9 @@ const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = reqUrl.pathname;
 
-  // Handle CORS Preflight
+  // Handle CORS Preflight with restricted origin validation
   if (req.method === 'OPTIONS') {
-    res.writeHead(204, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Hub-Signature-256'
-    });
+    res.writeHead(204, getCorsHeaders(req));
     res.end();
     return;
   }
@@ -442,7 +459,7 @@ const server = http.createServer(async (req, res) => {
       version: '1.0.0',
       isLiveMetaConfigured: botEngine.isLive,
       timestamp: new Date().toISOString()
-    });
+    }, req);
     return;
   }
 
@@ -472,14 +489,14 @@ const server = http.createServer(async (req, res) => {
       const sigVerification = await botEngine.verifyWebhookSignature(rawBody, sigHeader);
       
       if (!sigVerification.verified) {
-        sendJson(res, 401, { error: 'Unauthorized: Meta signature verification failed', details: sigVerification.error });
+        sendJson(res, 401, { error: 'Unauthorized: Meta signature verification failed', details: sigVerification.error }, req);
         return;
       }
 
       const result = await botEngine.processIncomingMessage(json);
-      sendJson(res, 200, result);
+      sendJson(res, 200, result, req);
     } catch (err) {
-      sendJson(res, 400, { error: 'Invalid webhook payload', message: err.message });
+      sendJson(res, 400, { error: 'Invalid webhook payload', message: err.message }, req);
     }
     return;
   }
@@ -519,9 +536,9 @@ const server = http.createServer(async (req, res) => {
         participant,
         simulateOnly: true // Absolute guardrail
       });
-      sendJson(res, 200, result);
+      sendJson(res, 200, result, req);
     } catch (err) {
-      sendJson(res, 500, { error: err.message });
+      sendJson(res, 500, { error: err.message }, req);
     }
     return;
   }
@@ -538,12 +555,12 @@ const server = http.createServer(async (req, res) => {
       '20-min Sunlight Walk'
     ]);
 
-    sendJson(res, 200, { link });
+    sendJson(res, 200, { link }, req);
     return;
   }
 
   // 404 Not Found
-  sendJson(res, 404, { error: 'Not Found', path: pathname });
+  sendJson(res, 404, { error: 'Not Found', path: pathname }, req);
 });
 
 server.listen(PORT, () => {

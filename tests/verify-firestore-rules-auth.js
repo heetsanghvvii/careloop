@@ -11,6 +11,7 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 
 console.log('🔒 Starting Careloop Firestore Security Rules Authorization Suite...\n');
+console.log('⚠️  NOTE ON EMULATOR STATUS: Live Firebase Local Emulator binary tests are OUTSTANDING pending Java Runtime (JRE 11+) installation. The test suite below evaluates rule logic deterministically in Node.js against all 8 security boundaries.\n');
 
 // 1. Verify rules file presence and version
 const rulesRaw = fs.readFileSync('./firestore.rules', 'utf8');
