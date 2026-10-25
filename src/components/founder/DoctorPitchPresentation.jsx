@@ -391,7 +391,7 @@ PRACTICE IMPACT ASSUMPTIONS (NOT FORECASTS):
               </div>
 
               <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-600 leading-relaxed">
-                <strong>Hypothesis to validate in pilot:</strong> When patients hit the 80%+ adherence target, clinical outcomes may become more visible between visits, which we believe can support wond higher 30-day renewal rates.
+                <strong>Hypothesis to validate in pilot:</strong> When patients hit the 80%+ adherence target, clinical outcomes may become more visible between visits, which we believe can support word-of-mouth referrals and higher 30-day renewal rates.
               </div>
             </div>
           )}
