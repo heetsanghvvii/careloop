@@ -314,6 +314,7 @@ export default function App() {
         {activeTab === 'whatsapp_lab' && (
           <WhatsAppLab
             participants={store.participants}
+            programs={store.programs}
             onRecordCompletion={handleRecordCompletion}
           />
         )}

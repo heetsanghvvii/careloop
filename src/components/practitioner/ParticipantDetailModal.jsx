@@ -23,6 +23,10 @@ export const ParticipantDetailModal = ({
 }) => {
   if (!participant) return null;
 
+  // Resolve a recorded completion's task ID to its human title using the participant's current program (fall back to the raw ID for legacy/unknown tasks)
+  const participantProgram = (programs || []).find(pr => pr.id === participant.currentProgramId);
+  const taskTitleFor = (taskId) => participantProgram?.tasks?.find(t => t.id === taskId)?.title || taskId;
+
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(participant.name);
   const [email, setEmail] = useState(participant.email);
@@ -286,7 +290,7 @@ export const ParticipantDetailModal = ({
                       )}
                       <div>
                         <div className="font-semibold text-[#18231C]">
-                          Task: {comp.taskId}
+                          Task: {taskTitleFor(comp.taskId)}
                         </div>
                         {comp.note && (
                           <div className="text-gray-600 italic text-[11px] mt-0.5">

@@ -11,7 +11,7 @@ import {
   IconRefreshCw
 } from '../Icons.jsx';
 
-export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
+export const WhatsAppLab = ({ participants, programs = [], onRecordCompletion }) => {
   const [selectedParticipantId, setSelectedParticipantId] = useState(participants[0]?.id || 'part_001');
   const greetingFor = (pp) => `🌿 Good morning ${pp.name.split(' ')[0]}! Dr. Arjun Patel here.\n\nChecking in on your Day ${pp.currentDay || 1} tasks for "${pp.currentProgramTitle || 'your programme'}".\n\nReply "Done" when completed or "Need help" if you need guidance!`;
   const [messages, setMessages] = useState(() => {
@@ -35,7 +35,7 @@ export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
   const botEngine = new WhatsAppBotEngine();
 
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [messages, isTyping]);
 
   // Keep the simulated chat truthful: switching participant resets the thread to that client's own name/day/programme
@@ -66,7 +66,8 @@ export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
       // Trigger actual task updates in Careloop database
       if (evaluation.taskStatus) {
         const today = new Date().toISOString().split('T')[0];
-        const taskId = 'task-h1'; // Default primary anchor task
+        const progTasks = (programs || []).find(pr => pr.id === activeParticipant.currentProgramId)?.tasks;
+        const taskId = progTasks?.[0]?.id || 'task-h1'; // primary anchor task of the client's assigned programme
         await onRecordCompletion(
           activeParticipant.id, 
           taskId, 

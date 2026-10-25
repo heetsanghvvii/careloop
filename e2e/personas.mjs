@@ -43,7 +43,7 @@ async function openDetail(name){
 }
 async function detailText(){ const m = page.locator('.fixed.inset-0.z-50').last(); if (!(await m.isVisible().catch(()=>false))) return ''; return await m.innerText(); }
 async function closeModal(){ await page.keyboard.press('Escape'); await page.waitForTimeout(400); const b = page.locator('button[aria-label="Close"], button:has-text("×"), button:has-text("Close")').first(); if (await b.isVisible().catch(()=>false)) await b.click().catch(()=>{}); await page.waitForTimeout(300); }
-async function labCheckin(name){
+async function labCheckin(name, prog){
   await goTab('Message lab');
   const sel = page.locator('select').first();
   const opts = await sel.locator('option').all();
@@ -51,9 +51,13 @@ async function labCheckin(name){
   for (const o of opts){ const t = await o.innerText(); if (t.includes(name)){ val = await o.getAttribute('value'); break; } }
   if (!val) throw new Error('lab option not found for '+name);
   await sel.selectOption(val);
-  await page.waitForTimeout(600);
-  const header = await page.locator('body').innerText();
-  if (!header.includes(name)) console.log('WARN lab header missing '+name);
+  await page.waitForTimeout(800);
+  const labText = await page.locator('body').innerText();
+  const first = name.split(' ')[0];
+  const greetOk = labText.includes('Good morning '+first) && labText.includes('Day 1') && (!prog || labText.includes(prog));
+  log({persona:name, step:'lab-greeting-consistency', pass: greetOk, detail: greetOk?'':'greeting mismatch'});
+  const scrollY = await page.evaluate(() => window.scrollY);
+  log({persona:name, step:'lab-no-page-scroll-clip', pass: scrollY < 40, detail:'scrollY='+scrollY});
   await page.locator('button', { hasText: 'Done!' }).first().click();
   await page.waitForTimeout(1800);
 }
@@ -84,6 +88,8 @@ await labCheckin(p.name);
 await goTab('Clients'); await openDetail(p.name); d = await detailText();
 const rate1 = (d.match(/(\d+)%/)||[])[1];
 log({persona:p.name, step:'checkin-recorded', pass: rate1 !== undefined && rate1 !== '0', detail:'rate='+rate1});
+log({persona:p.name, step:'task-title-resolved', pass: !/Task: task-/.test(d) && /Morning Circadian Hydration|Task:/.test(d), detail:(d.match(/Task: [^\n]*/)||['none'])[0]});
+log({persona:p.name, step:'note-simulated-qualified', pass: /Simulated WhatsApp reply/.test(d) && !/Via WhatsApp Bot/.test(d)});
 await page.screenshot({ path: shots+'p1-detail.png' });
 await closeModal();
 
