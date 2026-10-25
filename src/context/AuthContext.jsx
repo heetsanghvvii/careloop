@@ -94,15 +94,39 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signInAsFounder = () => {
+    const founderUser = {
+      uid: 'user_founder_operator',
+      email: 'founder@careloop.health',
+      displayName: 'Founder & Operator',
+      role: 'founder',
+      isDemo: true
+    };
+    setCurrentUser(founderUser);
+    return founderUser;
+  };
+
   const signInAsDemoPractitioner = () => {
     const demoUser = {
-      uid: 'user_arjun_patel',
-      email: 'arjun.patel@peakform.health',
-      displayName: 'Dr. Arjun Patel',
+      uid: 'user_dr_trisha',
+      email: 'dr.trisha@careloop.health',
+      displayName: 'Dr. Trisha Sen',
       role: 'practitioner',
       isDemo: true
     };
     setCurrentUser(demoUser);
+  };
+
+  const signInAsCoordinator = () => {
+    const coordinatorUser = {
+      uid: 'user_clinic_coordinator',
+      email: 'coordinator@trisha-clinic.health',
+      displayName: 'Pooja Nair (Care Coordinator)',
+      role: 'coordinator',
+      isDemo: true
+    };
+    setCurrentUser(coordinatorUser);
+    return coordinatorUser;
   };
 
   const signInAsParticipant = (participant) => {
@@ -125,10 +149,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   const switchRole = (newRole, participantObj = null) => {
-    if (newRole === 'participant' && participantObj) {
-      signInAsParticipant(participantObj);
+    if (newRole === 'founder') {
+      signInAsFounder();
     } else if (newRole === 'practitioner') {
       signInAsDemoPractitioner();
+    } else if (newRole === 'coordinator') {
+      signInAsCoordinator();
+    } else if (newRole === 'participant') {
+      if (participantObj) {
+        signInAsParticipant(participantObj);
+      } else {
+        signInAsParticipant({
+          id: 'part_ananya',
+          name: 'Ananya Rao',
+          email: 'ananya.rao@example.com',
+          currentProgramTitle: 'PCOS & Insulin Resistance Protocol'
+        });
+      }
     }
   };
 
@@ -137,7 +174,9 @@ export const AuthProvider = ({ children }) => {
     activeWorkspace,
     loading,
     signInWithGoogle,
+    signInAsFounder,
     signInAsDemoPractitioner,
+    signInAsCoordinator,
     signInAsParticipant,
     signOut,
     switchRole

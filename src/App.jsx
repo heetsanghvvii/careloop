@@ -20,11 +20,14 @@ import { WhatsAppLab } from './components/practitioner/WhatsAppLab.jsx';
 import { ClinicQrModal } from './components/practitioner/ClinicQrModal.jsx';
 import { PitchDeck } from './components/deck/PitchDeck.jsx';
 
+// Founder & Operator Experience
+import { FounderDashboard } from './components/founder/FounderDashboard.jsx';
+
 // Participant Experience
 import { ParticipantPortal } from './components/participant/ParticipantPortal.jsx';
 
 export default function App() {
-  const { currentUser, signInAsDemoPractitioner, signInAsParticipant, switchRole, signOut } = useAuth();
+  const { currentUser, signInAsFounder, signInAsDemoPractitioner, signInAsCoordinator, signInAsParticipant, switchRole, signOut } = useAuth();
 
   // Primary View Mode: 'website' (Official Marketing Website) vs 'app' (Practitioner/Participant Workspace)
   const [currentView, setCurrentView] = useState('website');
@@ -73,6 +76,23 @@ export default function App() {
   }, [selectedParticipant]);
 
   // Handler functions
+  const handleLaunchFounderMode = () => {
+    signInAsFounder();
+    setCurrentView('app');
+  };
+
+  const handleSelectClinicWorkspace = async (clinic) => {
+    const wsId = clinic.id || 'ws_demo_001';
+    await dataService.updateWorkspace(wsId, {
+      id: wsId,
+      name: clinic.name,
+      practitionerName: clinic.leadDoctor,
+      practitionerEmail: clinic.email,
+      category: clinic.specialty,
+      plan: clinic.plan.split(' ')[0]
+    });
+  };
+
   const handleLaunchDemoPractitioner = () => {
     signInAsDemoPractitioner();
     setCurrentView('app');
@@ -173,6 +193,7 @@ export default function App() {
         <OfficialWebsite
           onExploreDemo={handleLaunchDemoPractitioner}
           onLaunchParticipant={handleLaunchDemoParticipant}
+          onLaunchFounder={handleLaunchFounderMode}
           onOpenFirebaseModal={() => setIsFirebaseModalOpen(true)}
           onOpenPitchDeck={() => setIsPitchDeckOpen(true)}
         />
@@ -187,6 +208,28 @@ export default function App() {
           />
         )}
       </>
+    );
+  }
+
+  // --- VIEW 0: FOUNDER & OPERATOR COMMAND CENTER ---
+  if (currentUser.role === 'founder') {
+    return (
+      <FounderDashboard
+        store={store}
+        onSwitchToPractitioner={() => {
+          switchRole('practitioner');
+          setActiveTab('dashboard');
+        }}
+        onSwitchToParticipant={() => {
+          switchRole('participant');
+        }}
+        onSwitchToCoordinator={() => {
+          switchRole('coordinator');
+          setActiveTab('participants');
+        }}
+        onBackToWebsite={() => setCurrentView('website')}
+        onSelectClinicWorkspace={handleSelectClinicWorkspace}
+      />
     );
   }
 

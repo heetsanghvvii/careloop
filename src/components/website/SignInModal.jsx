@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { isConfigured } from '../../firebase/config.js';
 import { IconCheckCircle, IconUsers, IconSparkles, IconShield } from '../Icons.jsx';
 
-export const SignInModal = ({ isOpen, onClose, onLaunchDemo, onLaunchParticipant }) => {
+export const SignInModal = ({ isOpen, onClose, onLaunchDemo, onLaunchParticipant, onLaunchFounder }) => {
   const { signInWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -60,6 +60,26 @@ export const SignInModal = ({ isOpen, onClose, onLaunchDemo, onLaunchParticipant
 
         {/* Demo Fast Track Options */}
         <div className="space-y-2">
+          {onLaunchFounder && (
+            <button
+              onClick={() => {
+                onLaunchFounder();
+                onClose();
+              }}
+              className="w-full p-3 rounded-xl bg-[#18231C] text-white hover:bg-[#2D6A4F] text-left transition-colors flex items-center justify-between group shadow-xs"
+            >
+              <div>
+                <div className="font-bold text-xs flex items-center gap-1.5 text-white">
+                  👑 Founder & Operator Command Center
+                </div>
+                <div className="text-[11px] text-[#A3B18A]">
+                  Manage business metrics, lead pipeline & pitch doctors
+                </div>
+              </div>
+              <span className="text-xs font-bold text-[#52B788] group-hover:translate-x-0.5 transition-transform">→</span>
+            </button>
+          )}
+
           <button
             onClick={() => {
               onLaunchDemo();

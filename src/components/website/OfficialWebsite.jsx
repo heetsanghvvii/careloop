@@ -19,6 +19,7 @@ import { PolicyModal } from './PolicyModal.jsx';
 export const OfficialWebsite = ({ 
   onExploreDemo, 
   onLaunchParticipant, 
+  onLaunchFounder,
   onOpenFirebaseModal 
 }) => {
   const [isEarlyAccessOpen, setIsEarlyAccessOpen] = useState(false);
@@ -31,14 +32,25 @@ export const OfficialWebsite = ({
       {/* Top Banner with direct demo trigger & Firebase setup indicator */}
       <div className="bg-[#1B4332] text-[#D8F3DC] text-xs py-2 px-4 text-center font-medium flex flex-wrap items-center justify-center gap-2">
         <span className="w-2 h-2 rounded-full bg-[#52B788] animate-ping" />
-        <span>Careloop Official Marketing Website • Live Preview Online</span>
+        <span>Careloop Official Marketing Website • Live Online</span>
         <span className="text-white/40">•</span>
         <button 
           onClick={onExploreDemo}
           className="text-white font-bold underline hover:text-[#52B788]"
         >
-          Launch Interactive Sandbox Demo →
+          Doctor Sandbox →
         </button>
+        {onLaunchFounder && (
+          <>
+            <span className="text-white/40">•</span>
+            <button 
+              onClick={onLaunchFounder}
+              className="text-[#52B788] font-bold underline hover:text-white"
+            >
+              👑 Founder Command & Pitch Generator →
+            </button>
+          </>
+        )}
       </div>
 
       {/* Navigation */}
@@ -116,6 +128,7 @@ export const OfficialWebsite = ({
         onClose={() => setIsSignInOpen(false)}
         onLaunchDemo={onExploreDemo}
         onLaunchParticipant={onLaunchParticipant}
+        onLaunchFounder={onLaunchFounder}
       />
 
       <PolicyModal

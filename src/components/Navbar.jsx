@@ -161,42 +161,114 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenFirebaseModal, onBackToW
               >
                 <span className="w-2 h-2 rounded-full bg-[#2D6A4F]" />
                 <span className="hidden sm:inline">Role:</span>
-                <span className="font-semibold capitalize truncate max-w-[120px]">
-                  {currentUser?.role === 'participant' ? `Participant (${currentUser.displayName})` : 'Practitioner'}
+                <span className="font-semibold capitalize truncate max-w-[140px]">
+                  {currentUser?.role === 'founder' 
+                    ? '👑 Founder HQ' 
+                    : currentUser?.role === 'coordinator'
+                    ? '📋 Coordinator'
+                    : currentUser?.role === 'participant' 
+                    ? `📱 Patient (${currentUser.displayName.split(' ')[0]})` 
+                    : '🩺 Doctor (Dr. Trisha)'}
                 </span>
                 <IconChevronDown className="w-3.5 h-3.5 text-gray-400" />
               </button>
 
               {roleDropdownOpen && (
                 <div 
-                  className="absolute right-0 mt-2 w-72 rounded-xl bg-white shadow-xl border border-[#E8EAE7] py-2 z-50 text-xs animate-in fade-in duration-150"
+                  className="absolute right-0 mt-2 w-80 rounded-2xl bg-white shadow-2xl border border-[#E8EAE7] py-2 z-50 text-xs animate-in fade-in duration-150"
                   onMouseLeave={() => setRoleDropdownOpen(false)}
                 >
-                  <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-gray-400 border-b border-gray-100">
-                    Switch Active Experience
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100">
+                    Switch Active Persona
                   </div>
 
+                  {/* 1. FOUNDER PERSONA */}
+                  <button
+                    onClick={() => {
+                      switchRole('founder');
+                      setRoleDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2.5 hover:bg-[#F4F6F3] flex items-center justify-between transition-colors ${
+                      currentUser?.role === 'founder' ? 'bg-[#EBF7EE] font-semibold text-[#1B4332]' : 'text-gray-700'
+                    }`}
+                  >
+                    <div>
+                      <div className="font-bold flex items-center gap-1.5">
+                        <span>👑 Founder & Business Operator</span>
+                      </div>
+                      <div className="text-[10px] text-gray-500">Manage all clinics, lead pipeline & pitch doctors</div>
+                    </div>
+                    {currentUser?.role === 'founder' && <IconCheckCircle className="w-4 h-4 text-[#2D6A4F]" />}
+                  </button>
+
+                  {/* 2. DOCTOR PERSONA */}
                   <button
                     onClick={() => {
                       switchRole('practitioner');
                       setRoleDropdownOpen(false);
                       setActiveTab('dashboard');
                     }}
-                    className={`w-full text-left px-3 py-2.5 hover:bg-[#F4F6F3] flex items-center justify-between ${
+                    className={`w-full text-left px-3 py-2.5 hover:bg-[#F4F6F3] flex items-center justify-between transition-colors ${
                       currentUser?.role === 'practitioner' ? 'bg-[#EBF7EE] font-semibold text-[#1B4332]' : 'text-gray-700'
                     }`}
                   >
                     <div>
-                      <div className="font-medium">Practitioner Dashboard</div>
-                      <div className="text-[10px] text-gray-500">Dr. Arjun Patel (Full workspace admin)</div>
+                      <div className="font-bold flex items-center gap-1.5">
+                        <span>🩺 Doctor / Clinic Lead</span>
+                      </div>
+                      <div className="text-[10px] text-gray-500">Dr. Trisha Sen (PCOS & Metabolic Clinic)</div>
                     </div>
                     {currentUser?.role === 'practitioner' && <IconCheckCircle className="w-4 h-4 text-[#2D6A4F]" />}
                   </button>
 
-                  <div className="px-3 py-1 text-[10px] uppercase font-semibold text-gray-400 border-t border-gray-100 mt-1">
-                    Participant Mobile Portals
+                  {/* 3. CARE COORDINATOR PERSONA */}
+                  <button
+                    onClick={() => {
+                      switchRole('coordinator');
+                      setRoleDropdownOpen(false);
+                      setActiveTab('participants');
+                    }}
+                    className={`w-full text-left px-3 py-2.5 hover:bg-[#F4F6F3] flex items-center justify-between transition-colors ${
+                      currentUser?.role === 'coordinator' ? 'bg-[#EBF7EE] font-semibold text-[#1B4332]' : 'text-gray-700'
+                    }`}
+                  >
+                    <div>
+                      <div className="font-bold flex items-center gap-1.5">
+                        <span>📋 Clinic Care Coordinator</span>
+                      </div>
+                      <div className="text-[10px] text-gray-500">Pooja Nair (Patient onboarding & QR desk stand)</div>
+                    </div>
+                    {currentUser?.role === 'coordinator' && <IconCheckCircle className="w-4 h-4 text-[#2D6A4F]" />}
+                  </button>
+
+                  <div className="px-3 py-1 text-[10px] uppercase font-bold text-gray-400 border-t border-gray-100 mt-1">
+                    Customer / Patient Portals
                   </div>
 
+                  {/* 4. PATIENT PERSONA (ANANYA RAO) */}
+                  <button
+                    onClick={() => {
+                      switchRole('participant', {
+                        id: 'part_ananya',
+                        name: 'Ananya Rao',
+                        email: 'ananya.rao@example.com',
+                        currentProgramId: 'template-habits-21d',
+                        currentProgramTitle: 'PCOS & Insulin Resistance Protocol'
+                      });
+                      setRoleDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 hover:bg-[#F4F6F3] flex items-center justify-between transition-colors ${
+                      currentUser?.uid === 'part_ananya' ? 'bg-[#EBF7EE] font-semibold text-[#1B4332]' : 'text-gray-700'
+                    }`}
+                  >
+                    <div>
+                      <div className="font-medium">Ananya Rao</div>
+                      <div className="text-[10px] text-gray-500">PCOS Protocol (Day 3 · WhatsApp check-in)</div>
+                    </div>
+                    {currentUser?.uid === 'part_ananya' && <IconCheckCircle className="w-4 h-4 text-[#2D6A4F]" />}
+                  </button>
+
+                  {/* 5. PATIENT PERSONA (SARAH CHEN) */}
                   <button
                     onClick={() => {
                       switchRole('participant', {
@@ -208,7 +280,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenFirebaseModal, onBackToW
                       });
                       setRoleDropdownOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-2 hover:bg-[#F4F6F3] flex items-center justify-between ${
+                    className={`w-full text-left px-3 py-2 hover:bg-[#F4F6F3] flex items-center justify-between transition-colors ${
                       currentUser?.uid === 'part_001' ? 'bg-[#EBF7EE] font-semibold text-[#1B4332]' : 'text-gray-700'
                     }`}
                   >
