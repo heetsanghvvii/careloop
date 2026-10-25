@@ -2,7 +2,7 @@ import React from 'react';
 
 export function WorkspaceHome({workspace, participants=[], programs=[], completions=[], onNavigateTab, onOpenAddParticipant, onOpenCreateProgram, onSelectParticipant}) {
   const active = participants.filter(p => p.enrollmentStatus === 'active' && !p.archived);
-  const followup = active.filter(p => p.completionRate < 60 || (p.lastActivityDate && (Date.now()-new Date(p.lastActivityDate).getTime())/86400000 >= 3));
+  const followup = active.filter(p => (p.currentDay || 1) > 1 && (p.completionRate < 60 || (p.lastActivityDate && (Date.now()-new Date(p.lastActivityDate).getTime())/86400000 >= 3))); // Day-1 new clients excluded: no chance to complete yet
   const completed = completions.filter(c => c.status === 'completed').length;
   const steps = [
     {n:'01', title:'Create your plan', description:'Start with a template or build your own daily actions.', action:'Open programme builder', done:programs.length>0, run:onOpenCreateProgram},
