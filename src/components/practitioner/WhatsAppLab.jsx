@@ -29,7 +29,7 @@ export const WhatsAppLab = ({ participants, programs = [], onRecordCompletion })
     streakDays: 6,
     currentDay: 13,
     totalDays: 21,
-    programTitle: '21-Day Habit & Metabolic Reset'
+    programTitle: '21-Day Illustrative Habit Plan (Demo)'
   };
 
   const botEngine = new WhatsAppBotEngine();
