@@ -142,7 +142,7 @@ export const ProgramBuilder = ({
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. 28-Day Anti-Inflammatory Habit Architecture"
+              placeholder="e.g. 21-Day Daily Habit Plan"
               className="w-full text-xs p-2.5 rounded-lg border border-[#D5D9D4] focus:ring-2 focus:ring-[#2D6A4F] bg-white font-medium"
             />
           </div>
