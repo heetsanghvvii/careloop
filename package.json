@@ -1,0 +1,26 @@
+{
+  "name": "careloop-saas",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server:whatsapp": "node server/whatsappServer.js",
+    "test": "node tests/verify-careloop.js",
+    "test:whatsapp": "node tests/verify-whatsapp-bot.js",
+    "test:website": "node tests/verify-marketing-website.js",
+    "test:all": "node tests/verify-careloop.js && node tests/verify-whatsapp-bot.js && node tests/verify-marketing-website.js"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^5.1.4",
+    "autoprefixer": "^10.4.27",
+    "firebase": "^12.12.0",
+    "postcss": "^8.5.8",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
+  }
+}

@@ -1,0 +1,121 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access unless explicitly authorized
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isWorkspacePractitioner(workspaceId) {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/workspaces/$(workspaceId)).data.ownerUid == request.auth.uid;
+    }
+
+    // --- USERS & PRACTITIONER PROFILES ---
+    match /users/{userId} {
+      // User can read their own profile
+      allow read: if isOwner(userId);
+      // User can create their initial profile, cannot elevate role manually
+      allow create: if isOwner(userId) && 
+        request.resource.data.keys().hasAll(['email', 'role', 'createdAt']) &&
+        (request.resource.data.role == 'practitioner' || request.resource.data.role == 'participant');
+      // User can update profile fields, but cannot modify their role or workspace ownership
+      allow update: if isOwner(userId) && 
+        request.resource.data.role == resource.data.role;
+      allow delete: if false; // Deletion handled through account closure workflows
+    }
+
+    // --- WORKSPACES ---
+    match /workspaces/{workspaceId} {
+      // Workspace can only be read by its practitioner owner, or a verified participant
+      allow read: if isAuthenticated() && (
+        resource.data.ownerUid == request.auth.uid ||
+        resource.data.participants[request.auth.token.email] == true
+      );
+      // Only practitioner can create a workspace that they own
+      allow create: if isAuthenticated() && 
+        request.resource.data.ownerUid == request.auth.uid;
+      // Only practitioner owner can update workspace settings; cannot transfer ownerUid
+      allow update: if isAuthenticated() && 
+        resource.data.ownerUid == request.auth.uid &&
+        request.resource.data.ownerUid == resource.data.ownerUid;
+      allow delete: if isAuthenticated() && 
+        resource.data.ownerUid == request.auth.uid;
+    }
+
+    // --- PARTICIPANTS IN A WORKSPACE ---
+    match /workspaces/{workspaceId}/participants/{participantId} {
+      // Practitioner owner has full access
+      allow read, write: if isWorkspacePractitioner(workspaceId);
+      
+      // Participant can read their own participant record
+      allow read: if isAuthenticated() && (
+        resource.data.email == request.auth.token.email ||
+        resource.data.uid == request.auth.uid
+      );
+      
+      // Participant cannot self-assign programs, change status, or elevate plans
+      allow update: if false;
+    }
+
+    // --- PROGRAMS & TEMPLATES ---
+    match /workspaces/{workspaceId}/programs/{programId} {
+      // Practitioner owner has full create, update, delete
+      allow write: if isWorkspacePractitioner(workspaceId);
+      
+      // Practitioner owner can read
+      // Participants assigned to this program can also read it
+      allow read: if isWorkspacePractitioner(workspaceId) || (
+        isAuthenticated() && 
+        exists(/databases/$(database)/documents/workspaces/$(workspaceId)/assignments/$(request.auth.uid + '_' + programId))
+      );
+    }
+
+    // --- PROGRAM ASSIGNMENTS ---
+    match /workspaces/{workspaceId}/assignments/{assignmentId} {
+      // Practitioner owner can manage all assignments
+      allow read, write: if isWorkspacePractitioner(workspaceId);
+      
+      // Participant can read only their own assignment
+      allow read: if isAuthenticated() && (
+        resource.data.participantEmail == request.auth.token.email ||
+        resource.data.participantUid == request.auth.uid
+      );
+    }
+
+    // --- TASK COMPLETIONS & CHECK-INS ---
+    match /workspaces/{workspaceId}/completions/{completionId} {
+      // Practitioner owner can read and review all completions
+      allow read: if isWorkspacePractitioner(workspaceId);
+      
+      // Participant can read their own completions
+      allow read: if isAuthenticated() && (
+        resource.data.participantEmail == request.auth.token.email ||
+        resource.data.participantUid == request.auth.uid
+      );
+      
+      // Participant can create or update their own daily task check-ins
+      allow create, update: if isAuthenticated() && (
+        (request.resource.data.participantEmail == request.auth.token.email ||
+         request.resource.data.participantUid == request.auth.uid) &&
+        request.resource.data.status in ['completed', 'skipped', 'pending']
+      );
+    }
+
+    // --- SIMULATED REMINDERS ---
+    match /workspaces/{workspaceId}/reminders/{reminderId} {
+      // Only practitioner owner can configure or view reminder queues
+      allow read, write: if isWorkspacePractitioner(workspaceId);
+    }
+  }
+}
