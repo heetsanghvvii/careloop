@@ -52,7 +52,7 @@ export const WhoItsFor = ({ onOpenEarlyAccess }) => {
         'Receive client check-in reflection notes directly in a clean timeline.',
         'Monitor whether clients are adhering to elimination or anti-inflammatory protocols.'
       ],
-      sampleProgram: 'Mediterranean Anti-Inflammatory Protocol'
+      sampleProgram: 'Mediterranean-Style Illustrative Meal Plan (Demo)'
     },
     {
       id: 'rehab-physio',
@@ -66,7 +66,7 @@ export const WhoItsFor = ({ onOpenEarlyAccess }) => {
         'Receive immediate alerts when an at-risk client skips 3 consecutive days.',
         'Ensure clients follow through with corrective exercises between appointments.'
       ],
-      sampleProgram: 'Lumbar Spine & Core Rehabilitation'
+      sampleProgram: 'Illustrative Low-Back & Core Plan (Demo)'
     }
   ];
 
