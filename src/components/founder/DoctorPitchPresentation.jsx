@@ -216,8 +216,8 @@ PRACTICE IMPACT ASSUMPTIONS (NOT FORECASTS):
                   <div className="text-sm font-bold text-[#18231C] mt-1 truncate" title={painPoint}>{painPoint}</div>
                 </div>
                 <div className="p-4 rounded-xl bg-[#F8F9F7] border border-[#E8EAE7]">
-                  <div className="text-[11px] font-semibold text-gray-500 uppercase">Estimated Impact</div>
-                  <div className="text-sm font-bold text-[#2D6A4F] mt-1">+40% Cohort Adherence</div>
+                  <div className="text-[11px] font-semibold text-gray-500 uppercase">Impact Hypothesis (unvalidated)</div>
+                  <div className="text-sm font-bold text-[#2D6A4F] mt-1">Higher cohort adherence between visits (to be measured in pilot)</div>
                 </div>
               </div>
             </div>
