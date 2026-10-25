@@ -81,4 +81,34 @@ assert.ok(deepLink.startsWith('https://wa.me/919876500000?text='), 'Must be stan
 assert.ok(deepLink.includes(encodeURIComponent('Careloop Check-in | Sarah Chen')));
 console.log('✅ Native Click-to-WhatsApp deep link verified:', deepLink.slice(0, 60) + '...');
 
+// 7. Test HMAC SHA-256 Signature Verification
+console.log('\n[Test 7] Testing Meta Webhook HMAC-SHA256 Signature Verification...');
+import crypto from 'node:crypto';
+const botWithSecret = new WhatsAppBotEngine({ 
+  appSecret: 'test_meta_app_secret_999',
+  verifyToken: 'token_123'
+});
+const rawPayload = JSON.stringify(createMockPayload('Done'));
+const validHash = crypto.createHmac('sha256', 'test_meta_app_secret_999').update(rawPayload).digest('hex');
+const validSigResult = await botWithSecret.verifyWebhookSignature(rawPayload, `sha256=${validHash}`);
+assert.strictEqual(validSigResult.verified, true, 'Valid HMAC signature must verify');
+
+const invalidSigResult = await botWithSecret.verifyWebhookSignature(rawPayload, 'sha256=invalid_hash_value');
+assert.strictEqual(invalidSigResult.verified, false, 'Invalid HMAC signature must be rejected');
+console.log('✅ Meta Webhook HMAC-SHA256 signature verification verified.');
+
+// 8. Test Simulation Mode Guardrail (simulateOnly: true guarantees zero real Meta API calls)
+console.log('\n[Test 8] Verifying Simulation Guardrail (Zero Meta Dispatches)...');
+const liveBotMock = new WhatsAppBotEngine({
+  apiToken: 'mock_token',
+  phoneNumberId: 'mock_phone_id'
+});
+assert.strictEqual(liveBotMock.isLive, true);
+const simResult = await liveBotMock.processIncomingMessage(createMockPayload('Done'), {
+  participant: mockParticipant,
+  simulateOnly: true
+});
+assert.strictEqual(simResult.metaSent, false, 'simulateOnly must never dispatch real Meta messages');
+console.log('✅ Simulation guardrail verified: Real Meta API calls strictly blocked during simulation.');
+
 console.log('\n🎉 ALL WHATSAPP BOT ENGINE TESTS PASSED!\n');

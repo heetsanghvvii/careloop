@@ -5,17 +5,31 @@ import { WhatsAppBotEngine } from './whatsappBotEngine.js';
 const PORT = process.env.PORT || 4000;
 const botEngine = new WhatsAppBotEngine();
 
-const parseJsonBody = (req) => {
+// Safe request body parsing with strict 64KB limit
+const parseRawAndJsonBody = (req, maxBytes = 65536) => {
   return new Promise((resolve, reject) => {
-    let body = '';
-    req.on('data', chunk => { body += chunk.toString(); });
+    let rawBody = '';
+    let bytesReceived = 0;
+    
+    req.on('data', chunk => {
+      bytesReceived += chunk.length;
+      if (bytesReceived > maxBytes) {
+        req.destroy();
+        reject(new Error(`Payload too large: exceeded ${maxBytes} bytes limit`));
+        return;
+      }
+      rawBody += chunk.toString();
+    });
+
     req.on('end', () => {
       try {
-        resolve(body ? JSON.parse(body) : {});
+        const json = rawBody ? JSON.parse(rawBody) : {};
+        resolve({ rawBody, json });
       } catch (err) {
         reject(err);
       }
     });
+
     req.on('error', reject);
   });
 };
@@ -25,7 +39,7 @@ const sendJson = (res, statusCode, data) => {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Hub-Signature-256'
   });
   res.end(JSON.stringify(data));
 };
@@ -39,13 +53,13 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Hub-Signature-256'
     });
     res.end();
     return;
   }
 
-  // 0. Landing Page & API Gateway Dashboard
+  // 0. Landing Page & API Gateway Dashboard (Sanitized - No Plaintext Secrets)
   if (pathname === '/' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(`<!DOCTYPE html>
@@ -159,81 +173,77 @@ const server = http.createServer(async (req, res) => {
       font-weight: 700;
       font-size: 13px;
       white-space: nowrap;
-      transition: background 0.15s;
     }
-    .cta-btn:hover { background: #40916C; }
     .section-title {
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 700;
+      color: #2D6A4F;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #52B788;
+      letter-spacing: 0.5px;
       margin-bottom: 12px;
+      margin-top: 24px;
     }
     .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
     }
     .card {
-      background: #FBFBFA;
+      background: #F8F9F7;
       border: 1px solid #E8EAE7;
       border-radius: 12px;
       padding: 14px 16px;
     }
     .card-title {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 12px;
       color: #6C7570;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .card-value {
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
       color: #18231C;
-      font-family: monospace;
     }
     .endpoints-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 28px;
+      gap: 8px;
     }
     .endpoint-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: #FBFBFA;
+      background: #F8F9F7;
       border: 1px solid #E8EAE7;
-      font-size: 13px;
+      border-radius: 10px;
+      padding: 12px 16px;
     }
     .method-badge {
-      font-weight: 800;
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 700;
       padding: 3px 8px;
       border-radius: 6px;
-      margin-right: 8px;
+      margin-right: 10px;
+      display: inline-block;
     }
-    .get { background: #E8F4FD; color: #1971C2; }
-    .post { background: #EBF7EE; color: #2D6A4F; }
+    .method-badge.get { background: #EBF7EE; color: #2D6A4F; }
+    .method-badge.post { background: #E8F0FE; color: #1A73E8; }
     .endpoint-path {
       font-family: monospace;
-      font-weight: 600;
+      font-size: 13px;
+      color: #18231C;
     }
     .test-link {
       font-size: 12px;
       color: #2D6A4F;
-      text-decoration: none;
       font-weight: 600;
+      text-decoration: none;
     }
-    .test-link:hover { text-decoration: underline; }
     .interactive-tester {
-      background: #F4F6F4;
-      border: 1px solid #D8E0D8;
+      margin-top: 24px;
+      background: #F4F6F3;
+      border: 1px solid #DFE2DC;
       border-radius: 14px;
       padding: 20px;
     }
@@ -245,57 +255,54 @@ const server = http.createServer(async (req, res) => {
     .input-box {
       flex: 1;
       padding: 10px 14px;
+      border: 1px solid #CCD2C9;
       border-radius: 8px;
-      border: 1px solid #CCD5CD;
       font-size: 14px;
-      background: #FFF;
       outline: none;
     }
     .btn-send {
       background: #2D6A4F;
       color: #FFF;
       border: none;
-      padding: 10px 20px;
+      padding: 10px 18px;
       border-radius: 8px;
       font-weight: 700;
       cursor: pointer;
     }
-    .btn-send:hover { background: #1B4332; }
     .output-box {
       margin-top: 14px;
       background: #18231C;
-      color: #A3B18A;
+      color: #D8F3DC;
       font-family: monospace;
       font-size: 12px;
       padding: 14px;
       border-radius: 8px;
-      white-space: pre-wrap;
       display: none;
-      line-height: 1.5;
+      white-space: pre-wrap;
     }
     .chips {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       margin-top: 10px;
+      flex-wrap: wrap;
     }
     .chip {
       background: #FFF;
-      border: 1px solid #CCD5CD;
+      border: 1px solid #CCD2C9;
       padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
+      border-radius: 6px;
+      font-size: 12px;
       cursor: pointer;
       color: #2D6A4F;
+      font-weight: 600;
     }
-    .chip:hover { background: #EBF7EE; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="brand">
-        <div class="logo-badge">CL</div>
+        <div class="logo-badge">C</div>
         <div>
           <div class="brand-title">Careloop WhatsApp Engine</div>
           <div class="brand-subtitle">Meta Cloud API Webhook Gateway · Port 4000</div>
@@ -316,7 +323,7 @@ const server = http.createServer(async (req, res) => {
       <a href="http://localhost:3000" class="cta-btn">Open Web App (Port 3000) →</a>
     </div>
 
-    <!-- Node Architecture Specs -->
+    <!-- Gateway Specs (Sanitized) -->
     <div class="section-title">Gateway Specs</div>
     <div class="grid">
       <div class="card">
@@ -325,7 +332,7 @@ const server = http.createServer(async (req, res) => {
       </div>
       <div class="card">
         <div class="card-title">Meta Verify Token</div>
-        <div class="card-value">CARELOOP_WEBHOOK_SECRET_2026</div>
+        <div class="card-value">Configured via META_VERIFY_TOKEN (Protected)</div>
       </div>
       <div class="card">
         <div class="card-title">Frontend App</div>
@@ -359,14 +366,14 @@ const server = http.createServer(async (req, res) => {
           <span class="method-badge post">POST</span>
           <span class="endpoint-path">/api/webhook/whatsapp</span>
         </div>
-        <span style="font-size:11px; color:#6C7570;">Meta Cloud Ingress</span>
+        <span style="font-size:11px; color:#6C7570;">Meta Cloud Ingress (HMAC-SHA256 Protected)</span>
       </div>
       <div class="endpoint-item">
         <div>
           <span class="method-badge post">POST</span>
           <span class="endpoint-path">/api/bot/simulate</span>
         </div>
-        <span style="font-size:11px; color:#6C7570;">Simulate Message Ingestion</span>
+        <span style="font-size:11px; color:#6C7570;">Simulate Message Ingestion (₹0 Sandbox)</span>
       </div>
     </div>
 
@@ -405,9 +412,14 @@ const server = http.createServer(async (req, res) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            fromPhone: '+91 98765 00000',
-            messageText: text,
-            participantName: 'Sarah Chen'
+            message: text,
+            participant: {
+              name: 'Sarah Chen',
+              phone: '+91 98765 00000',
+              currentDay: 1,
+              totalDays: 21,
+              streakDays: 0
+            }
           })
         });
         const data = await res.json();
@@ -451,22 +463,32 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // 3. Meta WhatsApp Incoming Webhook (POST)
+  // 3. Meta WhatsApp Incoming Webhook (POST with HMAC-SHA256 Signature Verification)
   if (pathname === '/api/webhook/whatsapp' && req.method === 'POST') {
     try {
-      const payload = await parseJsonBody(req);
-      const result = await botEngine.processIncomingMessage(payload);
+      const { rawBody, json } = await parseRawAndJsonBody(req);
+      
+      const sigHeader = req.headers['x-hub-signature-256'];
+      const sigVerification = await botEngine.verifyWebhookSignature(rawBody, sigHeader);
+      
+      if (!sigVerification.verified) {
+        sendJson(res, 401, { error: 'Unauthorized: Meta signature verification failed', details: sigVerification.error });
+        return;
+      }
+
+      const result = await botEngine.processIncomingMessage(json);
       sendJson(res, 200, result);
     } catch (err) {
-      sendJson(res, 400, { error: 'Invalid JSON payload', message: err.message });
+      sendJson(res, 400, { error: 'Invalid webhook payload', message: err.message });
     }
     return;
   }
 
   // 4. Interactive Simulation Endpoint for Frontend UI (POST)
+  // Strictly enforces simulateOnly: true so no real Meta messages can ever be dispatched
   if (pathname === '/api/bot/simulate' && req.method === 'POST') {
     try {
-      const body = await parseJsonBody(req);
+      const { json: body } = await parseRawAndJsonBody(req);
       const text = body.message || 'Done';
       const participant = body.participant || {
         name: 'Sarah Chen',
@@ -493,7 +515,10 @@ const server = http.createServer(async (req, res) => {
         }]
       };
 
-      const result = await botEngine.processIncomingMessage(syntheticPayload, { participant });
+      const result = await botEngine.processIncomingMessage(syntheticPayload, { 
+        participant,
+        simulateOnly: true // Absolute guardrail
+      });
       sendJson(res, 200, result);
     } catch (err) {
       sendJson(res, 500, { error: err.message });

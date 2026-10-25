@@ -23,7 +23,7 @@ export const WebsiteFooter = ({ onOpenEarlyAccess, onOpenPolicy, onExploreDemo }
             </p>
 
             <div className="pt-2 text-[11px] text-[#7B8B80]">
-              Built with evidence-based adherence architecture.
+              Built with structured behavioral adherence architecture.
             </div>
           </div>
 
@@ -90,7 +90,7 @@ export const WebsiteFooter = ({ onOpenEarlyAccess, onOpenPolicy, onExploreDemo }
             <strong>Medical & Health Outcome Disclaimer:</strong> Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.
           </p>
           <p>
-            <strong>Data Protection & Regulatory Notice:</strong> Built with evidence-based adherence architecture and designed with Indian data-protection principles in mind; not a compliance guarantee.
+            <strong>Data Protection & Regulatory Notice:</strong> Built with structured behavioral adherence architecture and designed with Indian data-protection principles in mind; not a compliance guarantee.
           </p>
           <p>
             <strong>WhatsApp Integration Status:</strong> Current WhatsApp bot features operate as a simulated demo - live Meta integration not connected.

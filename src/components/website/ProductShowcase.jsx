@@ -195,7 +195,7 @@ export const ProductShowcase = ({ onExploreDemo }) => {
                   <div>
                     <span className="text-[10px] font-bold text-[#2D6A4F] bg-[#EBF7EE] px-2 py-0.5 rounded">Habits & Wellness</span>
                     <h4 className="text-sm font-bold text-[#18231C] mt-1">21-Day Habit & Metabolic Reset</h4>
-                    <p className="text-gray-500 mt-0.5">21-Day Duration • Evidence-based circadian alignment</p>
+                    <p className="text-gray-500 mt-0.5">21-Day Duration • Sample circadian habit architecture</p>
                   </div>
                   <span className="px-3 py-1 rounded-lg bg-white border border-[#D5D9D4] font-semibold text-gray-700">4 Actions</span>
                 </div>

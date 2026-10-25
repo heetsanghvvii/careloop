@@ -154,7 +154,7 @@ export const WebsiteHero = ({ onExploreDemo, onOpenEarlyAccess }) => {
                     {/* Quick Program Action */}
                     <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#EBF7EE] border border-[#BDE8C6]">
                       <span className="text-[11px] font-semibold text-[#1B4332]">
-                        ✓ 4 Evidence-Based Program Templates Ready to Deploy
+                        ✓ 4 Starter Program Templates Ready to Deploy
                       </span>
                       <button
                         onClick={onExploreDemo}

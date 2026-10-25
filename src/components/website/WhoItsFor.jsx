@@ -61,7 +61,7 @@ export const WhoItsFor = ({ onOpenEarlyAccess }) => {
       icon: IconHeart,
       focus: 'Pain-Free Recovery Compliance',
       workflow: [
-        'Prescribe evidence-based spinal stabilization and joint decompression routines.',
+        'Assign practitioner-designed spinal stabilization and joint decompression routines.',
         'Document client-reported discomfort scales and reflection notes.',
         'Receive immediate alerts when an at-risk client skips 3 consecutive days.',
         'Ensure clients follow through with corrective exercises between appointments.'

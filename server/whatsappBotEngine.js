@@ -7,20 +7,68 @@
 
 export class WhatsAppBotEngine {
   constructor(options = {}) {
-    this.verifyToken = options.verifyToken || process.env.WHATSAPP_VERIFY_TOKEN || 'careloop_webhook_token_2026';
-    this.apiToken = options.apiToken || process.env.WHATSAPP_API_TOKEN || '';
-    this.phoneNumberId = options.phoneNumberId || process.env.WHATSAPP_PHONE_NUMBER_ID || '';
+    const isProd = process.env.NODE_ENV === 'production';
+    
+    // Support aligned META_* and legacy WHATSAPP_* environment variables
+    this.verifyToken = options.verifyToken || 
+                       process.env.META_VERIFY_TOKEN || 
+                       process.env.WHATSAPP_VERIFY_TOKEN || 
+                       (isProd ? '' : 'careloop_dev_webhook_verify_token');
+                       
+    this.appSecret = options.appSecret || 
+                     process.env.META_APP_SECRET || 
+                     process.env.WHATSAPP_APP_SECRET || '';
+                     
+    this.apiToken = options.apiToken || 
+                    process.env.META_API_TOKEN || 
+                    process.env.WHATSAPP_API_TOKEN || '';
+                    
+    this.phoneNumberId = options.phoneNumberId || 
+                         process.env.META_PHONE_NUMBER_ID || 
+                         process.env.WHATSAPP_PHONE_NUMBER_ID || '';
+                         
     this.isLive = Boolean(this.apiToken && this.phoneNumberId);
   }
 
   /**
-   * Validates Meta Webhook Subscription (GET request from Meta)
+   * Validates Meta Webhook Subscription (GET request from Meta Cloud API)
    */
   verifyWebhook(mode, token, challenge) {
+    if (!this.verifyToken) {
+      return { verified: false, error: 'Webhook verify token not configured on server' };
+    }
     if (mode === 'subscribe' && token === this.verifyToken) {
       return { verified: true, challenge };
     }
     return { verified: false, error: 'Verification token mismatch' };
+  }
+
+  /**
+   * Validates Meta HMAC SHA-256 Webhook Signature (X-Hub-Signature-256 header)
+   */
+  async verifyWebhookSignature(rawBody, signatureHeader) {
+    if (!this.appSecret) {
+      // In development / demo when appSecret is unset, pass with audit warning
+      return { verified: true, warning: 'META_APP_SECRET unset; signature verification bypassed in dev mode' };
+    }
+    if (!signatureHeader || !signatureHeader.startsWith('sha256=')) {
+      return { verified: false, error: 'Missing or malformed X-Hub-Signature-256 header' };
+    }
+    const signature = signatureHeader.substring(7);
+    const cryptoModule = await import(/* @vite-ignore */ 'node:crypto');
+    const crypto = cryptoModule.default || cryptoModule;
+    const expectedSignature = crypto
+      .createHmac('sha256', this.appSecret)
+      .update(rawBody)
+      .digest('hex');
+
+    const sigBuffer = Buffer.from(signature, 'hex');
+    const expectedBuffer = Buffer.from(expectedSignature, 'hex');
+
+    if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
+      return { verified: false, error: 'Invalid HMAC SHA-256 signature' };
+    }
+    return { verified: true };
   }
 
   /**
@@ -54,10 +102,12 @@ export class WhatsAppBotEngine {
       // Triage message command
       const response = this.evaluateResponse(textBody, participant);
 
-      // If live Meta API configured, send real outgoing message
+      // GUARANTEE: Never send real messages when in simulation mode
       let metaSendResult = null;
-      if (this.isLive) {
+      if (this.isLive && !context.simulateOnly) {
         metaSendResult = await this.sendWhatsAppMessage(senderPhone, response.replyText);
+      } else if (context.simulateOnly) {
+        metaSendResult = { simulated: true, note: 'Simulation mode: real Meta dispatch blocked' };
       }
 
       return {
@@ -69,7 +119,7 @@ export class WhatsAppBotEngine {
         taskStatus: response.taskStatus,
         participantUpdate: response.participantUpdate,
         replyText: response.replyText,
-        metaSent: Boolean(metaSendResult)
+        metaSent: Boolean(metaSendResult && !metaSendResult.simulated)
       };
     } catch (err) {
       console.error('Careloop WhatsApp Bot Error:', err);

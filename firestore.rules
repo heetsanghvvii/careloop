@@ -21,6 +21,13 @@ service cloud.firestore {
         get(/databases/$(database)/documents/workspaces/$(workspaceId)).data.ownerUid == request.auth.uid;
     }
 
+    function isWorkspaceParticipant(workspaceId) {
+      return isAuthenticated() && (
+        exists(/databases/$(database)/documents/workspaces/$(workspaceId)/participants/$(request.auth.uid)) ||
+        (request.auth.token.email != null && exists(/databases/$(database)/documents/workspaces/$(workspaceId)/participants/$(request.auth.token.email)))
+      );
+    }
+
     // --- USERS & PRACTITIONER PROFILES ---
     match /users/{userId} {
       // User can read their own profile
@@ -37,10 +44,11 @@ service cloud.firestore {
 
     // --- WORKSPACES ---
     match /workspaces/{workspaceId} {
-      // Workspace can only be read by its practitioner owner, or a verified participant
+      // Workspace can only be read by its practitioner owner, or an enrolled participant
       allow read: if isAuthenticated() && (
         resource.data.ownerUid == request.auth.uid ||
-        resource.data.participants[request.auth.token.email] == true
+        resource.data.participants[request.auth.token.email] == true ||
+        isWorkspaceParticipant(workspaceId)
       );
       // Only practitioner can create a workspace that they own
       allow create: if isAuthenticated() && 
@@ -73,12 +81,8 @@ service cloud.firestore {
       // Practitioner owner has full create, update, delete
       allow write: if isWorkspacePractitioner(workspaceId);
       
-      // Practitioner owner can read
-      // Participants assigned to this program can also read it
-      allow read: if isWorkspacePractitioner(workspaceId) || (
-        isAuthenticated() && 
-        exists(/databases/$(database)/documents/workspaces/$(workspaceId)/assignments/$(request.auth.uid + '_' + programId))
-      );
+      // Practitioner owner and enrolled workspace participants can read program tasks
+      allow read: if isWorkspacePractitioner(workspaceId) || isWorkspaceParticipant(workspaceId);
     }
 
     // --- PROGRAM ASSIGNMENTS ---
@@ -98,24 +102,40 @@ service cloud.firestore {
       // Practitioner owner can read and review all completions
       allow read: if isWorkspacePractitioner(workspaceId);
       
-      // Participant can read their own completions
-      allow read: if isAuthenticated() && (
+      // Participant can read only their own completions within their authorized workspace
+      allow read: if isWorkspaceParticipant(workspaceId) && (
         resource.data.participantEmail == request.auth.token.email ||
         resource.data.participantUid == request.auth.uid
       );
       
-      // Participant can create or update their own daily task check-ins
-      allow create, update: if isAuthenticated() && (
+      // Participant can create or update daily check-ins ONLY within their enrolled workspace
+      // Prevents cross-tenant writes and unassigned modifications
+      allow create, update: if (isWorkspacePractitioner(workspaceId) || isWorkspaceParticipant(workspaceId)) && (
         (request.resource.data.participantEmail == request.auth.token.email ||
-         request.resource.data.participantUid == request.auth.uid) &&
+         request.resource.data.participantUid == request.auth.uid) ||
+        isWorkspacePractitioner(workspaceId)
+      ) && (
         request.resource.data.status in ['completed', 'skipped', 'pending']
       );
+
+      // Deletions strictly restricted to practitioner owner
+      allow delete: if isWorkspacePractitioner(workspaceId);
     }
 
     // --- SIMULATED REMINDERS ---
     match /workspaces/{workspaceId}/reminders/{reminderId} {
       // Only practitioner owner can configure or view reminder queues
       allow read, write: if isWorkspacePractitioner(workspaceId);
+    }
+
+    // --- EARLY ACCESS LEADS (Public Ingress) ---
+    match /early_access_leads/{leadId} {
+      // Prospective customers can submit interest safely without prior authentication
+      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'createdAt']) &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() > 3;
+      // Contact data is strictly protected against public reads or modification
+      allow read, update, delete: if false;
     }
   }
 }

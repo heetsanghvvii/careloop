@@ -13,7 +13,7 @@ export const PricingSection = ({ onOpenEarlyAccess, onExploreDemo }) => {
       desc: 'Ideal for solo trainers, dietitians, or coaches launching their first structured cohort.',
       features: [
         'Up to 25 active participants',
-        'All 4 evidence-based templates',
+        'All 4 curated starter protocol templates',
         'Unlimited program creation',
         'Daily task checklist & notes',
         'Risk flag for inactivity (>3 days)',

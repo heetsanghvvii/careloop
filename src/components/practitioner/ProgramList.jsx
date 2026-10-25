@@ -48,7 +48,7 @@ export const ProgramList = ({
             Program Library & Templates
           </h2>
           <p className="text-xs text-gray-500 mt-0.5">
-            Build repeatable health curriculums, clone evidence-based templates, and assign task flows.
+            Build repeatable health curriculums, clone starter protocol templates, and assign task flows.
           </p>
         </div>
 
@@ -188,7 +188,7 @@ export const ProgramList = ({
         )}
       </div>
 
-      {/* Pre-built Evidence-Based Template Library */}
+      {/* Pre-built Starter Protocol Template Library */}
       <div className="pt-6 border-t border-[#E8EAE7]">
         <div className="flex items-center gap-2 mb-2">
           <IconSparkles className="w-4 h-4 text-[#2D6A4F]" />
@@ -197,7 +197,7 @@ export const ProgramList = ({
           </h3>
         </div>
         <p className="text-xs text-gray-500 mb-5">
-          Proven health, habit, nutrition, and rehabilitation curriculum templates ready to import into your workspace in 1 click.
+          Curated sample habit, nutrition, and recovery curriculum templates ready to import into your workspace in 1 click (examples only; customize to your professional scope).
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

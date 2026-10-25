@@ -16,7 +16,21 @@ import { DEFAULT_PROGRAM_TEMPLATES } from '../data/programTemplates.js';
 
 const STORAGE_KEY_LOCAL_DB = 'careloop_local_data_v1';
 
-// In-memory / persistent fallback store
+/**
+ * Explicit error thrown when an active production Firebase operation fails,
+ * ensuring users and administrators know that cloud synchronization failed
+ * rather than falsely believing local changes reached Google Cloud.
+ */
+export class CloudSyncError extends Error {
+  constructor(operation, originalError) {
+    super(`Cloud persistence failed during "${operation}": ${originalError?.message || originalError}. Data was not saved to Google Cloud Firestore.`);
+    this.name = 'CloudSyncError';
+    this.operation = operation;
+    this.originalError = originalError;
+  }
+}
+
+// In-memory / persistent fallback store for Demo Sandbox
 class LocalDataStore {
   constructor() {
     this.subscribers = new Set();
@@ -79,15 +93,25 @@ export const dataService = {
   // --- WORKSPACE ---
   async getWorkspace(workspaceId = 'ws_demo_001') {
     if (this.isLiveFirebase()) {
-      const snap = await getDoc(doc(firestoreDb, 'workspaces', workspaceId));
-      if (snap.exists()) return { id: snap.id, ...snap.data() };
+      try {
+        const snap = await getDoc(doc(firestoreDb, 'workspaces', workspaceId));
+        if (snap.exists()) return { id: snap.id, ...snap.data() };
+      } catch (err) {
+        console.error('Careloop: Firestore error in getWorkspace:', err);
+        throw new CloudSyncError('getWorkspace', err);
+      }
     }
     return localStore.data.workspace;
   },
 
   async updateWorkspace(workspaceId, updates) {
     if (this.isLiveFirebase()) {
-      await updateDoc(doc(firestoreDb, 'workspaces', workspaceId), updates);
+      try {
+        await updateDoc(doc(firestoreDb, 'workspaces', workspaceId), updates);
+      } catch (err) {
+        console.error('Careloop: Firestore error in updateWorkspace:', err);
+        throw new CloudSyncError('updateWorkspace', err);
+      }
     }
     localStore.data.workspace = { ...localStore.data.workspace, ...updates };
     localStore.notify();
@@ -97,8 +121,13 @@ export const dataService = {
   // --- PARTICIPANTS ---
   async getParticipants(workspaceId = 'ws_demo_001') {
     if (this.isLiveFirebase()) {
-      const snap = await getDocs(collection(firestoreDb, `workspaces/${workspaceId}/participants`));
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      try {
+        const snap = await getDocs(collection(firestoreDb, `workspaces/${workspaceId}/participants`));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (err) {
+        console.error('Careloop: Firestore error in getParticipants:', err);
+        throw new CloudSyncError('getParticipants', err);
+      }
     }
     return localStore.data.participants.filter(p => !p.archived);
   },
@@ -118,7 +147,7 @@ export const dataService = {
       throw new Error(`Plan limit reached! Your current "${workspace.plan}" plan allows up to ${maxAllowed} active participants. Please upgrade to enroll more.`);
     }
 
-    const id = 'part_' + Date.now();
+    const id = participantData.id || ('part_' + Date.now());
     const newParticipant = {
       id,
       workspaceId,
@@ -133,7 +162,12 @@ export const dataService = {
     };
 
     if (this.isLiveFirebase()) {
-      await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/participants`, id), newParticipant);
+      try {
+        await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/participants`, id), newParticipant);
+      } catch (err) {
+        console.error('Careloop: Firestore error in addParticipant:', err);
+        throw new CloudSyncError('addParticipant', err);
+      }
     }
 
     localStore.data.participants.unshift(newParticipant);
@@ -143,7 +177,12 @@ export const dataService = {
 
   async updateParticipant(workspaceId, participantId, updates) {
     if (this.isLiveFirebase()) {
-      await updateDoc(doc(firestoreDb, `workspaces/${workspaceId}/participants`, participantId), updates);
+      try {
+        await updateDoc(doc(firestoreDb, `workspaces/${workspaceId}/participants`, participantId), updates);
+      } catch (err) {
+        console.error('Careloop: Firestore error in updateParticipant:', err);
+        throw new CloudSyncError('updateParticipant', err);
+      }
     }
     const idx = localStore.data.participants.findIndex(p => p.id === participantId);
     if (idx !== -1) {
@@ -163,8 +202,13 @@ export const dataService = {
   // --- PROGRAMS ---
   async getPrograms(workspaceId = 'ws_demo_001') {
     if (this.isLiveFirebase()) {
-      const snap = await getDocs(collection(firestoreDb, `workspaces/${workspaceId}/programs`));
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      try {
+        const snap = await getDocs(collection(firestoreDb, `workspaces/${workspaceId}/programs`));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (err) {
+        console.error('Careloop: Firestore error in getPrograms:', err);
+        throw new CloudSyncError('getPrograms', err);
+      }
     }
     return localStore.data.programs.filter(p => !p.archived);
   },
@@ -178,7 +222,12 @@ export const dataService = {
       ...programData
     };
     if (this.isLiveFirebase()) {
-      await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/programs`, id), newProg);
+      try {
+        await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/programs`, id), newProg);
+      } catch (err) {
+        console.error('Careloop: Firestore error in createProgram:', err);
+        throw new CloudSyncError('createProgram', err);
+      }
     }
     localStore.data.programs.push(newProg);
     localStore.notify();
@@ -187,7 +236,12 @@ export const dataService = {
 
   async updateProgram(workspaceId, programId, updates) {
     if (this.isLiveFirebase()) {
-      await updateDoc(doc(firestoreDb, `workspaces/${workspaceId}/programs`, programId), updates);
+      try {
+        await updateDoc(doc(firestoreDb, `workspaces/${workspaceId}/programs`, programId), updates);
+      } catch (err) {
+        console.error('Careloop: Firestore error in updateProgram:', err);
+        throw new CloudSyncError('updateProgram', err);
+      }
     }
     const idx = localStore.data.programs.findIndex(p => p.id === programId);
     if (idx !== -1) {
@@ -206,7 +260,12 @@ export const dataService = {
       createdAt: new Date().toISOString()
     };
     if (this.isLiveFirebase()) {
-      await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/programs`, cloned.id), cloned);
+      try {
+        await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/programs`, cloned.id), cloned);
+      } catch (err) {
+        console.error('Careloop: Firestore error in duplicateProgram:', err);
+        throw new CloudSyncError('duplicateProgram', err);
+      }
     }
     localStore.data.programs.push(cloned);
     localStore.notify();
@@ -234,12 +293,17 @@ export const dataService = {
   // --- TASK COMPLETIONS ---
   async getCompletions(workspaceId = 'ws_demo_001', participantId = null) {
     if (this.isLiveFirebase()) {
-      let q = collection(firestoreDb, `workspaces/${workspaceId}/completions`);
-      if (participantId) {
-        q = query(q, where('participantId', '==', participantId));
+      try {
+        let q = collection(firestoreDb, `workspaces/${workspaceId}/completions`);
+        if (participantId) {
+          q = query(q, where('participantId', '==', participantId));
+        }
+        const snap = await getDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (err) {
+        console.error('Careloop: Firestore error in getCompletions:', err);
+        throw new CloudSyncError('getCompletions', err);
       }
-      const snap = await getDocs(q);
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
     }
     if (participantId) {
       return localStore.data.taskCompletions.filter(tc => tc.participantId === participantId);
@@ -247,12 +311,21 @@ export const dataService = {
     return localStore.data.taskCompletions;
   },
 
-  async recordTaskCompletion(workspaceId, participantId, taskId, date, status, note = '') {
+  async recordTaskCompletion(workspaceId, participantId, taskId, date, status, note = '', metadata = {}) {
     // Unique identifier by participant + task + date to prevent duplicate records
     const recordId = `tc_${participantId}_${taskId}_${date}`;
+    
+    // Resolve participant email / uid for rules enforcement
+    const pRecord = localStore.data.participants.find(p => p.id === participantId);
+    const participantUid = metadata.participantUid || pRecord?.uid || participantId;
+    const participantEmail = metadata.participantEmail || pRecord?.email || null;
+
     const payload = {
       id: recordId,
+      workspaceId,
       participantId,
+      participantUid,
+      participantEmail,
       taskId,
       date,
       status, // 'completed' | 'skipped' | 'pending'
@@ -261,7 +334,12 @@ export const dataService = {
     };
 
     if (this.isLiveFirebase()) {
-      await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/completions`, recordId), payload, { merge: true });
+      try {
+        await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/completions`, recordId), payload, { merge: true });
+      } catch (err) {
+        console.error('Careloop: Firestore error in recordTaskCompletion:', err);
+        throw new CloudSyncError('recordTaskCompletion', err);
+      }
     }
 
     const existingIdx = localStore.data.taskCompletions.findIndex(
@@ -338,8 +416,13 @@ export const dataService = {
   // --- SIMULATED REMINDERS ---
   async getSimulatedReminders(workspaceId = 'ws_demo_001') {
     if (this.isLiveFirebase()) {
-      const snap = await getDocs(collection(firestoreDb, `workspaces/${workspaceId}/reminders`));
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      try {
+        const snap = await getDocs(collection(firestoreDb, `workspaces/${workspaceId}/reminders`));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (err) {
+        console.error('Careloop: Firestore error in getSimulatedReminders:', err);
+        throw new CloudSyncError('getSimulatedReminders', err);
+      }
     }
     return localStore.data.simulatedReminders;
   },
@@ -353,7 +436,12 @@ export const dataService = {
       ...reminderData
     };
     if (this.isLiveFirebase()) {
-      await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/reminders`, id), newRem);
+      try {
+        await setDoc(doc(firestoreDb, `workspaces/${workspaceId}/reminders`, id), newRem);
+      } catch (err) {
+        console.error('Careloop: Firestore error in addSimulatedReminder:', err);
+        throw new CloudSyncError('addSimulatedReminder', err);
+      }
     }
     localStore.data.simulatedReminders.unshift(newRem);
     localStore.notify();

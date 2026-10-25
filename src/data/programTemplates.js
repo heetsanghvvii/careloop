@@ -1,10 +1,14 @@
+// NOTE: All starter program templates provided below are non-clinical, illustrative protocol templates 
+// designed for practitioner customization. They do not constitute individualized medical advice, clinical diagnoses, 
+// or therapeutic guarantees. Completion tracking reflects self-reported participant adherence.
+
 export const DEFAULT_PROGRAM_TEMPLATES = [
   {
     id: 'template-habits-21d',
     title: '21-Day Habit & Metabolic Reset',
     category: 'Habits & Wellness',
     durationDays: 21,
-    description: 'A scientifically grounded habit architecture designed to stabilize morning circadian rhythm, improve metabolic baseline, and build evening wind-down rituals.',
+    description: 'A sample daily habit architecture designed to help clients build consistent morning hydration, natural light exposure, and evening wind-down rituals. (Illustrative starter template).',
     guidelines: 'Focus on consistency over perfection. If a day is missed, resume immediately without doubling up. Drink water first thing before reaching for caffeine or screens.',
     isTemplate: true,
     tasks: [
@@ -133,7 +137,7 @@ export const DEFAULT_PROGRAM_TEMPLATES = [
     title: 'Lumbar Spine & Core Rehabilitation',
     category: 'Physiotherapy & Rehab',
     durationDays: 30,
-    description: 'Evidence-based McKenzie and McGill Big 3 rehabilitation sequence to alleviate non-specific lower back stiffness and restore pelvic stability.',
+    description: 'Sample illustrative McKenzie and McGill Big 3 exercise sequence for practitioner review and customization to alleviate non-specific lower back stiffness. (Example template; not individualized medical advice).',
     guidelines: 'Move strictly within pain-free active range of motion. Zero sharp pain. If discomfort occurs, stop and log in your check-in notes.',
     isTemplate: true,
     tasks: [
@@ -176,7 +180,7 @@ export const DEFAULT_PROGRAM_TEMPLATES = [
     title: '30-Day Indian Diabetes & Glycemic Reset',
     category: 'Clinical Nutrition & Diabetes',
     durationDays: 30,
-    description: 'Evidence-based glycemic control architecture for Type 2 Diabetes and pre-diabetes. Focuses on post-prandial glucose blunting, traditional herbal anchors, and daily step volume.',
+    description: 'Sample illustrative glycemic habit structure for practitioner customization. Focuses on post-prandial movement, traditional culinary anchors, and daily step tracking. (Example template; not individualized medical advice).',
     guidelines: 'Walk for 15-20 minutes strictly after lunch or dinner. Do not skip the morning fenugreek water. Log blood sugar levels in reflection notes when testing.',
     isTemplate: true,
     tasks: [
