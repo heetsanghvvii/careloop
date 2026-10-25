@@ -1,16 +1,27 @@
 # Careloop Autonomous Release Status
 
 ## Current Phase
-Phase 9: Self-Serve Doctor Onboarding, Honesty Sweep, and Local-Files Preview (Complete)
+Phase 10: Deck Audit Remediation in Standalone pitch-decks.html (Complete)
 
 ## Completed Work
-1. **Honesty Pass in Standalone `pitch-decks.html`**:
-   - Swept all slides across all three decks in `pitch-decks.html`:
-     - Removed unvalidated claims ("70% drop off by Day 14" -> "Stop Drop-Off: Help clients stay consistent with their daily habits between visits. Client drop-off is a common clinical challenge; unvalidated target").
-     - Replaced "3x Renewals" with "Improved Retention: (target, not yet validated: higher program renewals via habit tracking)".
-     - Added standard KaTeX/Markdown medical disclaimers across all slides: `* Medical Disclaimer: Completion tracking shows self-reported behavior, not proven health outcomes. Careloop supports the professional's plan; it does not provide medical advice.`
-     - Clarified that WhatsApp Phase 1 click-to-chat is live today, while Phase 2 automated bot is simulated demo (live Meta integration not connected).
-     - Labeled all financial projections and TAM figures as illustrative assumptions (not validated).
+1. **Product Lead Deck Audit Remediation in `pitch-decks.html`**:
+   - **Doctors Slide 1**:
+     - Verified all unvalidated metric claims ("70% drop off by Day 14" and "3x Renewals / doubles re-enrollment rates") remain replaced by clinical targets and standard medical disclaimers.
+     - Cleaned speaker notes: Replaced `"patients abandon them after 10 days because unorganized WhatsApp chats create chaos"` with `"patient adherence frequently drifts without structured daily accountability between appointments"`.
+   - **Investors Slide 1 Subtitle**:
+     - Removed unvalidated market sizing claim and added explicit assumption disclaimer: Replaced `"Building the Adherence & Habit Infrastructure for India's $250M+ Chronic Care Ecosystem"` with `"Building the Adherence & Habit Infrastructure for Chronic Care Management (Market size is an illustrative assumption - unvalidated)"`.
+   - **Investors Slide 2 Citations & Out-of-Pocket Spend**:
+     - Added named source citation for Diabetes / Pre-diabetes: `Source: ICMR-INDIAB National Study (The Lancet Diabetes & Endocrinology, 2023)` for 101M+ diabetics and 136M pre-diabetics.
+     - Added named source citation for PCOS: `Source: AIIMS published epidemiological data & clinical estimates` for 1 in 5 Indian women of reproductive age.
+     - Added explicit assumption disclaimer to consumer spend: `Estimated annual out-of-pocket spend per patient for specialized lifestyle programs. (Illustrative assumption - unvalidated)`.
+     - Appended slide-level citations footer.
+   - **Investors Slide 3 ARPU, ARR Scenario, and Speaker Notes**:
+     - Labeled ARPU yield explicitly: `Target practitioner subscription yield across Starter, Growth, and Scale. (Illustrative target yield - unvalidated)`.
+     - Relabeled ARR projection as target scenario without "conservative": `Target scenario based on 2,000 paying clinics at ₹1,500/month average. (Illustrative assumption - not validated)`.
+     - Rephrased speaker notes: Labeled retention as unvalidated target hypothesis (`Target hypothesis: practitioner retention is expected to strengthen as clinical patient records accumulate (unvalidated hypothesis)`).
+   - **Team Slide 2 Honest WhatsApp Lab Relabeling**:
+     - Updated Phase 1 (Done) to state prototype status honestly: Changed `"WhatsApp engine"` to `"simulated WhatsApp lab prototype"`.
+     - Updated Team Slide 1 stack description to specify `"simulated Meta Cloud API lab"`.
 
 2. **Self-Serve Doctor Onboarding Experience**:
    - Created `src/components/onboarding/DoctorSelfServeOnboarding.jsx`:
