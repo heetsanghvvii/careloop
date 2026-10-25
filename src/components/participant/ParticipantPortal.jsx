@@ -81,13 +81,13 @@ export const ParticipantPortal = ({
           <div className="flex items-center gap-3">
             <button
               onClick={onBackToPractitioner}
-              className="p-1.5 text-gray-400 hover:text-[#18231C] hover:bg-[#F4F6F3] rounded-lg transition-colors flex items-center gap-1 text-xs font-semibold"
+              className="p-2 text-[#5C6E63] hover:text-[#18231C] hover:bg-[#F8F9F7] rounded-xl transition-colors flex items-center gap-1.5 text-xs font-semibold"
               title="Return to Practitioner View"
             >
               <IconArrowLeft className="w-4 h-4" />
               <span className="hidden sm:inline">Exit to Practice</span>
             </button>
-            <div className="border-l border-gray-200 pl-3">
+            <div className="border-l border-[#E8EAE7] pl-3">
               <span className="text-sm font-extrabold text-[#18231C]">
                 {participant.name}
               </span>
@@ -98,7 +98,7 @@ export const ParticipantPortal = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
               <IconFlame className="w-3.5 h-3.5 text-amber-500" />
               <span>{participant.streakDays || 0}d streak</span>
             </div>
@@ -110,10 +110,10 @@ export const ParticipantPortal = ({
       <main className="max-w-2xl mx-auto px-4 pt-6 space-y-6">
         
         {/* Active Program Card */}
-        <div className="bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] text-white rounded-3xl p-6 shadow-md">
+        <div className="bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] text-white rounded-3xl p-6 shadow-sm">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#A3E4D7] bg-white/10 px-2.5 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#D8F3DC] bg-white/10 px-2.5 py-0.5 rounded-full">
                 {program?.category || 'Health Program'}
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold mt-2 tracking-tight">
@@ -131,7 +131,7 @@ export const ParticipantPortal = ({
               <span>Day {participant.currentDay || 1} of {participant.totalDays || 21}</span>
               <span className="font-bold text-white">{adherenceRate}% Adherence</span>
             </div>
-            <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-white/20 h-2 rounded-full overflow-hidden">
               <div 
                 className="bg-[#52B788] h-full rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.round(((participant.currentDay || 1) / (participant.totalDays || 21)) * 100))}%` }}
@@ -141,13 +141,13 @@ export const ParticipantPortal = ({
         </div>
 
         {/* View Tabs */}
-        <div className="flex border-b border-[#E8EAE7] text-xs font-semibold">
+        <div className="flex border-b border-[#E8EAE7] text-xs">
           <button
             onClick={() => setActiveTab('today')}
             className={`pb-3 px-4 border-b-2 transition-colors ${
               activeTab === 'today'
-                ? 'border-[#2D6A4F] text-[#1B4332]'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
+                ? 'border-[#2D6A4F] text-[#1B4332] font-bold'
+                : 'border-transparent text-[#5C6E63] font-semibold hover:text-[#18231C]'
             }`}
           >
             Daily Checklist
@@ -156,8 +156,8 @@ export const ParticipantPortal = ({
             onClick={() => setActiveTab('progress')}
             className={`pb-3 px-4 border-b-2 transition-colors ${
               activeTab === 'progress'
-                ? 'border-[#2D6A4F] text-[#1B4332]'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
+                ? 'border-[#2D6A4F] text-[#1B4332] font-bold'
+                : 'border-transparent text-[#5C6E63] font-semibold hover:text-[#18231C]'
             }`}
           >
             My Progress & Streak
@@ -166,8 +166,8 @@ export const ParticipantPortal = ({
             onClick={() => setActiveTab('history')}
             className={`pb-3 px-4 border-b-2 transition-colors ${
               activeTab === 'history'
-                ? 'border-[#2D6A4F] text-[#1B4332]'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
+                ? 'border-[#2D6A4F] text-[#1B4332] font-bold'
+                : 'border-transparent text-[#5C6E63] font-semibold hover:text-[#18231C]'
             }`}
           >
             Check-In Log
@@ -178,23 +178,27 @@ export const ParticipantPortal = ({
         {activeTab === 'today' && (
           <div className="space-y-4 animate-in fade-in duration-150">
             {/* Date Selector Row */}
-            <div className="flex items-center justify-between bg-white p-3 rounded-2xl border border-[#E8EAE7]">
+            <div className="flex items-center justify-between bg-white p-3 rounded-2xl border border-[#E8EAE7] shadow-xs">
               <span className="text-xs font-bold text-[#18231C]">
                 Date: {selectedDate === today ? 'Today' : selectedDate}
               </span>
               <div className="flex gap-1.5">
                 <button
                   onClick={() => setSelectedDate(getIsoDateOffset(-1))}
-                  className={`px-2.5 py-1 text-xs rounded-lg font-medium transition-colors ${
-                    selectedDate === getIsoDateOffset(-1) ? 'bg-[#2D6A4F] text-white' : 'bg-gray-100 text-gray-600'
+                  className={`px-3 py-1.5 text-xs rounded-xl transition-colors ${
+                    selectedDate === getIsoDateOffset(-1)
+                      ? 'bg-[#2D6A4F] text-white font-bold border border-[#2D6A4F] shadow-xs'
+                      : 'bg-[#FAFAF8] text-[#5C6E63] border border-[#E8EAE7] font-semibold hover:bg-white hover:text-[#18231C]'
                   }`}
                 >
                   Yesterday
                 </button>
                 <button
                   onClick={() => setSelectedDate(today)}
-                  className={`px-2.5 py-1 text-xs rounded-lg font-medium transition-colors ${
-                    selectedDate === today ? 'bg-[#2D6A4F] text-white' : 'bg-gray-100 text-gray-600'
+                  className={`px-3 py-1.5 text-xs rounded-xl transition-colors ${
+                    selectedDate === today
+                      ? 'bg-[#2D6A4F] text-white font-bold border border-[#2D6A4F] shadow-xs'
+                      : 'bg-[#FAFAF8] text-[#5C6E63] border border-[#E8EAE7] font-semibold hover:bg-white hover:text-[#18231C]'
                   }`}
                 >
                   Today
@@ -217,17 +221,17 @@ export const ParticipantPortal = ({
                       isCompleted 
                         ? 'bg-[#F4FAF6] border-[#BDE8C6]' 
                         : isSkipped 
-                        ? 'bg-[#FFFDF9] border-[#FCE6B2]' 
-                        : 'bg-white border-[#E8EAE7]'
+                        ? 'bg-[#FFF9F5] border-[#FCDCC9]' 
+                        : 'bg-white border-[#E8EAE7] shadow-xs'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#2D6A4F] bg-[#EBF7EE] px-2 py-0.5 rounded">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#2D6A4F] bg-[#EBF7EE] border border-[#BDE8C6]/60 px-2 py-0.5 rounded-md">
                             {task.category || 'Action'}
                           </span>
-                          <span className="text-[10px] text-gray-400">
+                          <span className="text-[10px] text-[#7B8B80] font-medium">
                             {task.frequency}
                           </span>
                         </div>
@@ -247,19 +251,19 @@ export const ParticipantPortal = ({
                       {/* Status Indicator */}
                       <div>
                         {isCompleted && (
-                          <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">
-                            <IconCheckCircle className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#1B4332] bg-[#EBF7EE] border border-[#BDE8C6] px-2.5 py-0.5 rounded-full">
+                            <IconCheckCircle className="w-3.5 h-3.5 text-[#2D6A4F]" />
                             Done
                           </span>
                         )}
                         {isSkipped && (
-                          <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full">
-                            <IconXCircle className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                            <IconXCircle className="w-3.5 h-3.5 text-amber-600" />
                             Skipped
                           </span>
                         )}
                         {isPending && (
-                          <span className="text-[11px] font-semibold text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
+                          <span className="text-[11px] font-semibold text-[#7B8B80] bg-[#FAFAF8] border border-[#E8EAE7] px-2.5 py-0.5 rounded-full">
                             Pending
                           </span>
                         )}
@@ -267,19 +271,19 @@ export const ParticipantPortal = ({
                     </div>
 
                     {/* Check-in Note Input */}
-                    <div className="mt-3 pt-3 border-t border-gray-100">
+                    <div className="mt-3 pt-3 border-t border-[#F0F2EF]">
                       <input
                         type="text"
                         placeholder="Add quick reflection note (e.g. Completed with 12kg dumbbells)..."
                         value={checkinNotes[task.id] !== undefined ? checkinNotes[task.id] : (comp?.note || '')}
                         onChange={(e) => setCheckinNotes({ ...checkinNotes, [task.id]: e.target.value })}
-                        className="w-full text-xs p-2 rounded-lg border border-gray-200 bg-white"
+                        className="w-full text-xs p-2.5 rounded-xl border border-[#E8EAE7] bg-[#FAFAF8] text-[#18231C] placeholder:text-gray-400 focus:bg-white focus:border-[#2D6A4F] focus:outline-hidden transition-colors"
                       />
                     </div>
 
                     {/* Action Buttons */}
                     <div className="mt-3 flex items-center justify-between">
-                      <span className="text-[11px] text-gray-400">
+                      <span className="text-[11px] text-[#7B8B80]">
                         {comp?.updatedAt ? `Saved at ${new Date(comp.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Not yet logged'}
                       </span>
 
@@ -287,10 +291,10 @@ export const ParticipantPortal = ({
                         <button
                           disabled={submittingTaskId === task.id}
                           onClick={() => handleUpdateTaskStatus(task.id, 'skipped')}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
+                          className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors ${
                             isSkipped
-                              ? 'bg-amber-100 text-amber-800 border-amber-300'
-                              : 'bg-white text-gray-600 border-gray-200 hover:bg-amber-50 hover:text-amber-700'
+                              ? 'bg-amber-100 text-amber-900 border-amber-300'
+                              : 'bg-white text-[#5C6E63] border-[#E8EAE7] hover:bg-amber-50 hover:text-amber-800 hover:border-amber-200'
                           }`}
                         >
                           Mark Skipped
@@ -298,9 +302,9 @@ export const ParticipantPortal = ({
                         <button
                           disabled={submittingTaskId === task.id}
                           onClick={() => handleUpdateTaskStatus(task.id, 'completed')}
-                          className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-xs flex items-center gap-1.5 ${
+                          className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5 ${
                             isCompleted
-                              ? 'bg-emerald-700 text-white'
+                              ? 'bg-[#1B4332] text-[#D8F3DC] border border-[#2D6A4F]'
                               : 'bg-[#2D6A4F] text-white hover:bg-[#1B4332]'
                           }`}
                         >
@@ -315,7 +319,7 @@ export const ParticipantPortal = ({
             </div>
 
             {/* Note on missing records */}
-            <div className="p-3 bg-white rounded-xl border border-[#E8EAE7] text-[11px] text-[#5C6E63] text-center">
+            <div className="p-3.5 bg-[#FAFAF8] rounded-2xl border border-[#E8EAE7] text-xs text-[#5C6E63] text-center">
               💡 <em>Honest tracking builds consistency: Careloop treats skipped or pending tasks as natural variance, never failure.</em>
             </div>
           </div>
@@ -329,24 +333,24 @@ export const ParticipantPortal = ({
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-[#FAFAF8] border border-[#E8EAE7]">
-                  <span className="text-[10px] uppercase font-bold text-gray-400">Completion Score</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#5C6E63]">Completion Score</span>
                   <div className="text-2xl font-extrabold text-[#2D6A4F] mt-1">{adherenceRate}%</div>
-                  <span className="text-[10px] text-gray-500">{completedCount} tasks achieved</span>
+                  <span className="text-[11px] text-[#7B8B80]">{completedCount} tasks achieved</span>
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#FAFAF8] border border-[#E8EAE7]">
-                  <span className="text-[10px] uppercase font-bold text-gray-400">Current Streak</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#5C6E63]">Current Streak</span>
                   <div className="text-2xl font-extrabold text-amber-600 mt-1 flex items-center gap-1">
                     <IconFlame className="w-6 h-6 text-amber-500" />
                     {participant.streakDays || 0} Days
                   </div>
-                  <span className="text-[10px] text-gray-500">Consecutive adherence</span>
+                  <span className="text-[11px] text-[#7B8B80]">Consecutive adherence</span>
                 </div>
               </div>
 
               <div className="pt-2 border-t border-[#F0F2EF]">
                 <h4 className="text-xs font-bold text-[#18231C] mb-2">Coach Guidance & Protocols</h4>
-                <p className="text-xs text-gray-600 bg-[#FAFAF8] p-3 rounded-xl border border-[#E8EAE7] leading-relaxed">
+                <p className="text-xs text-[#1B4332] bg-[#F4FAF6] p-3.5 rounded-xl border border-[#BDE8C6] leading-relaxed">
                   {program?.guidelines || 'Stay consistent. Hydrate well and record your check-ins every evening.'}
                 </p>
               </div>
@@ -362,7 +366,7 @@ export const ParticipantPortal = ({
             </h3>
 
             {myCompletions.length === 0 ? (
-              <div className="text-center py-8 bg-white rounded-2xl border border-[#E8EAE7] text-gray-400 text-xs">
+              <div className="text-center py-8 bg-white rounded-2xl border border-[#E8EAE7] text-[#7B8B80] text-xs">
                 No check-in entries recorded yet.
               </div>
             ) : (
@@ -373,22 +377,22 @@ export const ParticipantPortal = ({
                   const isSkipped = comp.status === 'skipped';
 
                   return (
-                    <div key={comp.id} className="p-3.5 rounded-xl bg-white border border-[#E8EAE7] text-xs flex items-start justify-between gap-3">
+                    <div key={comp.id} className="p-3.5 rounded-xl bg-white border border-[#E8EAE7] shadow-xs text-xs flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold capitalize ${
-                            isCompleted ? 'bg-emerald-100 text-emerald-800' :
-                            isSkipped ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-700'
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold capitalize border ${
+                            isCompleted ? 'bg-[#EBF7EE] text-[#1B4332] border-[#BDE8C6]' :
+                            isSkipped ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-[#FAFAF8] text-[#5C6E63] border-[#E8EAE7]'
                           }`}>
                             {comp.status}
                           </span>
-                          <span className="font-semibold text-gray-700">{comp.date}</span>
+                          <span className="font-bold text-[#18231C]">{comp.date}</span>
                         </div>
-                        <div className="font-medium text-[#18231C] mt-1">
+                        <div className="text-xs font-semibold text-[#5C6E63] mt-1.5">
                           Task: {comp.taskId}
                         </div>
                         {comp.note && (
-                          <div className="text-gray-600 italic text-[11px] mt-1 bg-[#FAFAF8] p-2 rounded-lg border border-gray-100">
+                          <div className="text-[#5C6E63] italic text-xs mt-2 bg-[#FAFAF8] p-2.5 rounded-xl border border-[#E8EAE7]">
                             "{comp.note}"
                           </div>
                         )}
