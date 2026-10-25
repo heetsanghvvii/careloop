@@ -298,7 +298,7 @@ PRACTICE IMPACT ASSUMPTIONS (NOT FORECASTS):
                     </p>
                   </div>
                   <div className="mt-4 pt-3 border-t border-gray-200 text-[11px] font-semibold text-[#2D6A4F]">
-                    ✓ 98% open rates in India
+                    ✓ WhatsApp-first design (proposed integration; this demo simulates the flow)
                   </div>
                 </div>
 
@@ -380,18 +380,18 @@ PRACTICE IMPACT ASSUMPTIONS (NOT FORECASTS):
                   <div className="text-2xl sm:text-3xl font-extrabold text-[#1B4332] mt-2">
                     {currentInsight.monthlyRevenueUnlock.split(' ')[0]}
                   </div>
-                  <p className="text-[11px] text-[#2D6A4F] mt-1">Monthly practice value unlock</p>
+                  <p className="text-[11px] text-[#2D6A4F] mt-1">Monthly practice value unlock (input assumption for discussion, not a forecast)</p>
                 </div>
 
                 <div className="p-5 rounded-2xl bg-[#F8F9F7] border border-[#E8EAE7] text-center">
                   <div className="text-xs font-semibold text-gray-500 uppercase">Staff Time Saved</div>
                   <div className="text-3xl font-extrabold text-[#18231C] mt-2">2+ hrs / day</div>
-                  <p className="text-[11px] text-gray-500 mt-1">Replaced manual WhatsApp logs</p>
+                  <p className="text-[11px] text-gray-500 mt-1">Goal: replace manual WhatsApp logs (estimate to validate in pilot)</p>
                 </div>
               </div>
 
               <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-600 leading-relaxed">
-                <strong>Why Doctors Partner With Careloop:</strong> When patients hit 80%+ adherence, clinical outcomes become visible. Visible outcomes lead to direct word-of-mouth patient referrals and higher 30-day renewal rates.
+                <strong>Hypothesis to validate in pilot:</strong> When patients hit the 80%+ adherence target, clinical outcomes may become more visible between visits, which we believe can support wond higher 30-day renewal rates.
               </div>
             </div>
           )}

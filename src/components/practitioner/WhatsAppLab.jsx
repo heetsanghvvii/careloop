@@ -253,9 +253,9 @@ export const WhatsAppLab = ({ participants, programs = [], onRecordCompletion })
                   <div>
                     <div className="font-bold text-xs text-[#E9EDEF] flex items-center gap-1">
                       <span>Careloop Adherence Bot</span>
-                      <svg className="w-3.5 h-3.5 text-[#00A884]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
+                      <span className="text-[8px] font-bold px-1.5 py-0.5 rounded bg-[#2A3942] text-[#8696A0] uppercase tracking-wide">Simulated</span>
+                        
+                      
                     </div>
                     <div className="text-[10px] text-[#8696A0]">
                       Simulated assistant • Demo, not a live WhatsApp account

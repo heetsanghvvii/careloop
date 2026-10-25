@@ -197,7 +197,7 @@ export const EarlyAccessModal = ({ isOpen, onClose }) => {
           <div className="pt-2 flex items-center justify-between border-t border-[#F0F2EF]">
             <span className="text-[11px] text-gray-400 flex items-center gap-1">
               <IconShield className="w-3.5 h-3.5 text-emerald-600" />
-              Zero spam. Verified privacy.
+              Zero spam. No marketing emails are sent from this demo.
             </span>
 
             <div className="flex gap-2">
