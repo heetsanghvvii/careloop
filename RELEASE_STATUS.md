@@ -87,6 +87,7 @@ Phase 7: Final Pre-Deployment Hardening & Acceptance Check (Complete)
 - `vite.config.js` (Configured base: './' for universal SPA hosting)
 
 ## Deployment Status
+- **Remote Push Lock**: **ACTIVE (PARKED)** per standing directive from owner's product lead. All future commits will remain strictly local; zero pushes to GitHub or any public remote until owner confirms via WhatsApp.
 - **Firebase Hosting Public Deployment**: **BLOCKED** as instructed (Condition 9) pending user confirmation of `careloop-health` project ID, interactive `firebase login`, and verification of no-cost Spark plan limits.
 - **GitHub Pages Deployment**: **ACTIVE & VERIFIED LIVE** at `https://sheetsanghvvii.github.io/careloop/` (HTTP 200, strictly ₹0 spend under standard public repository features).
 - **Local Preview**: `http://localhost:3000/` (Vite client) and `http://localhost:4000/` (WhatsApp simulation server).
