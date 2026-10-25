@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careloop · Official Pitch Decks & Presentations</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0F1411;
+      color: #18231C;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Top Control Bar */
+    .top-bar {
+      height: 64px;
+      background: #18231C;
+      border-bottom: 1px solid #2B3830;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #FFF;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      background: #2D6A4F;
+      color: #FFF;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFF;
+    }
+    .brand-subtitle {
+      font-size: 11px;
+      color: #A3B18A;
+    }
+
+    /* Deck Selector Tabs */
+    .deck-switcher {
+      display: flex;
+      background: #232E27;
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .deck-tab {
+      background: transparent;
+      border: none;
+      color: #A3B18A;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .deck-tab.active {
+      background: #2D6A4F;
+      color: #FFF;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-action {
+      background: #2B3830;
+      color: #FFF;
+      border: 1px solid #3E4F44;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .btn-action:hover {
+      background: #384A3F;
+    }
+
+    /* Slide Stage */
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+    .slide-card {
+      width: 100%;
+      max-width: 1040px;
+      aspect-ratio: 16 / 9;
+      background: #FBFBFA;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      border: 1px solid #E8EAE7;
+      display: flex;
+      flex-direction: column;
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+      justify-content: space-between;
+    }
+
+    /* Slide Content Typography */
+    .slide-header {
+      margin-bottom: 24px;
+    }
+    .slide-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #2D6A4F;
+      background: #EBF7EE;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .slide-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #18231C;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .slide-subtitle {
+      font-size: 15px;
+      color: #5C6E63;
+      font-weight: 500;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slide-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #E8EAE7;
+      padding-top: 16px;
+      font-size: 12px;
+      color: #8C9990;
+    }
+
+    /* Grids & Cards inside slides */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .card-box {
+      background: #FFFFFF;
+      border: 1px solid #E8EAE7;
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .card-box.highlight {
+      border-color: #2D6A4F;
+      background: #F4F9F5;
+      box-shadow: 0 4px 12px rgba(45,106,79,0.08);
+    }
+    .card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #6C7570;
+      margin-bottom: 6px;
+    }
+    .card-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: #18231C;
+      margin-bottom: 4px;
+    }
+    .card-num.green { color: #2D6A4F; }
+    .card-desc {
+      font-size: 12px;
+      color: #5C6E63;
+      line-height: 1.4;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-bar {
+      height: 60px;
+      background: #18231C;
+      border-top: 1px solid #2B3830;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #A3B18A;
+      font-size: 12px;
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-nav {
+      background: #232E27;
+      border: 1px solid #3E4F44;
+      color: #FFF;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-nav:hover { background: #2D6A4F; }
+    .btn-nav:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      background: #232E27;
+    }
+
+    .speaker-notes-drawer {
+      background: #141B16;
+      border-top: 1px solid #2B3830;
+      padding: 12px 24px;
+      font-size: 12px;
+      color: #CBD5E1;
+      display: none;
+    }
+    .speaker-notes-drawer.open {
+      display: block;
+    }
+
+    /* Print Styles for Export to PDF */
+    @media print {
+      body {
+        background: #FFF;
+        overflow: visible;
+        height: auto;
+      }
+      .top-bar, .bottom-bar, .speaker-notes-drawer {
+        display: none !important;
+      }
+      .stage {
+        padding: 0;
+        display: block;
+      }
+      .slide-card {
+        page-break-after: always;
+        break-after: page;
+        width: 100% !important;
+        max-width: 100% !important;
+        aspect-ratio: auto;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="logo-badge">CL</div>
+      <div>
+        <div class="brand-title">Careloop Pitch Decks</div>
+        <div class="brand-subtitle">Interactive Presentation & PDF Exporter</div>
+      </div>
+    </div>
+
+    <!-- Audience Selector -->
+    <div class="deck-switcher">
+      <button class="deck-tab active" onclick="switchDeck('doctors')">🏥 For Doctors & Dietitians</button>
+      <button class="deck-tab" onclick="switchDeck('investors')">📈 For Seed Investors</button>
+      <button class="deck-tab" onclick="switchDeck('team')">🚀 For Potential Team</button>
+    </div>
+
+    <div class="top-actions">
+      <button class="btn-action" onclick="toggleNotes()">🎙️ Speaker Notes</button>
+      <button class="btn-action" onclick="window.print()">🖨️ Print / Save as PDF</button>
+      <a href="http://localhost:3000" class="btn-action" style="background:#2D6A4F; border-color:#2D6A4F;">Open App ↗</a>
+    </div>
+  </div>
+
+  <!-- Slide Stage -->
+  <div class="stage">
+    <div class="slide-card" id="slideCard">
+      <!-- Dynamic Slide Injected by JS -->
+    </div>
+  </div>
+
+  <!-- Speaker Notes Drawer -->
+  <div class="speaker-notes-drawer" id="notesDrawer">
+    <strong>🎙️ Speaker Note:</strong> <span id="notesContent"></span>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="bottom-bar">
+    <div id="deckIndicator">Deck: For Doctors & Dietitians</div>
+    <div class="nav-controls">
+      <button class="btn-nav" id="btnPrev" onclick="prevSlide()">← Prev</button>
+      <span id="slideCounter" style="font-weight:700; color:#FFF; padding:0 8px;">1 / 10</span>
+      <button class="btn-nav" id="btnNext" onclick="nextSlide()">Next →</button>
+    </div>
+    <div style="font-size:11px;">Use <strong>← / →</strong> Arrow Keys or <strong>Space</strong> to advance</div>
+  </div>
+
+  <script>
+    const decks = {
+      doctors: {
+        title: "For Doctors & Dietitians",
+        slides: [
+          {
+            tag: "EXECUTIVE OVERVIEW",
+            title: "Careloop: The Adherence Platform",
+            subtitle: "Turn dietary and lifestyle advice into daily patient follow-through",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box highlight">
+                  <div class="card-tag">Core Value</div>
+                  <div class="card-num green">Stop Drop-Off</div>
+                  <div class="card-desc">70% of clients drop off by Day 14. Careloop keeps them accountable every morning.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Friction Level</div>
+                  <div class="card-num">Zero App Store</div>
+                  <div class="card-desc">Clients check in via WhatsApp or instant mobile link. No download resistance.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Practice Impact</div>
+                  <div class="card-num green">3x Renewals</div>
+                  <div class="card-desc">Measurable adherence data proves patient progress and doubles re-enrollment rates.</div>
+                </div>
+              </div>
+            `,
+            notes: "Start by addressing the doctor's pain: they spend hours writing diet charts, but patients abandon them after 10 days because unorganized WhatsApp chats create chaos."
+          },
+          {
+            tag: "THE PROBLEM",
+            title: "The 'WhatsApp Black Hole' in Dietetics",
+            subtitle: "Why great clinical diet charts fail to produce lasting outcomes",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box">
+                  <div class="card-tag">01 • PDF Chaos</div>
+                  <div class="card-num">Lost in Chat</div>
+                  <div class="card-desc">Diet PDFs get buried under family messages, memes, and daily group notifications.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">02 • Zero Visibility</div>
+                  <div class="card-num">Adherence Blindspot</div>
+                  <div class="card-desc">You have no clue if the patient drank 2.5L water or skipped breakfast until next month.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">03 • Manual Fatigue</div>
+                  <div class="card-num">2+ Hours / Day</div>
+                  <div class="card-desc">Typing individual reminder messages to 30 patients drains non-billable doctor hours.</div>
+                </div>
+              </div>
+            `,
+            notes: "Emphasize that dietitians are healthcare practitioners, not full-time manual WhatsApp reminder bots."
+          },
+          {
+            tag: "THE SOLUTION",
+            title: "Careloop: 3 Steps to Patient Adherence",
+            subtitle: "Prescribe once, automate accountability, and see real-time progress",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box">
+                  <div class="card-tag">Step 1</div>
+                  <div class="card-num">Prescribe Routine</div>
+                  <div class="card-desc">Choose from evidence-based protocols (Diabetes, PCOS, Gut Reset) or create your own custom daily tasks.</div>
+                </div>
+                <div class="card-box highlight">
+                  <div class="card-tag">Step 2</div>
+                  <div class="card-num green">1-Tap WhatsApp Check-In</div>
+                  <div class="card-desc">Patients receive daily prompts and reply 'DONE' or tap an instant link. No passwords or app downloads.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Step 3</div>
+                  <div class="card-num">Intervene Early</div>
+                  <div class="card-desc">Dashboard alerts you the moment someone misses 3 days in a row, allowing proactive follow-up.</div>
+                </div>
+              </div>
+            `,
+            notes: "Walk through how Careloop fits right into their current consultation flow."
+          },
+          {
+            tag: "WHATSAPP INTEGRATION",
+            title: "Meeting Patients Where They Already Live",
+            subtitle: "Why WhatsApp-first compliance outperforms any standalone mobile app in India",
+            body: `
+              <div class="grid-2" style="margin-top:20px;">
+                <div class="card-box highlight">
+                  <div class="card-tag">Patient Experience</div>
+                  <div class="card-num green">Native WhatsApp</div>
+                  <div class="card-desc">
+                    • Morning reminder at 8:00 AM<br>
+                    • Patient replies: <strong>DONE</strong> or logs a meal note<br>
+                    • Instant streak and adherence update
+                  </div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Doctor Dashboard</div>
+                  <div class="card-num">Clean Web Workspace</div>
+                  <div class="card-desc">
+                    • All WhatsApp replies organized by client profile<br>
+                    • Automated triage: flags fatigue, pain, or drop-off<br>
+                    • Zero personal WhatsApp clutter
+                  </div>
+                </div>
+              </div>
+            `,
+            notes: "Explain the two-layer system: WhatsApp for the patient (zero friction), web dashboard for the doctor (maximum clarity)."
+          },
+          {
+            tag: "PRICING & ROI",
+            title: "Built to Pay for Itself with Just 1 Retained Client",
+            subtitle: "Simple, transparent monthly subscription tiers in INR",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box">
+                  <div class="card-tag">Starter</div>
+                  <div class="card-num">₹499 <span style="font-size:12px; font-weight:normal; color:#6C7570;">/mo</span></div>
+                  <div class="card-desc">Up to 25 active clients. Ideal for independent dietitians starting out.<br><br><strong>Cost: ₹20 / client</strong></div>
+                </div>
+                <div class="card-box highlight">
+                  <div class="card-tag">Growth (Popular)</div>
+                  <div class="card-num green">₹1,499 <span style="font-size:12px; font-weight:normal; color:#6C7570;">/mo</span></div>
+                  <div class="card-desc">Up to 100 active clients. For busy clinical practices & weight loss coaches.<br><br><strong>Cost: ₹15 / client</strong></div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Scale</div>
+                  <div class="card-num">₹2,999 <span style="font-size:12px; font-weight:normal; color:#6C7570;">/mo</span></div>
+                  <div class="card-desc">Up to 300 active clients. For multi-specialty wellness clinics & gyms.<br><br><strong>Cost: ₹10 / client</strong></div>
+                </div>
+              </div>
+            `,
+            notes: "Point out the ROI: If a dietitian charges ₹3,000 for a monthly package, retaining just 1 client pays for 6 months of Careloop."
+          }
+        ]
+      },
+
+      investors: {
+        title: "For Seed Investors",
+        slides: [
+          {
+            tag: "THE OPPORTUNITY",
+            title: "Careloop: Institutional Seed Deck",
+            subtitle: "Building the Adherence & Habit Infrastructure for India's $250M+ Chronic Care Ecosystem",
+            body: `
+              <div class="grid-4" style="margin-top:20px;">
+                <div class="card-box">
+                  <div class="card-tag">Market TAM (India)</div>
+                  <div class="card-num">₹1,800 Cr</div>
+                  <div class="card-desc">120K+ dietitians, lifestyle doctors & nutritionists.</div>
+                </div>
+                <div class="card-box highlight">
+                  <div class="card-tag">Unit Economics</div>
+                  <div class="card-num green">6.8x LTV/CAC</div>
+                  <div class="card-desc">LTV ₹21,600 vs CAC ₹3,200. Payback in 2.5 months.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Gross Margin</div>
+                  <div class="card-num">91%</div>
+                  <div class="card-desc">Serverless architecture, zero paid third-party APIs.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Retention Moat</div>
+                  <div class="card-num green">>120% NRR</div>
+                  <div class="card-desc">Negative net churn as doctors expand client tiers.</div>
+                </div>
+              </div>
+            `,
+            notes: "Introduce Careloop as an infrastructure play, not a consumer wellness app. We sell B2B software to practitioners who bring their own clients."
+          },
+          {
+            tag: "THE MACRO TAILWIND",
+            title: "India: The World's Metabolic Health Crisis",
+            subtitle: "Rising chronic diseases are forcing patients from acute treatment to lifestyle habit management",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box">
+                  <div class="card-tag">Diabetes Capital</div>
+                  <div class="card-num">101M+</div>
+                  <div class="card-desc">Diabetics in India, plus 136M pre-diabetics needing lifestyle intervention.</div>
+                </div>
+                <div class="card-box highlight">
+                  <div class="card-tag">Hormonal Health</div>
+                  <div class="card-num green">1 in 5</div>
+                  <div class="card-desc">Indian women suffer from PCOS, requiring daily dietary & sleep management.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Consumer Spend</div>
+                  <div class="card-num">₹30K - ₹60K</div>
+                  <div class="card-desc">Annual out-of-pocket spend per patient for specialized lifestyle programs.</div>
+                </div>
+              </div>
+            `,
+            notes: "Highlight that medication alone does not reverse metabolic syndrome. Daily habit adherence is the new clinical standard."
+          },
+          {
+            tag: "BUSINESS MODEL & METRICS",
+            title: "High-Margin Recurring B2B SaaS",
+            subtitle: "Predictable monthly subscription revenue with low churn and high viral expansion",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box">
+                  <div class="card-tag">ARPU Ladder</div>
+                  <div class="card-num">₹1,499 / mo</div>
+                  <div class="card-desc">Average practitioner subscription yield across Starter, Growth, and Scale.</div>
+                </div>
+                <div class="card-box highlight">
+                  <div class="card-tag">Client Virality</div>
+                  <div class="card-num green">Zero Client CAC</div>
+                  <div class="card-desc">Every doctor onboarded brings 25 to 100 active patients into the Careloop ecosystem for free.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Year 2 ARR Projection</div>
+                  <div class="card-num">₹3.6 Cr</div>
+                  <div class="card-desc">Based on conservative 2,000 paying clinics at ₹1,500/month average.</div>
+                </div>
+              </div>
+            `,
+            notes: "Walk through the unit economics: Doctor pays the subscription. Patients use it for free. Doctor retention is high because their patient data lives in Careloop."
+          },
+          {
+            tag: "THE ASK",
+            title: "Pre-Seed / Seed Round: ₹1.5 Cr ($180K)",
+            subtitle: "Accelerating doctor acquisition and engineering Meta WhatsApp automation scale",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box highlight">
+                  <div class="card-tag">50% • Go-To-Market</div>
+                  <div class="card-num green">Onboard 500 Clinics</div>
+                  <div class="card-desc">Direct sales to dietitians in Mumbai, NCR, Bengaluru, and Pune + clinical partnerships.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">30% • Product & AI</div>
+                  <div class="card-num">Clinical Copilot</div>
+                  <div class="card-desc">Automated clinical digests summarizing weekly patient adherence and flagging anomalies.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">20% • Operations</div>
+                  <div class="card-num">18-Month Runway</div>
+                  <div class="card-desc">Serverless infrastructure, regulatory compliance (DISHA/HIPAA), and customer success.</div>
+                </div>
+              </div>
+            `,
+            notes: "Close with the investment thesis: Capital-efficient SaaS in an exploding health vertical with clear path to cash-flow breakeven."
+          }
+        ]
+      },
+
+      team: {
+        title: "For Potential Team & Talent",
+        slides: [
+          {
+            tag: "CULTURE & MISSION",
+            title: "Join Careloop: Build the Future of Health Habit Software",
+            subtitle: "We believe therapeutic outcomes are won or lost in daily habits, not annual visits",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box highlight">
+                  <div class="card-tag">The Mission</div>
+                  <div class="card-num green">Turn Advice into Action</div>
+                  <div class="card-desc">Every line of code helps thousands of patients stay consistent with lifestyle medicine.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Engineering Ethos</div>
+                  <div class="card-num">Speed & Zero Bloat</div>
+                  <div class="card-desc">Fast, modern stack (React 19, Tailwind v4, Node.js, Meta Cloud API) with ₹0 infra debt.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Ownership</div>
+                  <div class="card-num green">High ESOP Pool</div>
+                  <div class="card-desc">Meaningful equity ownership for early builders shaping the core architecture.</div>
+                </div>
+              </div>
+            `,
+            notes: "Inspire early technical and growth hires: they are building software that genuinely improves chronic illness outcomes across India."
+          },
+          {
+            tag: "ROADMAP",
+            title: "Our 24-Month Technical Roadmap",
+            subtitle: "From standalone habit tracker to the full clinical operating system",
+            body: `
+              <div class="grid-3" style="margin-top:20px;">
+                <div class="card-box">
+                  <div class="card-tag">Phase 1 (Done)</div>
+                  <div class="card-num">Core Platform</div>
+                  <div class="card-desc">Full practitioner dashboard, program builder, mobile portal, and WhatsApp engine.</div>
+                </div>
+                <div class="card-box highlight">
+                  <div class="card-tag">Phase 2 (In Progress)</div>
+                  <div class="card-num green">Automated WhatsApp</div>
+                  <div class="card-desc">Two-way Meta Cloud API webhooks with intelligent keyword parsing and clinical alerts.</div>
+                </div>
+                <div class="card-box">
+                  <div class="card-tag">Phase 3 (Next)</div>
+                  <div class="card-num">AI Clinical Digest</div>
+                  <div class="card-desc">Gemini AI models summarizing client adherence trends and drafting doctor follow-ups.</div>
+                </div>
+              </div>
+            `,
+            notes: "Demonstrate that the vision is staged and practical, not hand-wavy AI hype."
+          }
+        ]
+      }
+    };
+
+    let activeDeckKey = 'doctors';
+    let currentSlideIdx = 0;
+    let showNotes = false;
+
+    function renderSlide() {
+      const deck = decks[activeDeckKey];
+      const slide = deck.slides[currentSlideIdx];
+
+      document.getElementById('deckIndicator').textContent = `Deck: ${deck.title}`;
+      document.getElementById('slideCounter').textContent = `${currentSlideIdx + 1} / ${deck.slides.length}`;
+      document.getElementById('btnPrev').disabled = currentSlideIdx === 0;
+      document.getElementById('btnNext').disabled = currentSlideIdx === deck.slides.length - 1;
+
+      document.getElementById('slideCard').innerHTML = `
+        <div class="slide-header">
+          <span class="slide-tag">${slide.tag}</span>
+          <h2 class="slide-title">${slide.title}</h2>
+          <div class="slide-subtitle">${slide.subtitle}</div>
+        </div>
+        <div class="slide-body">
+          ${slide.body}
+        </div>
+        <div class="slide-footer">
+          <span>Careloop · Better follow-through. Measurable progress.</span>
+          <span>Slide ${currentSlideIdx + 1} of ${deck.slides.length}</span>
+        </div>
+      `;
+
+      document.getElementById('notesContent').textContent = slide.notes;
+    }
+
+    function switchDeck(key) {
+      activeDeckKey = key;
+      currentSlideIdx = 0;
+      document.querySelectorAll('.deck-tab').forEach((tab, idx) => {
+        const keys = ['doctors', 'investors', 'team'];
+        tab.classList.toggle('active', keys[idx] === key);
+      });
+      renderSlide();
+    }
+
+    function nextSlide() {
+      if (currentSlideIdx < decks[activeDeckKey].slides.length - 1) {
+        currentSlideIdx++;
+        renderSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIdx > 0) {
+        currentSlideIdx--;
+        renderSlide();
+      }
+    }
+
+    function toggleNotes() {
+      showNotes = !showNotes;
+      document.getElementById('notesDrawer').classList.toggle('open', showNotes);
+    }
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // Initial render
+    renderSlide();
+  </script>
+</body>
+</html>
