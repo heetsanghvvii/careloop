@@ -39,6 +39,7 @@ export const Dashboard = ({
   // 2. Inactive > 3 days (lastActivityDate is more than 3 days ago)
   const today = new Date().toISOString().split('T')[0];
   const participantsNeedingFollowup = activeParticipants.filter(p => {
+    if ((p.currentDay || 1) <= 1) return false; // brand-new clients haven't had a chance to complete yet
     if (p.completionRate < 60) return true;
     if (p.lastActivityDate) {
       const daysDiff = Math.floor((new Date(today) - new Date(p.lastActivityDate)) / (1000 * 60 * 60 * 24));

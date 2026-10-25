@@ -13,6 +13,7 @@ import {
   IconShield,
   IconSparkles
 } from '../Icons.jsx';
+import { WorkoutLogger } from '../design/WorkoutLogger.jsx';
 import { getIsoDateOffset } from '../../data/initialDemoData.js';
 
 export const ParticipantPortal = ({ 
@@ -108,6 +109,7 @@ export const ParticipantPortal = ({
 
       {/* Main Container */}
       <main className="max-w-2xl mx-auto px-4 pt-6 space-y-6">
+        <WorkoutLogger participantId={participant.id} date={selectedDate} />
         
         {/* Active Program Card */}
         <div className="bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] text-white rounded-3xl p-6 shadow-md">

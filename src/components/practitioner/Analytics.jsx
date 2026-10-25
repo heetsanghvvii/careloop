@@ -230,7 +230,7 @@ export const Analytics = ({ workspace, participants, programs, completions }) =>
 
         <div className="space-y-3">
           {rankedParticipants.map((p) => {
-            const isAtRisk = p.completionRate < 60;
+            const isAtRisk = p.enrollmentStatus !== 'completed' && (p.currentDay || 1) > 1 && p.completionRate < 60;
 
             return (
               <div 

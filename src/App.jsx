@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './context/AuthContext.jsx';
 import { dataService } from './firebase/dataService.js';
-import { Navbar } from './components/Navbar.jsx';
+import { WorkspaceNav as Navbar } from './components/design/WorkspaceNav.jsx';
+import { GymWorkspace } from './components/design/GymWorkspace.jsx';
+import './components/design/workspace.css';
 import { OfficialWebsite } from './components/website/OfficialWebsite.jsx';
 import { FirebaseSetupModal } from './components/FirebaseSetupModal.jsx';
 
 // Practitioner Tabs
-import { Dashboard } from './components/practitioner/Dashboard.jsx';
+import { WorkspaceHome as Dashboard } from './components/design/WorkspaceHome.jsx';
 import { ParticipantList } from './components/practitioner/ParticipantList.jsx';
 import { ParticipantDetailModal } from './components/practitioner/ParticipantDetailModal.jsx';
 import { AddParticipantModal } from './components/practitioner/AddParticipantModal.jsx';
@@ -251,7 +253,7 @@ export default function App() {
 
   // --- VIEW 3: PRACTITIONER DASHBOARD & WORKSPACE ---
   return (
-    <div className="min-h-screen bg-[#FBFBFA] flex flex-col text-[#1E2922]">
+    <div className="cl-workspace min-h-screen bg-[#FBFBFA] flex flex-col text-[#1E2922]">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -279,6 +281,8 @@ export default function App() {
             onSelectParticipant={setSelectedParticipant}
           />
         )}
+
+        {activeTab === 'gym' && <GymWorkspace participants={store.participants} />}
 
         {activeTab === 'participants' && (
           <ParticipantList
@@ -362,7 +366,7 @@ export default function App() {
               Firebase Database Settings
             </button>
             <span className="text-gray-300">•</span>
-            <span>Zero Additional Spending (₹0 Guarantee)</span>
+            <span>Synthetic demo · No paid services enabled</span>
           </div>
         </div>
       </footer>
