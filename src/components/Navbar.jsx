@@ -13,7 +13,8 @@ import {
   IconShield,
   IconChevronDown,
   IconRefreshCw,
-  IconArrowLeft
+  IconArrowLeft,
+  IconMessageSquare
 } from './Icons.jsx';
 
 export const Navbar = ({ activeTab, setActiveTab, onOpenFirebaseModal, onBackToWebsite, onOpenPitchDeck, onOpenClinicQr }) => {

@@ -30,17 +30,58 @@ export default function App() {
   const { currentUser, signInAsFounder, signInAsDemoPractitioner, signInAsCoordinator, signInAsParticipant, switchRole, signOut } = useAuth();
 
   // Primary View Mode: 'website' (Official Marketing Website) vs 'app' (Practitioner/Participant Workspace)
-  const [currentView, setCurrentView] = useState('website');
+  const [currentView, setCurrentView] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const urlView = params.get('view');
+        if (urlView === 'website') return 'website';
+        if (['app', 'dashboard', 'whatsapp_lab', 'participant', 'founder'].includes(urlView)) {
+          return 'app';
+        }
+        const saved = localStorage.getItem('careloop_view_mode');
+        if (saved) return saved;
+      }
+    } catch {}
+    return 'website';
+  });
 
   // Active navigation tab within practitioner dashboard
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const tab = params.get('tab') || params.get('view');
+        if (tab && ['dashboard', 'participants', 'programs', 'whatsapp_lab', 'analytics', 'reminders', 'pricing'].includes(tab)) {
+          return tab;
+        }
+      }
+    } catch {}
+    return 'dashboard';
+  });
 
   // Modals state
   const [isFirebaseModalOpen, setIsFirebaseModalOpen] = useState(false);
   const [isAddParticipantModalOpen, setIsAddParticipantModalOpen] = useState(false);
   const [isProgramBuilderOpen, setIsProgramBuilderOpen] = useState(false);
-  const [isPitchDeckOpen, setIsPitchDeckOpen] = useState(false);
-  const [isClinicQrOpen, setIsClinicQrOpen] = useState(false);
+  const [isPitchDeckOpen, setIsPitchDeckOpen] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('pitchdeck') === 'true' || params.get('deck') !== null;
+      }
+    } catch {}
+    return false;
+  });
+  const [isClinicQrOpen, setIsClinicQrOpen] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('clinicqr') === 'true';
+      }
+    } catch {}
+    return false;
+  });
   const [editingProgram, setEditingProgram] = useState(null);
   const [selectedParticipant, setSelectedParticipant] = useState(null);
   const [assigningProgramTarget, setAssigningProgramTarget] = useState(null);
@@ -74,6 +115,25 @@ export default function App() {
 
     return unsub;
   }, [selectedParticipant]);
+
+  // Synchronize view mode with localStorage and expose automation helper
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('careloop_view_mode', currentView);
+        window.careloop = {
+          setView: setCurrentView,
+          setTab: setActiveTab,
+          setPitchDeckOpen: setIsPitchDeckOpen,
+          setClinicQrOpen: setIsClinicQrOpen,
+          switchRole,
+          signInAsDemoPractitioner,
+          signInAsParticipant,
+          signInAsFounder
+        };
+      }
+    } catch {}
+  }, [currentView, activeTab, switchRole, signInAsDemoPractitioner, signInAsParticipant, signInAsFounder]);
 
   // Handler functions
   const handleLaunchFounderMode = () => {
@@ -214,22 +274,30 @@ export default function App() {
   // --- VIEW 0: FOUNDER & OPERATOR COMMAND CENTER ---
   if (currentUser.role === 'founder') {
     return (
-      <FounderDashboard
-        store={store}
-        onSwitchToPractitioner={() => {
-          switchRole('practitioner');
-          setActiveTab('dashboard');
-        }}
-        onSwitchToParticipant={() => {
-          switchRole('participant');
-        }}
-        onSwitchToCoordinator={() => {
-          switchRole('coordinator');
-          setActiveTab('participants');
-        }}
-        onBackToWebsite={() => setCurrentView('website')}
-        onSelectClinicWorkspace={handleSelectClinicWorkspace}
-      />
+      <>
+        <FounderDashboard
+          store={store}
+          onSwitchToPractitioner={() => {
+            switchRole('practitioner');
+            setActiveTab('dashboard');
+          }}
+          onSwitchToParticipant={() => {
+            switchRole('participant');
+          }}
+          onSwitchToCoordinator={() => {
+            switchRole('coordinator');
+            setActiveTab('participants');
+          }}
+          onBackToWebsite={() => setCurrentView('website')}
+          onSelectClinicWorkspace={handleSelectClinicWorkspace}
+        />
+        {isPitchDeckOpen && (
+          <PitchDeck
+            onClose={() => setIsPitchDeckOpen(false)}
+            onLaunchDemo={handleLaunchDemoPractitioner}
+          />
+        )}
+      </>
     );
   }
 
@@ -239,13 +307,21 @@ export default function App() {
     const assignedProgram = store.programs.find(p => p.id === activeParticipantData?.currentProgramId);
 
     return (
-      <ParticipantPortal
-        participant={activeParticipantData}
-        program={assignedProgram}
-        completions={store.taskCompletions}
-        onRecordCompletion={handleRecordCompletion}
-        onBackToPractitioner={() => setCurrentView('website')}
-      />
+      <>
+        <ParticipantPortal
+          participant={activeParticipantData}
+          program={assignedProgram}
+          completions={store.taskCompletions}
+          onRecordCompletion={handleRecordCompletion}
+          onBackToPractitioner={() => setCurrentView('website')}
+        />
+        {isPitchDeckOpen && (
+          <PitchDeck
+            onClose={() => setIsPitchDeckOpen(false)}
+            onLaunchDemo={handleLaunchDemoPractitioner}
+          />
+        )}
+      </>
     );
   }
 

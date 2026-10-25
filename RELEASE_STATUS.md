@@ -1,10 +1,46 @@
 # Careloop Autonomous Release Status
 
 ## Current Phase
-Phase 7: Final Pre-Deployment Hardening & Acceptance Check (Complete)
+Phase 8: Strict Assertion Visual Proof QA & Recapture (Complete - All 21 Views Verified)
 
 ## Completed Work
-1. **Repository & Multi-Tenant Authorization Hardening**:
+1. **Screenshot QA Remediation & Strict View Assertion Engine**:
+   - Diagnosed root causes of identical screenshot captures:
+     - `IconMessageSquare` in `Navbar.jsx` was not imported from `./Icons.jsx`, causing a `ReferenceError` that unmounted the React component tree when opening the practitioner workspace.
+     - `App.jsx` and `AuthContext.jsx` did not initialize session state from query parameters on fresh browser sessions, defaulting to the marketing landing page.
+     - `scripts/capture-all-screenshots.js` previously lacked DOM assertion gates and captured unrendered / stale views.
+   - Refactored `scripts/capture-all-screenshots.js` with **strict view assertion gates**:
+     - Evaluates and asserts view-specific text strings via CDP before capturing each PNG.
+     - Fails loudly with an explicit error and DOM snippet if the intended view text is not rendered.
+     - Enforces post-capture SHA-256 hash uniqueness across all 21 files.
+   - Recaptured and verified all 21 visual proof screenshots with 100% uniqueness (21 unique SHA-256 hashes, 21 distinct file sizes).
+
+2. **Visual Proof Manifest (21/21 Verified Unique)**:
+   | # | File Name | View Type | Byte Size | SHA-256 Hash | Assertion Gate Verified |
+   |---|---|---|---|---|---|
+   | 01 | `01_marketing_hero.png` | Marketing Hero | 324,369 bytes | `d3f7fba8b58752bf...` | "Your program doesn't end when you send the plan." |
+   | 02 | `02_pricing_section.png` | Pricing Section | 337,158 bytes | `ee4dedea31a9e8e6...` | "Plans that grow with your program." & "₹1,499" |
+   | 03 | `03_practitioner_dashboard.png` | Practitioner Workspace | 674,270 bytes | `4503608079fe909e...` | "Welcome back," & "Active Participants" |
+   | 04 | `04_whatsapp_lab_simulator.png` | WhatsApp Lab Simulator | 393,607 bytes | `2be429c83a2b2eab...` | "WhatsApp Bot (simulated demo...)" & "Participant Under Test" |
+   | 05 | `05_participant_portal_mobile.png` | Participant Portal (390px) | 301,972 bytes | `6ca5ef3d15c7f123...` | "Participant Portal" & "streak" |
+   | 06 | `deck1_doctors_slide1_overview.png` | Doctor Deck Slide 1 | 381,488 bytes | `08d8a29bd71a4fe8...` | "Careloop: The Adherence Platform" |
+   | 07 | `deck1_doctors_slide2_problem.png` | Doctor Deck Slide 2 | 367,938 bytes | `e8b7ba084978b0da...` | "The Silent Drop-Off in Lifestyle Programs" |
+   | 08 | `deck1_doctors_slide3_solution.png` | Doctor Deck Slide 3 | 395,454 bytes | `12b720edd4a5e5d8...` | "Careloop: The Adherence Operating System" |
+   | 09 | `deck1_doctors_slide4_whatsapp.png` | Doctor Deck Slide 4 | 392,212 bytes | `4e9c8d5babcdcf74...` | "The WhatsApp Strategy: Staged & Safe" |
+   | 10 | `deck1_doctors_slide5_pricing.png` | Doctor Deck Slide 5 | 360,401 bytes | `56609f3ecbf5aed3...` | "Predictable Monthly Subscription Tiers" |
+   | 11 | `deck1_doctors_slide6_pilot.png` | Doctor Deck Slide 6 | 349,872 bytes | `e78676d75665b626...` | "Join the Pioneer Practitioner Cohort" |
+   | 12 | `deck2_investors_slide1_thesis.png` | Investor Deck Slide 1 | 360,073 bytes | `5ac2a594b792e37c...` | "Careloop: B2B Vertical SaaS for Chronic Care" |
+   | 13 | `deck2_investors_slide2_market.png` | Investor Deck Slide 2 | 351,203 bytes | `a9829f6f35f2b4a9...` | "India: The Metabolic Health Capital" |
+   | 14 | `deck2_investors_slide3_economics.png` | Investor Deck Slide 3 | 352,422 bytes | `73fc196227d79162...` | "High-Margin Subscription Economics" |
+   | 15 | `deck2_investors_slide4_positioning.png` | Investor Deck Slide 4 | 361,541 bytes | `5592eeaadb576477...` | "Defensible Vertical Focus" |
+   | 16 | `deck2_investors_slide5_scalability.png` | Investor Deck Slide 5 | 349,034 bytes | `c33621ba316459e8...` | "Architecture & Privacy Governance" |
+   | 17 | `deck2_investors_slide6_ask.png` | Investor Deck Slide 6 | 383,969 bytes | `daf638c38e6199c2...` | "Proposed Pre-Seed Round: ₹1.5 Cr ($180K)" |
+   | 18 | `deck3_team_slide1_culture.png` | Team Deck Slide 1 | 377,186 bytes | `feabbe38ae3e29db...` | "Join Careloop: Building Adherence Infrastructure" |
+   | 19 | `deck3_team_slide2_roadmap.png` | Team Deck Slide 2 | 364,999 bytes | `7ac2dc314eac85e3...` | "Our 3-Phase Execution Roadmap" |
+   | 20 | `deck3_team_slide3_ethics.png` | Team Deck Slide 3 | 346,538 bytes | `3ecd25f80f2963b5...` | "Responsible Health Tech Architecture" |
+   | 21 | `deck3_team_slide4_join.png` | Team Deck Slide 4 | 343,021 bytes | `2ca54a36a35f8a80...` | "Building from Day Zero" |
+
+3. **Repository & Multi-Tenant Authorization Hardening**:
    - Hardened `firestore.rules`:
      - Added `isWorkspaceParticipant(workspaceId)` helper preventing cross-tenant completion writes.
      - Enforced that only enrolled participants or clinic practitioners can record check-ins.

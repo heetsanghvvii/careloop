@@ -20,7 +20,8 @@ export const OfficialWebsite = ({
   onExploreDemo, 
   onLaunchParticipant, 
   onLaunchFounder,
-  onOpenFirebaseModal 
+  onOpenFirebaseModal,
+  onOpenPitchDeck
 }) => {
   const [isEarlyAccessOpen, setIsEarlyAccessOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -51,6 +52,17 @@ export const OfficialWebsite = ({
             </button>
           </>
         )}
+        {onOpenPitchDeck && (
+          <>
+            <span className="text-white/40">•</span>
+            <button 
+              onClick={onOpenPitchDeck}
+              className="text-[#D8F3DC] font-bold underline hover:text-white"
+            >
+              📊 Pitch Decks (3) →
+            </button>
+          </>
+        )}
       </div>
 
       {/* Navigation */}
@@ -58,6 +70,7 @@ export const OfficialWebsite = ({
         onOpenEarlyAccess={() => setIsEarlyAccessOpen(true)}
         onOpenSignIn={() => setIsSignInOpen(true)}
         onExploreDemo={onExploreDemo}
+        onOpenPitchDeck={onOpenPitchDeck}
       />
 
       {/* Main Content Sections */}

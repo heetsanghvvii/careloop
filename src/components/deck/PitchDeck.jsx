@@ -12,9 +12,43 @@ import {
 } from '../Icons.jsx';
 
 export const PitchDeck = ({ onClose, onLaunchDemo }) => {
-  const [activeDeck, setActiveDeck] = useState('doctors');
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeDeck, setActiveDeck] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const deck = params.get('deck');
+        if (deck && ['doctors', 'investors', 'team'].includes(deck)) return deck;
+      }
+    } catch {}
+    return 'doctors';
+  });
+  const [currentSlide, setCurrentSlide] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const slide = parseInt(params.get('slide'), 10);
+        if (!isNaN(slide) && slide >= 0) return slide;
+      }
+    } catch {}
+    return 0;
+  });
   const [showNotes, setShowNotes] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.careloopPitchDeck = {
+        setDeck: (deck) => {
+          setActiveDeck(deck);
+          setCurrentSlide(0);
+        },
+        setSlide: (slideIdx) => {
+          setCurrentSlide(slideIdx);
+        },
+        getDeck: () => activeDeck,
+        getSlide: () => currentSlide
+      };
+    }
+  }, [activeDeck, currentSlide]);
 
   const deckData = {
     doctors: {

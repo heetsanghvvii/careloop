@@ -8,8 +8,44 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(() => {
     try {
-      const saved = localStorage.getItem('careloop_user_session');
-      return saved ? JSON.parse(saved) : null;
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const role = params.get('role');
+        const view = params.get('view');
+
+        if (role === 'practitioner' || view === 'dashboard' || view === 'whatsapp_lab') {
+          return {
+            uid: 'user_dr_trisha',
+            email: 'dr.trisha@careloop.health',
+            displayName: 'Dr. Trisha Sen',
+            role: 'practitioner',
+            isDemo: true
+          };
+        }
+        if (role === 'participant' || view === 'participant') {
+          return {
+            uid: 'part_001',
+            email: 'sarah.chen@example.com',
+            displayName: 'Sarah Chen',
+            role: 'participant',
+            currentProgramId: 'template-habits-21d',
+            currentProgramTitle: '21-Day Habit & Metabolic Reset',
+            isDemo: true
+          };
+        }
+        if (role === 'founder' || view === 'founder') {
+          return {
+            uid: 'user_founder_operator',
+            email: 'founder@careloop.health',
+            displayName: 'Founder & Operator',
+            role: 'founder',
+            isDemo: true
+          };
+        }
+
+        const saved = localStorage.getItem('careloop_user_session');
+        return saved ? JSON.parse(saved) : null;
+      }
     } catch {
       return null;
     }
