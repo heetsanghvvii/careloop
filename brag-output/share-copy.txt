@@ -1,0 +1,1 @@
+CareLoop turns diet charts and care plans into daily patient adherence over WhatsApp — without extra clinic hours. Automated daily check-ins, instant photo logging, and an alert feed the moment a patient drops off.

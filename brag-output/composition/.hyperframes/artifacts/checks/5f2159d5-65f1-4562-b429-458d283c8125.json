@@ -1,0 +1,533 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 6,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "audio_volume_tween_overrides_gain",
+        "severity": "warning",
+        "message": "#bgm has data-volume=\"0.8\" (-1.9 dB) and a GSAP tween on `volume`. Tween values are absolute: they REPLACE this gain rather than scale it, so wherever the tween names a value the clip plays at that value, not at -1.9 dB.",
+        "selector": "#bgm",
+        "dataAttributes": {},
+        "sourceFile": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Write the tween's targets in the same absolute gain (e.g. `volume: 1.95`, not `volume: 1`), or reset data-volume to 1 and let the tween carry the level on its own."
+      },
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "Track 0 has 4 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-1\"> is a timeline element that contains nested <div id=\"s1-pill\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-1",
+        "dataAttributes": {},
+        "sourceFile": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-2\"> is a timeline element that contains nested <div id=\"s2-topbar\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-2",
+        "dataAttributes": {},
+        "sourceFile": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-3\"> is a timeline element that contains nested <div id=\"s3-phone\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-3",
+        "dataAttributes": {},
+        "sourceFile": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-3\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene-4\"> is a timeline element that contains nested <div id=\"s4-logo\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-4",
+        "dataAttributes": {},
+        "sourceFile": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene-4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"sfx-reveal\" is 0.23s but its slot (data-duration) is 1.50s — the slot is shortened to the media length when rendered. Set data-duration to ~0.23s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "20",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0
+      },
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"sfx-done\" is 0.32s but its slot (data-duration) is 1.50s — the slot is shortened to the media length when rendered. Set data-duration to ~0.32s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "20",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0
+      },
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"sfx-outro\" is 0.10s but its slot (data-duration) is 2.00s — the slot is shortened to the media length when rendered. Set data-duration to ~0.10s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "20",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0
+      }
+    ]
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 20,
+    "samples": [
+      1.111,
+      3.333,
+      5.556,
+      7.778,
+      10,
+      12.222,
+      14.444,
+      16.667,
+      18.889
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.111,
+      5.556,
+      10,
+      14.444,
+      18.889
+    ],
+    "checked": 51,
+    "passed": 51
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "first_frame_empty",
+        "severity": "warning",
+        "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Diet charts get buried under morning WhatsApp forwards\" (8 words) is on screen 2.03 s (±0.01 s), under its 2.17 s floor: hold it about 0.5 s + 0.3 s a word (2.90 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Diet charts get buried under morning WhatsApp forwards",
+        "selector": "#s1-card > span:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 705.14,
+          "y": 663.59,
+          "width": 661.65,
+          "height": 30.200000000000045
+        },
+        "time": 1.672,
+        "words": 8,
+        "seconds": 2.031,
+        "floorSeconds": 2.175
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 28 text elements stay under it for 0.5 s or more, the smallest \"Participant Portal\" at 13 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Participant Portal",
+        "selector": "div.s3-portal-tag",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 410.8,
+          "y": 206.99,
+          "width": 106.38,
+          "height": 15.49
+        },
+        "time": 9.5,
+        "times": [
+          0.375,
+          1.5,
+          1.5,
+          4.125,
+          4.375,
+          4.875,
+          4.875,
+          4.875,
+          5.375,
+          5.375,
+          5.875,
+          5.875,
+          9.5,
+          9.5,
+          9.5,
+          9.5,
+          9.5,
+          9.5,
+          9.5,
+          9.5,
+          9.5,
+          9.875,
+          10.25,
+          10.625,
+          11,
+          16.125,
+          16.125,
+          16.125
+        ],
+        "fontPx": 12.58,
+        "floorPx": 28,
+        "seconds": 5.5,
+        "elements": [
+          {
+            "selector": "div.s3-portal-tag",
+            "text": "Participant Portal",
+            "fontPx": 12.58,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "div.s3-task-meta",
+            "text": "500ml water + 15 mins morning sunlight",
+            "fontPx": 12.58,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "div.s3-phone-content > div:nth-of-type(3) > em:nth-of-type(1)",
+            "text": "Guilt-free tracking: skipped days are logged transparently, never as failure.",
+            "fontPx": 12.58,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "div.s3-program-hero > p:nth-of-type(1)",
+            "text": "Day 14 of 21 • 86% Personal Adherence",
+            "fontPx": 13.55,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#s3-streak",
+            "text": "🔥 14d streak",
+            "fontPx": 14.52,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#s3-btn",
+            "text": "Mark Complete",
+            "fontPx": 15.48,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#s2-stat-3 > div:nth-of-type(1)",
+            "text": "Needs Proactive Follow-Up",
+            "fontPx": 15.6,
+            "time": 5.875,
+            "seconds": 3.625
+          },
+          {
+            "selector": "div.s2-tag",
+            "text": "Practitioner Workspace",
+            "fontPx": 16,
+            "time": 4.125,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#s2-stat-1 > div:nth-of-type(1)",
+            "text": "Active Participants",
+            "fontPx": 16,
+            "time": 4.875,
+            "seconds": 4.625
+          },
+          {
+            "selector": "#s2-stat-2 > div:nth-of-type(1)",
+            "text": "Task Completion Rate",
+            "fontPx": 16,
+            "time": 5.375,
+            "seconds": 4.125
+          },
+          {
+            "selector": "div.s3-task-title",
+            "text": "Morning Hydration & Light",
+            "fontPx": 16.45,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "span.s1-badge-alert",
+            "text": "PDF Chaos",
+            "fontPx": 17.25,
+            "time": 1.5,
+            "seconds": 2.5
+          },
+          {
+            "selector": "#s2-stat-3 > div:nth-of-type(3)",
+            "text": "Inactive ≥3 days • Early alert",
+            "fontPx": 17.55,
+            "time": 5.875,
+            "seconds": 3.625
+          },
+          {
+            "selector": "#s1-pill",
+            "text": "The Clinical Adherence Blindspot",
+            "fontPx": 17.83,
+            "time": 0.375,
+            "seconds": 3.625
+          },
+          {
+            "selector": "#s2-stat-1 > div:nth-of-type(3)",
+            "text": "42% Growth Tier Capacity",
+            "fontPx": 18,
+            "time": 4.875,
+            "seconds": 4.625
+          },
+          {
+            "selector": "#s2-stat-2 > div:nth-of-type(3)",
+            "text": "+24% vs WhatsApp Groups",
+            "fontPx": 18,
+            "time": 5.375,
+            "seconds": 4.125
+          },
+          {
+            "selector": "div.s3-user-name",
+            "text": "Sarah Chen",
+            "fontPx": 19.36,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "div.s3-program-hero > h4:nth-of-type(1)",
+            "text": "PCOS Metabolic Reset",
+            "fontPx": 19.36,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#s2-banner > p:nth-of-type(1)",
+            "text": "Real-time patient follow-through across 21-day lifestyle and metabolic protocols.",
+            "fontPx": 20,
+            "time": 4.375,
+            "seconds": 5.125
+          },
+          {
+            "selector": "div.s3-info-tag",
+            "text": "Zero App-Store Friction",
+            "fontPx": 20,
+            "time": 9.875,
+            "seconds": 5.125
+          },
+          {
+            "selector": "#s4-pills > div:nth-of-type(1)",
+            "text": "Zero App Downloads",
+            "fontPx": 20,
+            "time": 16.125,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#s4-pills > div:nth-of-type(2)",
+            "text": "Proactive Drop-Off Triage",
+            "fontPx": 20,
+            "time": 16.125,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#s4-pills > div:nth-of-type(3)",
+            "text": "Multi-Clinic Network",
+            "fontPx": 20,
+            "time": 16.125,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#s1-card > span:nth-of-type(2)",
+            "text": "Diet charts get buried under morning WhatsApp forwards",
+            "fontPx": 23,
+            "time": 1.5,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.s2-stat-num > span:nth-of-type(1)",
+            "text": "/ 100",
+            "fontPx": 24,
+            "time": 4.875,
+            "seconds": 4.625
+          },
+          {
+            "selector": "#s3-p1 > span:nth-of-type(1)",
+            "text": "Instant mobile checklist with zero passwords",
+            "fontPx": 24,
+            "time": 10.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "#s3-p2 > span:nth-of-type(1)",
+            "text": "Click-to-WhatsApp 1-tap progress reports",
+            "fontPx": 24,
+            "time": 10.625,
+            "seconds": 4.375
+          },
+          {
+            "selector": "#s3-p3 > span:nth-of-type(1)",
+            "text": "Streak psychology proven to double cohort renewals",
+            "fontPx": 24,
+            "time": 11,
+            "seconds": 4
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 160
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

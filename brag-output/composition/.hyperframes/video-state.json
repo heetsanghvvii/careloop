@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "historyId": "055bbfe7-f424-457e-8081-9518393ed918",
+  "currentRevision": "a3e7e728-3ac7-464b-a93f-06d29dd9e0bd",
+  "pendingChanges": false,
+  "files": {
+    "AGENTS.md": {
+      "hash": "1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/1b/1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060"
+    },
+    "CLAUDE.md": {
+      "hash": "1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/1b/1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060"
+    },
+    "assets/sfx/click1.ogg": {
+      "hash": "59175ac17cd49a68dd736285738441287636112a84a6f7ce0d89921bda5a5360",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/59/59175ac17cd49a68dd736285738441287636112a84a6f7ce0d89921bda5a5360"
+    },
+    "assets/sfx/rollover1.ogg": {
+      "hash": "4eb47e2e1540c44847b47a89825e21335c820a4e54cacf8c4c1eb5100e36af42",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/4e/4eb47e2e1540c44847b47a89825e21335c820a4e54cacf8c4c1eb5100e36af42"
+    },
+    "assets/sfx/switch1.ogg": {
+      "hash": "efdd1d1e2904fb2d81259cd96bb80101caceae94be02baa4b5310714a6708b19",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/ef/efdd1d1e2904fb2d81259cd96bb80101caceae94be02baa4b5310714a6708b19"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "efaff89c02930d8267db3e1a6ffae850fba0177043172b010c3b81303dcabf99",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/ef/efaff89c02930d8267db3e1a6ffae850fba0177043172b010c3b81303dcabf99"
+    },
+    "meta.json": {
+      "hash": "760453c9dab7718fe6a86641a18bdda372b9f19b991dd6835d8b0c207575bf83",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/76/760453c9dab7718fe6a86641a18bdda372b9f19b991dd6835d8b0c207575bf83"
+    },
+    "package.json": {
+      "hash": "40494904ad9a14a070b9fcec1cdf5001c5260fc1c708e37b639999f87a5507f3",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/40/40494904ad9a14a070b9fcec1cdf5001c5260fc1c708e37b639999f87a5507f3"
+    },
+    "assets/music/happy-beats-business-moves-vol-11-by-ende-dot-app.mp3": {
+      "hash": "364a546834db4c0c2e3b3240eb6df03e98b7362230154b04c5c614442f6660d7",
+      "content": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/36/364a546834db4c0c2e3b3240eb6df03e98b7362230154b04c5c614442f6660d7"
+    }
+  },
+  "revisions": {
+    "54d48926-9b22-4399-bf32-137f54343479": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1793021314036,
+      "endedAt": 1793021314037,
+      "files": {
+        "index.html": {
+          "before": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/5c/5cd8568bbe9e8dc77c4caedc49c0a6234d266c3b283ec975125e733a7d21e6e6",
+          "after": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/d4/d490a6c69a060b2ebee2577bbb216ee327183a966f482ce7d19c57b48b75004c"
+        }
+      }
+    },
+    "a3e7e728-3ac7-464b-a93f-06d29dd9e0bd": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1793021345447,
+      "endedAt": 1793021345447,
+      "files": {
+        "index.html": {
+          "before": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/d4/d490a6c69a060b2ebee2577bbb216ee327183a966f482ce7d19c57b48b75004c",
+          "after": "/Users/heetsanghvi/.cache/hyperframes/history/055bbfe7-f424-457e-8081-9518393ed918/blobs/ef/efaff89c02930d8267db3e1a6ffae850fba0177043172b010c3b81303dcabf99"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "a3e7e728-3ac7-464b-a93f-06d29dd9e0bd",
+      "id": "3c847d9e-7fcf-4afc-9c33-f3edadcc0bb3"
+    },
+    "revisions": {
+      "54d48926-9b22-4399-bf32-137f54343479": [
+        {
+          "id": "6c8d9c8d-c2c3-4d97-9752-db4c7f64e677",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1793021316426,
+          "contentHash": "e9b433697e24a3ecc50c459c05785935dd061e6d857ac2c0d8bf579a92ee8981",
+          "revision": "54d48926-9b22-4399-bf32-137f54343479",
+          "inputFingerprint": "736541abec9d76ca92c8012d57bc4094afda0d1650f63a2727a44388dc067b6f",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "41f7a203-2fcc-4b2f-ba16-0c17db7e1119"
+        }
+      ],
+      "a3e7e728-3ac7-464b-a93f-06d29dd9e0bd": [
+        {
+          "id": "3c847d9e-7fcf-4afc-9c33-f3edadcc0bb3",
+          "scope": "project",
+          "report": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/.hyperframes/artifacts/checks/3c847d9e-7fcf-4afc-9c33-f3edadcc0bb3.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1793021347482,
+          "contentHash": "3980021f56b6c6ba42cb16e8e373f34e19bf4128b73b71ba8620e14a100b0151",
+          "revision": "a3e7e728-3ac7-464b-a93f-06d29dd9e0bd",
+          "inputFingerprint": "6cf45bb187336d2de1ec9ed0368709a4d3bb6541a9fa06c8d26b78bc6dd35429",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "5f2159d5-65f1-4562-b429-458d283c8125",
+        "scope": "project",
+        "report": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/composition/.hyperframes/artifacts/checks/5f2159d5-65f1-4562-b429-458d283c8125.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1793021266142,
+        "contentHash": "3613e8e0ea663a9b80d1f45f5448152f5526cc26502d7df6a978cca82a138af8",
+        "revision": null,
+        "inputFingerprint": "75d9db2c0dc84e3eeb59bc088649033da55d01cd9d7e9a44a9f9298e62975081",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "41f7a203-2fcc-4b2f-ba16-0c17db7e1119",
+      "completedAt": 1793021394995,
+      "output": "/Users/heetsanghvi/Desktop/Antigravity/brag-output/brag.mp4",
+      "status": "completed",
+      "revision": "a3e7e728-3ac7-464b-a93f-06d29dd9e0bd"
+    },
+    "retainedRevisions": [
+      "a3e7e728-3ac7-464b-a93f-06d29dd9e0bd"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}
