@@ -37,6 +37,8 @@ const parseRawAndJsonBody = (req, maxBytes = 65536) => {
 const ALLOWED_ORIGINS = new Set([
   'http://localhost:3000',
   'http://127.0.0.1:3000',
+  'http://localhost:3005',
+  'http://127.0.0.1:3005',
   'https://sheetsanghvvii.github.io',
   'https://careloop-health.web.app',
   'https://careloop-health.firebaseapp.com'
