@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome-stable', args: ['--no-sandbox'] });
+const page = await browser.newPage();
+const errors = [];
+page.on('pageerror', e => errors.push('PAGEERROR: ' + String(e).slice(0,250)));
+page.on('console', m => { if (m.type()==='error') errors.push(m.text().slice(0,250)); });
+await page.goto('https://heetsanghvvii.github.io/careloop/', { waitUntil: 'networkidle', timeout: 45000 });
+await page.locator('text=Doctor Sandbox').first().click().catch(e=>console.log('CLICK FAIL', String(e).slice(0,100)));
+await page.waitForTimeout(3000);
+const body = await page.locator('body').innerText();
+console.log('AFTER DOCTOR CLICK:', body.slice(0,200).replace(/\n/g,' | '));
+console.log('NAV/CRASH:', /Participant|Dashboard|Clients/i.test(body) ? 'APP RENDERED' : 'NO APP');
+console.log('ERRORS:', JSON.stringify(errors.slice(0,4)));
+await browser.close();

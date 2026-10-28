@@ -86,6 +86,7 @@ export const WebsiteHero = ({ onExploreDemo, onOpenEarlyAccess }) => {
                     <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
                     <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
                     <span className="ml-2 font-mono text-[10px] text-gray-400">app.careloop.health/workspace</span>
+                    <span className="ml-2 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-300 text-[9px] font-bold text-amber-800 uppercase tracking-wide">Synthetic preview · sample data</span>
                   </div>
 
                   {/* Interactive View Toggle */}
@@ -138,7 +139,7 @@ export const WebsiteHero = ({ onExploreDemo, onOpenEarlyAccess }) => {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-[#18231C]">Sarah Chen</span>
-                          <span className="text-[10px] text-gray-400">21-Day Habit Reset (Day 13)</span>
+                          <span className="text-[10px] text-gray-400">21-Day Habit Plan (Day 13)</span>
                         </div>
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
                           <IconFlame className="w-3 h-3 text-amber-500" />

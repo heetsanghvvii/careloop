@@ -34,7 +34,7 @@ export const INITIAL_DEMO_DATA = {
       phone: '+91 98765 43210',
       category: 'Habits & Wellness',
       currentProgramId: 'template-habits-21d',
-      currentProgramTitle: '21-Day Habit & Metabolic Reset',
+      currentProgramTitle: '21-Day Illustrative Habit Plan (Demo)',
       enrollmentStatus: 'active',
       startDate: getIsoDateOffset(-12),
       currentDay: 13,
@@ -72,7 +72,7 @@ export const INITIAL_DEMO_DATA = {
       phone: '+91 99887 76655',
       category: 'Nutrition & Dietetics',
       currentProgramId: 'template-nutrition-28d',
-      currentProgramTitle: 'Mediterranean Anti-Inflammatory Protocol',
+      currentProgramTitle: 'Mediterranean-Style Illustrative Meal Plan (Demo)',
       enrollmentStatus: 'active',
       startDate: getIsoDateOffset(-15),
       currentDay: 16,
@@ -91,7 +91,7 @@ export const INITIAL_DEMO_DATA = {
       phone: '+91 97654 32109',
       category: 'Physiotherapy & Rehab',
       currentProgramId: 'template-rehab-30d',
-      currentProgramTitle: 'Lumbar Spine & Core Rehabilitation',
+      currentProgramTitle: 'Illustrative Low-Back & Core Plan (Demo)',
       enrollmentStatus: 'active',
       startDate: getIsoDateOffset(-18),
       currentDay: 19,
@@ -110,7 +110,7 @@ export const INITIAL_DEMO_DATA = {
       phone: '+91 91234 56789',
       category: 'Habits & Wellness',
       currentProgramId: 'template-habits-21d',
-      currentProgramTitle: '21-Day Habit & Metabolic Reset',
+      currentProgramTitle: '21-Day Illustrative Habit Plan (Demo)',
       enrollmentStatus: 'completed',
       startDate: getIsoDateOffset(-30),
       currentDay: 21,
@@ -132,7 +132,7 @@ export const INITIAL_DEMO_DATA = {
       taskId: 'task-h1',
       date: getIsoDateOffset(0),
       status: 'completed',
-      note: '500ml water with sea salt before espresso',
+      note: 'Morning hydration habit completed (demo note)',
       updatedAt: new Date().toISOString()
     },
     {
@@ -292,5 +292,30 @@ export const INITIAL_DEMO_DATA = {
       status: 'delivered',
       channel: 'Simulated WhatsApp/SMS'
     }
-  ]
+  ],
+
+  // Follow-up booking prototype (synthetic - no real calendar writes)
+  followUpRules: [
+    {
+      id: 'fur_001',
+      participantId: 'part_001',
+      intervalDays: 7,
+      durationMin: 20,
+      windowDays: 3,
+      active: true,
+      timezone: 'Asia/Calcutta',
+      note: 'Doctor: "check after 7 days" (demo rule)',
+      createdAt: getIsoDateOffset(0)
+    }
+  ],
+  followUpEvents: [],
+  doctorCalendar: {
+    timezone: 'Asia/Calcutta',
+    availability: null, // null = engine default (Mon-Sat 09:00-13:00, 15:00-19:00 IST)
+    bookings: [
+      // Synthetic pre-existing clinic bookings so conflicts are visible in the demo
+      { id: 'bk_seed_1', startISO: null, endISO: null, dayOffset: 7, startMin: 9 * 60, durationMin: 240, title: 'Morning clinic block (synthetic)', source: 'seed' },
+      { id: 'bk_seed_2', startISO: null, endISO: null, dayOffset: 7, startMin: 15 * 60, durationMin: 60, title: 'Staff review (synthetic)', source: 'seed' }
+    ]
+  }
 };

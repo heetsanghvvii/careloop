@@ -5,20 +5,20 @@
 export const DEFAULT_PROGRAM_TEMPLATES = [
   {
     id: 'template-habits-21d',
-    title: '21-Day Habit & Metabolic Reset',
+    title: '21-Day Illustrative Habit Plan (Demo)',
     category: 'Habits & Wellness',
     durationDays: 21,
     description: 'A sample daily habit architecture designed to help clients build consistent morning hydration, natural light exposure, and evening wind-down rituals. (Illustrative starter template).',
-    guidelines: 'Focus on consistency over perfection. If a day is missed, resume immediately without doubling up. Drink water first thing before reaching for caffeine or screens.',
+    guidelines: 'Placeholder guidance - the practitioner replaces this with their own programme instructions before assigning the template. Demo content, not clinical advice.',
     isTemplate: true,
     tasks: [
       {
         id: 'task-h1',
-        title: 'Morning Circadian Hydration',
-        description: 'Drink 500ml water with pinch of natural sea salt or lemon before consuming coffee or tea.',
+        title: 'Morning Hydration (placeholder task)',
+        description: 'Illustrative placeholder only - the practitioner replaces this with their own programme guidance before assigning it to a client. Demo content, not clinical advice.',
         frequency: 'Daily',
         category: 'Hydration',
-        targetMetric: '500 ml'
+        targetMetric: 'Set by practitioner'
       },
       {
         id: 'task-h2',
@@ -91,7 +91,7 @@ export const DEFAULT_PROGRAM_TEMPLATES = [
   },
   {
     id: 'template-nutrition-28d',
-    title: 'Mediterranean Anti-Inflammatory Protocol',
+    title: 'Mediterranean-Style Illustrative Meal Plan (Demo)',
     category: 'Nutrition & Dietetics',
     durationDays: 28,
     description: 'Whole-food dietary program centered on polyphenol-rich vegetables, extra virgin olive oil, wild-caught omega-3s, and gut-microbiome diversity.',
@@ -134,7 +134,7 @@ export const DEFAULT_PROGRAM_TEMPLATES = [
   },
   {
     id: 'template-rehab-30d',
-    title: 'Lumbar Spine & Core Rehabilitation',
+    title: 'Illustrative Low-Back & Core Plan (Demo)',
     category: 'Physiotherapy & Rehab',
     durationDays: 30,
     description: 'Sample illustrative McKenzie and McGill Big 3 exercise sequence for practitioner review and customization to alleviate non-specific lower back stiffness. (Example template; not individualized medical advice).',
@@ -177,41 +177,41 @@ export const DEFAULT_PROGRAM_TEMPLATES = [
   },
   {
     id: 'template-diabetes-india-30d',
-    title: '30-Day Indian Diabetes & Glycemic Reset',
+    title: '30-Day Illustrative Routine Plan (Demo)',
     category: 'Clinical Nutrition & Diabetes',
     durationDays: 30,
-    description: 'Sample illustrative glycemic habit structure for practitioner customization. Focuses on post-prandial movement, traditional culinary anchors, and daily step tracking. (Example template; not individualized medical advice).',
-    guidelines: 'Walk for 15-20 minutes strictly after lunch or dinner. Do not skip the morning fenugreek water. Log blood sugar levels in reflection notes when testing.',
+    description: 'Illustrative placeholder structure for practitioner customization. The practitioner replaces every task with their own programme guidance before assigning it. Demo content - not a clinical protocol and not medical advice.',
+    guidelines: 'Placeholder guidance - the practitioner replaces this with their own programme instructions before assigning the template. Demo content, not clinical advice.',
     isTemplate: true,
     tasks: [
       {
         id: 'task-dia-1',
-        title: 'Morning Soaked Methi (Fenugreek) Water',
-        description: 'Drink 250ml water soaked overnight with 1 tsp fenugreek seeds; chew seeds for glycemic fiber.',
+        title: 'Morning Routine (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily (Empty Stomach)',
-        category: 'Glycemic Anchor',
+        category: 'Routine',
         targetMetric: '250 ml + 1 tsp seeds'
       },
       {
         id: 'task-dia-2',
-        title: 'Low-GI Complex Carbohydrate Plate',
-        description: 'Replace refined wheat/white rice with ragi, jowar, or steel-cut oats paired with 1 cup green sabzi and dal.',
+        title: 'Main Meal (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily (Lunch & Dinner)',
         category: 'Nutrition',
         targetMetric: '2 main meals'
       },
       {
         id: 'task-dia-3',
-        title: 'Post-Meal Glycemic Walk',
-        description: '15-20 minutes brisk walking within 30 minutes following lunch or dinner to enhance GLUT-4 muscle uptake.',
+        title: 'Post-Meal Walk (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily',
         category: 'Movement',
         targetMetric: '20 mins'
       },
       {
         id: 'task-dia-4',
-        title: 'Bedtime Cinnamon & Warm Water',
-        description: '1 cup warm water with pinch of Ceylon cinnamon to support overnight hepatic glucose regulation.',
+        title: 'Evening Wind-Down (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily (Night)',
         category: 'Recovery',
         targetMetric: '1 cup'
@@ -220,41 +220,41 @@ export const DEFAULT_PROGRAM_TEMPLATES = [
   },
   {
     id: 'template-pcos-india-28d',
-    title: '28-Day PCOS & Hormonal Balance Protocol',
+    title: '28-Day Illustrative Care Plan (Demo)',
     category: 'Women\'s Health & PCOS',
     durationDays: 28,
-    description: 'Targeted endocrine and insulin-sensitizing dietary protocol for PCOS management, cycle regularity, and androgens reduction.',
-    guidelines: 'Incorporate daily seed cycling (Flax + Pumpkin days 1-14, Sesame + Sunflower days 15-28). Maintain a consistent 10:30 PM sleep schedule.',
+    description: 'Illustrative placeholder structure for practitioner customization. The practitioner replaces every task with their own programme guidance before assigning it. Demo content - not a clinical protocol and not medical advice.',
+    guidelines: 'Placeholder guidance - the practitioner replaces this with their own programme instructions before assigning the template. Demo content, not clinical advice.',
     isTemplate: true,
     tasks: [
       {
         id: 'task-pcos-1',
-        title: 'Hormonal Seed Cycling Anchor',
-        description: '1 tbsp freshly ground raw seeds matching your current menstrual cycle phase.',
+        title: 'Morning Routine (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily (Morning)',
         category: 'Hormonal Support',
         targetMetric: '1 tbsp ground seeds'
       },
       {
         id: 'task-pcos-2',
-        title: 'Spearmint & Green Tea Infusion',
-        description: '1-2 cups organic spearmint tea to naturally reduce free circulating androgens and acne flare-ups.',
+        title: 'Afternoon Routine (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily (Mid-morning)',
         category: 'Endocrine Support',
         targetMetric: '2 cups'
       },
       {
         id: 'task-pcos-3',
-        title: 'Low-Impact Strength or Brisk Walk',
-        description: '30 minutes zone 2 walking or low-cortisol resistance training. Avoid excessive high-intensity burnout.',
+        title: 'Daily Walk (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily',
         category: 'Movement',
         targetMetric: '30 mins'
       },
       {
         id: 'task-pcos-4',
-        title: 'Circadian Melatonin Guard (Screens Off)',
-        description: 'Strict blue-light curfew 45 minutes before sleep to optimize progesterone and cortisol balance.',
+        title: 'Evening Screens-Off (placeholder task)',
+        description: 'Placeholder task - the practitioner replaces this with their own programme guidance. Demo content, not clinical advice.',
         frequency: 'Daily (Night)',
         category: 'Sleep',
         targetMetric: '45 mins screen-free'

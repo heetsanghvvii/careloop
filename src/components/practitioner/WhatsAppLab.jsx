@@ -11,16 +11,13 @@ import {
   IconRefreshCw
 } from '../Icons.jsx';
 
-export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
+export const WhatsAppLab = ({ participants, programs = [], onRecordCompletion }) => {
   const [selectedParticipantId, setSelectedParticipantId] = useState(participants[0]?.id || 'part_001');
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      sender: 'bot',
-      text: '🌿 Good morning Sarah! Dr. Arjun Patel here.\n\nHere are your Day 13 tasks for "21-Day Habit & Metabolic Reset":\n• 500ml Morning Hydration\n• 20-min Sunlight Walk\n• 30g Protein Anchor Meal\n\nReply "Done" when completed or "Need help" if you need guidance!',
-      time: '08:00 AM'
-    }
-  ]);
+  const greetingFor = (pp) => `🌿 Good morning ${pp.name.split(' ')[0]}! Dr. Arjun Patel here.\n\nChecking in on your Day ${pp.currentDay || 1} tasks for "${pp.currentProgramTitle || 'your programme'}".\n\nReply "Done" when completed or "Need help" if you need guidance!`;
+  const [messages, setMessages] = useState(() => {
+    const first = participants.find(p => p.id === (participants[0]?.id || 'part_001')) || participants[0];
+    return [{ id: 1, sender: 'bot', text: greetingFor(first || {name:'Client', currentDay:1}), time: '08:00 AM' }];
+  });
   const [inputVal, setInputVal] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [lastActionToast, setLastActionToast] = useState('');
@@ -32,14 +29,20 @@ export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
     streakDays: 6,
     currentDay: 13,
     totalDays: 21,
-    programTitle: '21-Day Habit & Metabolic Reset'
+    programTitle: '21-Day Illustrative Habit Plan (Demo)'
   };
 
   const botEngine = new WhatsAppBotEngine();
 
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [messages, isTyping]);
+
+  // Keep the simulated chat truthful: switching participant resets the thread to that client's own name/day/programme
+  useEffect(() => {
+    setMessages([{ id: Date.now(), sender: 'bot', text: greetingFor(activeParticipant), time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+    setLastActionToast('');
+  }, [selectedParticipantId]);
 
   const handleSendMessage = async (textToSend) => {
     const text = textToSend || inputVal;
@@ -63,13 +66,14 @@ export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
       // Trigger actual task updates in Careloop database
       if (evaluation.taskStatus) {
         const today = new Date().toISOString().split('T')[0];
-        const taskId = 'task-h1'; // Default primary anchor task
+        const progTasks = (programs || []).find(pr => pr.id === activeParticipant.currentProgramId)?.tasks;
+        const taskId = progTasks?.[0]?.id || 'task-h1'; // primary anchor task of the client's assigned programme
         await onRecordCompletion(
           activeParticipant.id, 
           taskId, 
           today, 
           evaluation.taskStatus, 
-          `Via WhatsApp Bot: "${text.trim()}"`
+          `Simulated WhatsApp reply: "${text.trim()}"`
         );
       }
 
@@ -227,7 +231,7 @@ export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
               Webhook endpoint: <code className="bg-white px-1.5 py-0.5 rounded border border-gray-200 font-mono text-[10px]">POST /api/webhook/whatsapp</code>
             </p>
             <p>
-              Meta gives <strong>1,000 free service conversations / month</strong>. When ready to connect a real Meta phone number, input your credentials into <code className="bg-white px-1 py-0.5 rounded font-mono text-[10px]">server/whatsappBotEngine.js</code>.
+              This demo is not connected to Meta or any live messaging channel. A production integration would use Meta's WhatsApp Cloud API under the practitioner's own Meta account, credentials and current pricing - verify those directly with Meta before any real setup. Nothing here sends real messages.
             </p>
           </div>
 
@@ -249,12 +253,12 @@ export const WhatsAppLab = ({ participants, onRecordCompletion }) => {
                   <div>
                     <div className="font-bold text-xs text-[#E9EDEF] flex items-center gap-1">
                       <span>Careloop Adherence Bot</span>
-                      <svg className="w-3.5 h-3.5 text-[#00A884]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
+                      <span className="text-[8px] font-bold px-1.5 py-0.5 rounded bg-[#2A3942] text-[#8696A0] uppercase tracking-wide">Simulated</span>
+                        
+                      
                     </div>
                     <div className="text-[10px] text-[#8696A0]">
-                      Official Coaching Assistant • Online
+                      Simulated assistant • Demo, not a live WhatsApp account
                     </div>
                   </div>
                 </div>

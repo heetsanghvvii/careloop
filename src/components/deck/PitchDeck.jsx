@@ -569,7 +569,7 @@ export const PitchDeck = ({ onClose, onLaunchDemo }) => {
                 <div className="p-4 rounded-xl bg-white border border-[#E8EAE7] space-y-2">
                   <span className="font-bold text-xs text-[#18231C]">Multi-Tenant Isolation</span>
                   <p className="text-gray-500 text-[11px]">
-                    Strict Firestore security rules guarantee that one clinic workspace can never query or read another clinic's records.
+                    Firestore security rules are designed so one clinic workspace cannot query or read another clinic's records; rules ship with the repo and are not yet verified in a deployed environment.
                   </p>
                 </div>
                 <div className="p-4 rounded-xl bg-white border border-[#E8EAE7] space-y-2">

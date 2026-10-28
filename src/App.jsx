@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './context/AuthContext.jsx';
 import { dataService } from './firebase/dataService.js';
-import { Navbar } from './components/Navbar.jsx';
+import { WorkspaceNav as Navbar } from './components/design/WorkspaceNav.jsx';
+import { GymWorkspace } from './components/design/GymWorkspace.jsx';
+import './components/design/workspace.css';
 import { OfficialWebsite } from './components/website/OfficialWebsite.jsx';
 import { FirebaseSetupModal } from './components/FirebaseSetupModal.jsx';
 
 // Practitioner Tabs
-import { Dashboard } from './components/practitioner/Dashboard.jsx';
+import { WorkspaceHome as Dashboard } from './components/design/WorkspaceHome.jsx';
 import { ParticipantList } from './components/practitioner/ParticipantList.jsx';
 import { ParticipantDetailModal } from './components/practitioner/ParticipantDetailModal.jsx';
 import { AddParticipantModal } from './components/practitioner/AddParticipantModal.jsx';
@@ -17,6 +19,7 @@ import { Analytics } from './components/practitioner/Analytics.jsx';
 import { RemindersSimulation } from './components/practitioner/RemindersSimulation.jsx';
 import { PricingSettings } from './components/practitioner/PricingSettings.jsx';
 import { WhatsAppLab } from './components/practitioner/WhatsAppLab.jsx';
+import { FollowUpScheduling } from './components/practitioner/FollowUpScheduling.jsx';
 import { ClinicQrModal } from './components/practitioner/ClinicQrModal.jsx';
 import { PitchDeck } from './components/deck/PitchDeck.jsx';
 import { DoctorSelfServeOnboarding } from './components/onboarding/DoctorSelfServeOnboarding.jsx';
@@ -176,7 +179,7 @@ export default function App() {
       name: 'Sarah Chen',
       email: 'sarah.chen@example.com',
       currentProgramId: 'template-habits-21d',
-      currentProgramTitle: '21-Day Habit & Metabolic Reset'
+      currentProgramTitle: '21-Day Illustrative Habit Plan (Demo)'
     };
     signInAsParticipant(sarah);
     setCurrentView('app');
@@ -360,7 +363,7 @@ export default function App() {
 
   // --- VIEW 3: PRACTITIONER DASHBOARD & WORKSPACE ---
   return (
-    <div className="min-h-screen bg-[#FBFBFA] flex flex-col text-[#1E2922]">
+    <div className="cl-workspace min-h-screen bg-[#FBFBFA] flex flex-col text-[#1E2922]">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -388,6 +391,8 @@ export default function App() {
             onSelectParticipant={setSelectedParticipant}
           />
         )}
+
+        {activeTab === 'gym' && <GymWorkspace participants={store.participants} />}
 
         {activeTab === 'participants' && (
           <ParticipantList
@@ -419,6 +424,7 @@ export default function App() {
         {activeTab === 'whatsapp_lab' && (
           <WhatsAppLab
             participants={store.participants}
+            programs={store.programs}
             onRecordCompletion={handleRecordCompletion}
           />
         )}
@@ -433,12 +439,15 @@ export default function App() {
         )}
 
         {activeTab === 'reminders' && (
+          <>
+          <FollowUpScheduling participants={store.participants} />
           <RemindersSimulation
             reminders={store.simulatedReminders}
             participants={store.participants}
             onAddReminder={handleAddReminder}
             onSimulateReply={handleSimulateReply}
           />
+          </>
         )}
 
         {activeTab === 'pricing' && (
@@ -471,7 +480,7 @@ export default function App() {
               Firebase Database Settings
             </button>
             <span className="text-gray-300">•</span>
-            <span>Zero Additional Spending (₹0 Guarantee)</span>
+            <span>Synthetic demo · No paid services enabled</span>
           </div>
         </div>
       </footer>

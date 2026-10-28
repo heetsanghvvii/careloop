@@ -216,7 +216,7 @@ export const FounderDashboard = ({
 
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#2D6A4F] animate-pulse" />
-              <span className="text-xs font-bold text-[#2D6A4F]">Zero-Cost Serverless Cloud Mode</span>
+              <span className="text-xs font-bold text-[#2D6A4F]">Serverless Cloud Mode (Spark free tier)</span>
             </div>
           </div>
 
@@ -319,7 +319,7 @@ export const FounderDashboard = ({
                   Doctor Outreach & Instant Pitch Decks
                 </h2>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  Generate tailored, specialty-specific presentations in 10 seconds. Each deck includes customized drop-off insights, practice revenue projections, and a live WhatsApp simulator.
+                  Generate tailored, specialty-specific presentations in 10 seconds. Each deck includes customized drop-off insights, practice revenue assumptions, and a live WhatsApp simulator.
                 </p>
               </div>
 
@@ -561,7 +561,7 @@ export const FounderDashboard = ({
 
               <div className="p-4 rounded-xl bg-[#FAFAF8] border border-gray-200 text-xs text-gray-500 space-y-1">
                 <div>* All financial figures are pilot pricing hypotheses under active market validation.</div>
-                <div>* Zero additional cloud infrastructure spend guaranteed under Firebase Spark + GitHub Pages architecture.</div>
+                <div>* Demo runs on Firebase Spark + GitHub Pages free tiers; production infrastructure spend depends on usage and is not guaranteed.</div>
               </div>
             </div>
           </div>

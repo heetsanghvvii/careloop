@@ -15,7 +15,7 @@ export const AddParticipantModal = ({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
-  const [programId, setProgramId] = useState(programs[0]?.id || '');
+  const [programId, setProgramId] = useState(''); // deliberate choice: default '-- Assign Later --', never silently pre-assign the first template
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,6 +56,8 @@ export const AddParticipantModal = ({
       setEmail('');
       setPhone('');
       setNotes('');
+      setProgramId(''); // reset: next enrollment must not inherit the previous program choice
+      setCategory(CATEGORIES[0]);
       onClose();
     } catch (err) {
       setError(err.message || 'Failed to add participant');

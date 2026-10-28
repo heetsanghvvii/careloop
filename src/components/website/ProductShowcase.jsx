@@ -156,7 +156,7 @@ export const ProductShowcase = ({ onExploreDemo }) => {
                         <td className="py-3 font-bold text-[#18231C]">
                           Sarah Chen <span className="block text-[10px] text-gray-400 font-normal">sarah.chen@example.com</span>
                         </td>
-                        <td className="py-3 text-gray-600">21-Day Habit & Metabolic Reset</td>
+                        <td className="py-3 text-gray-600">21-Day Illustrative Habit Plan (Demo)</td>
                         <td className="py-3"><span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Active</span></td>
                         <td className="py-3 font-bold text-emerald-700">88%</td>
                         <td className="py-3 text-gray-700 font-semibold">6d 🔥</td>
@@ -194,8 +194,8 @@ export const ProductShowcase = ({ onExploreDemo }) => {
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8EAE7] flex justify-between items-center">
                   <div>
                     <span className="text-[10px] font-bold text-[#2D6A4F] bg-[#EBF7EE] px-2 py-0.5 rounded">Habits & Wellness</span>
-                    <h4 className="text-sm font-bold text-[#18231C] mt-1">21-Day Habit & Metabolic Reset</h4>
-                    <p className="text-gray-500 mt-0.5">21-Day Duration • Sample circadian habit architecture</p>
+                    <h4 className="text-sm font-bold text-[#18231C] mt-1">21-Day Illustrative Habit Plan (Demo)</h4>
+                    <p className="text-gray-500 mt-0.5">21-Day Duration • Sample daily habit structure (demo content)</p>
                   </div>
                   <span className="px-3 py-1 rounded-lg bg-white border border-[#D5D9D4] font-semibold text-gray-700">4 Actions</span>
                 </div>
@@ -203,8 +203,8 @@ export const ProductShowcase = ({ onExploreDemo }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-3 rounded-xl border border-[#E8EAE7] bg-white">
                     <span className="text-[10px] font-bold text-gray-400">Action 01</span>
-                    <h5 className="font-bold text-[#18231C]">Morning Circadian Hydration</h5>
-                    <p className="text-gray-500 mt-0.5">Drink 500ml water with sea salt before caffeine.</p>
+                    <h5 className="font-bold text-[#18231C]">Morning Hydration (placeholder)</h5>
+                    <p className="text-gray-500 mt-0.5">Illustrative placeholder - the practitioner customizes every task. Demo content.</p>
                   </div>
                   <div className="p-3 rounded-xl border border-[#E8EAE7] bg-white">
                     <span className="text-[10px] font-bold text-gray-400">Action 02</span>
@@ -260,7 +260,7 @@ export const ProductShowcase = ({ onExploreDemo }) => {
                     <span className="text-xs uppercase font-bold text-[#A3E4D7]">Client Progress View</span>
                     <span className="text-xs font-bold text-amber-300">🔥 6-Day Streak</span>
                   </div>
-                  <div className="text-xl font-extrabold">21-Day Habit & Metabolic Reset</div>
+                  <div className="text-xl font-extrabold">21-Day Illustrative Habit Plan (Demo)</div>
                   <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden">
                     <div className="bg-[#52B788] h-full rounded-full" style={{ width: '62%' }} />
                   </div>

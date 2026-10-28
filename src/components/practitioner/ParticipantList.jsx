@@ -180,7 +180,9 @@ export const ParticipantList = ({
               </thead>
               <tbody className="divide-y divide-[#F0F2EF]">
                 {filteredParticipants.map((p) => {
-                  const isNeedsAttention = p.completionRate < 60 || (p.lastActivityDate && Math.floor((new Date(today) - new Date(p.lastActivityDate)) / (1000 * 60 * 60 * 24)) >= 3);
+                  const daysSinceActivity = p.lastActivityDate ? Math.floor((new Date(today) - new Date(p.lastActivityDate)) / (1000 * 60 * 60 * 24)) : 0;
+                  // Do not flag brand-new (Day 1) clients with no chance to complete yet, and never flag completed enrollments.
+                  const isNeedsAttention = p.enrollmentStatus !== 'completed' && (p.currentDay || 1) > 1 && (p.completionRate < 60 || daysSinceActivity >= 3);
 
                   return (
                     <tr 

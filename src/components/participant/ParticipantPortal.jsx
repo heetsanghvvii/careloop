@@ -13,7 +13,48 @@ import {
   IconShield,
   IconSparkles
 } from '../Icons.jsx';
+import { WorkoutLogger } from '../design/WorkoutLogger.jsx';
 import { getIsoDateOffset } from '../../data/initialDemoData.js';
+import { dataService } from '../../firebase/dataService.js';
+import { formatSlotInTz, applyPatientResponse } from '../../data/followUpScheduler.js';
+
+// PROTOTYPE (synthetic): shows a proposed automatic follow-up visit and lets the
+// participant confirm, decline (auto re-proposal) or opt out. No real calendar writes.
+const FollowUpProposalCard = ({ participantId }) => {
+  const [state, setState] = useState(null);
+  const refresh = () => setState(dataService.getFollowUpState());
+  React.useEffect(() => { refresh(); const u = dataService.subscribe(refresh); return u; }, []);
+  if (!state) return null;
+  const pending = state.events.filter(ev => ev.participantId === participantId && ev.status === 'awaiting_patient');
+  if (pending.length === 0) return null;
+  const act = async (ev, response) => {
+    const rule = state.rules.find(r => r.id === ev.ruleId);
+    const res = applyPatientResponse({ event: ev, response, rule, calendar: state.calendar, nowISO: new Date().toISOString(), tz: state.calendar.timezone });
+    if (res.error) return;
+    await dataService.saveFollowUpEvent(res.event);
+    if (res.calendar !== state.calendar) await dataService.saveDoctorCalendar(res.calendar);
+    if (res.deactivateRule && rule) await dataService.saveFollowUpRule({ ...rule, active: false });
+    refresh();
+  };
+  return (
+    <div className="mb-4 rounded-2xl border border-amber-300 bg-amber-50 p-4">
+      <div className="flex items-center gap-2">
+        <span className="text-sm font-extrabold text-amber-900">Proposed follow-up visit</span>
+        <span className="px-2 py-0.5 rounded-full bg-white border border-amber-300 text-[9px] font-bold text-amber-800 uppercase">Demo · simulated scheduling</span>
+      </div>
+      {pending.map(ev => (
+        <div key={ev.id} className="mt-2">
+          <div className="text-sm text-amber-900">{formatSlotInTz(ev.proposedSlotStart, ev.timezone)} · {ev.durationMin} min</div>
+          <div className="mt-2 flex gap-2">
+            <button onClick={() => act(ev, 'confirm')} className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold">Confirm</button>
+            <button onClick={() => act(ev, 'decline')} className="px-3 py-1.5 rounded-lg bg-white border border-amber-400 text-amber-800 text-xs font-bold">Request another slot</button>
+            <button onClick={() => act(ev, 'optout')} className="px-3 py-1.5 rounded-lg text-gray-500 text-xs font-semibold">Opt out</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export const ParticipantPortal = ({ 
   participant, 
@@ -108,6 +149,7 @@ export const ParticipantPortal = ({
 
       {/* Main Container */}
       <main className="max-w-2xl mx-auto px-4 pt-6 space-y-6">
+        <WorkoutLogger participantId={participant.id} date={selectedDate} />
         
         {/* Active Program Card */}
         <div className="bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] text-white rounded-3xl p-6 shadow-md">
@@ -175,6 +217,8 @@ export const ParticipantPortal = ({
         </div>
 
         {/* TAB 1: DAILY CHECKLIST */}
+        <FollowUpProposalCard participantId={participant.id} />
+
         {activeTab === 'today' && (
           <div className="space-y-4 animate-in fade-in duration-150">
             {/* Date Selector Row */}

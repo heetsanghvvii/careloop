@@ -13,7 +13,8 @@
     "test:rules": "node tests/verify-firestore-rules-auth.js",
     "test:founder": "node tests/verify-founder-pitch-engine.js",
     "test:onboarding": "node tests/verify-self-serve-onboarding.js",
-    "test:all": "node tests/verify-careloop.js && node tests/verify-whatsapp-bot.js && node tests/verify-marketing-website.js && node tests/verify-firestore-rules-auth.js && node tests/verify-dr-trisha-workflow.js && node tests/verify-founder-pitch-engine.js && node tests/verify-self-serve-onboarding.js"
+    "test:followup": "node tests/verify-followup-booking.js",
+    "test:all": "node tests/verify-careloop.js && node tests/verify-whatsapp-bot.js && node tests/verify-marketing-website.js && node tests/verify-firestore-rules-auth.js && node tests/verify-dr-trisha-workflow.js && node tests/verify-founder-pitch-engine.js && node tests/verify-self-serve-onboarding.js && node tests/verify-followup-booking.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
