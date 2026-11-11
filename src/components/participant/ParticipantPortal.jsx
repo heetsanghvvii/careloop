@@ -13,6 +13,7 @@ import {
   IconShield,
   IconSparkles
 } from '../Icons.jsx';
+import { LabTestsSection } from './LabTestsSection.jsx';
 import { WorkoutLogger } from '../design/WorkoutLogger.jsx';
 import { getIsoDateOffset } from '../../data/initialDemoData.js';
 import { dataService } from '../../firebase/dataService.js';
@@ -181,6 +182,8 @@ export const ParticipantPortal = ({
             </div>
           </div>
         </div>
+
+        <LabTestsSection participant={participant} />
 
         {/* View Tabs */}
         <div className="flex border-b border-[#E8EAE7] text-xs font-semibold">

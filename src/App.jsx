@@ -16,6 +16,7 @@ import { ProgramList } from './components/practitioner/ProgramList.jsx';
 import { ProgramBuilder } from './components/practitioner/ProgramBuilder.jsx';
 import { AssignProgramModal } from './components/practitioner/AssignProgramModal.jsx';
 import { Analytics } from './components/practitioner/Analytics.jsx';
+import { LabTests } from './components/practitioner/LabTests.jsx';
 import { RemindersSimulation } from './components/practitioner/RemindersSimulation.jsx';
 import { PricingSettings } from './components/practitioner/PricingSettings.jsx';
 import { WhatsAppLab } from './components/practitioner/WhatsAppLab.jsx';
@@ -66,7 +67,7 @@ export default function App() {
       if (typeof window !== 'undefined') {
         const params = new URLSearchParams(window.location.search);
         const tab = params.get('tab') || params.get('view');
-        if (tab && ['dashboard', 'participants', 'programs', 'whatsapp_lab', 'analytics', 'reminders', 'pricing'].includes(tab)) {
+        if (tab && ['dashboard', 'participants', 'programs', 'whatsapp_lab', 'analytics', 'labs', 'reminders', 'pricing'].includes(tab)) {
           return tab;
         }
       }
@@ -436,6 +437,10 @@ export default function App() {
             programs={store.programs}
             completions={store.taskCompletions}
           />
+        )}
+
+        {activeTab === 'labs' && (
+          <LabTests workspace={store.workspace} participants={store.participants} />
         )}
 
         {activeTab === 'reminders' && (

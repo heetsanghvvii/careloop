@@ -28,6 +28,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenFirebaseModal, onBackToW
     { id: 'programs', label: 'Programs & Templates', icon: IconClipboardList },
     { id: 'whatsapp_lab', label: 'WhatsApp Lab', icon: IconMessageSquare },
     { id: 'analytics', label: 'Analytics', icon: IconBarChart },
+    { id: 'labs', label: 'Lab Tests', icon: IconClipboardList },
     { id: 'reminders', label: 'Reminders (Simulated)', icon: IconBell },
     { id: 'pricing', label: 'Plans & Add-ons', icon: IconCreditCard },
   ];
