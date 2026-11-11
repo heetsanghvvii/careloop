@@ -128,6 +128,49 @@ service cloud.firestore {
       allow read, write: if isWorkspacePractitioner(workspaceId);
     }
 
+    // --- DIAGNOSTIC ORDERS (Project Vial) ---
+    // Orders hold NO result values. Booking and provider status updates are written server-side
+    // (admin SDK, bypasses rules); clients never write them.
+    function ownsDiagnosticOrder(orderData) {
+      return isAuthenticated() && (
+        orderData.participantUid == request.auth.uid ||
+        (request.auth.token.email != null && orderData.participantEmail == request.auth.token.email)
+      );
+    }
+
+    match /workspaces/{workspaceId}/diagnosticOrders/{orderId} {
+      // Workspace practitioner reads all; a participant reads only their own order
+      allow read: if isWorkspacePractitioner(workspaceId) || ownsDiagnosticOrder(resource.data);
+
+      // Only the workspace practitioner creates orders, always as an explicit doctor action
+      allow create: if isWorkspacePractitioner(workspaceId) &&
+        request.resource.data.workspaceId == workspaceId &&
+        request.resource.data.doctorId == request.auth.uid &&
+        request.resource.data.status == 'ordered' &&
+        request.resource.data.origin == 'doctor_explicit';
+
+      // Practitioner may only cancel an ordered/booked order, or release a reported one
+      allow update: if isWorkspacePractitioner(workspaceId) &&
+        request.resource.data.workspaceId == resource.data.workspaceId &&
+        request.resource.data.participantId == resource.data.participantId &&
+        request.resource.data.doctorId == resource.data.doctorId &&
+        ((resource.data.status == 'reported' && request.resource.data.status == 'released') ||
+         (resource.data.status in ['ordered', 'booked'] && request.resource.data.status == 'cancelled'));
+
+      allow delete: if false;
+    }
+
+    // --- DIAGNOSTIC RESULTS (values live here, separate from the order) ---
+    match /workspaces/{workspaceId}/diagnosticResults/{orderId} {
+      allow read: if isWorkspacePractitioner(workspaceId) || (
+        isAuthenticated() &&
+        get(/databases/$(database)/documents/workspaces/$(workspaceId)/diagnosticOrders/$(orderId)).data.status == 'released' &&
+        ownsDiagnosticOrder(get(/databases/$(database)/documents/workspaces/$(workspaceId)/diagnosticOrders/$(orderId)).data)
+      );
+      // Written only by the server (provider webhook, admin SDK); never by clients
+      allow write: if false;
+    }
+
     // --- EARLY ACCESS LEADS (Public Ingress) ---
     match /early_access_leads/{leadId} {
       // Prospective customers can submit interest safely without prior authentication

@@ -135,6 +135,43 @@ class SecurityRulesEvaluator {
       }
     }
 
+    // --- DIAGNOSTIC ORDERS ---
+    if (pathParts[0] === 'workspaces' && pathParts[2] === 'diagnosticOrders' && pathParts[3]) {
+      const wsId = pathParts[1];
+      const isPractitioner = isAuthenticated && this.db.workspaces?.[wsId]?.ownerUid === auth.uid;
+      const owns = (d) => isAuthenticated && Boolean(d) && (
+        d.participantUid === auth.uid || (auth.token?.email != null && d.participantEmail === auth.token.email)
+      );
+      if (method === 'get') return { allowed: isPractitioner || owns(resourceData) };
+      if (method === 'create') {
+        const d = requestResourceData || {};
+        return { allowed: isPractitioner && d.workspaceId === wsId && d.doctorId === auth.uid &&
+          d.status === 'ordered' && d.origin === 'doctor_explicit' };
+      }
+      if (method === 'update') {
+        const o = resourceData || {}; const n = requestResourceData || {};
+        const release = o.status === 'reported' && n.status === 'released';
+        const cancel = ['ordered', 'booked'].includes(o.status) && n.status === 'cancelled';
+        return { allowed: isPractitioner && n.workspaceId === o.workspaceId && n.participantId === o.participantId &&
+          n.doctorId === o.doctorId && (release || cancel) };
+      }
+      return { allowed: false };
+    }
+
+    // --- DIAGNOSTIC RESULTS ---
+    if (pathParts[0] === 'workspaces' && pathParts[2] === 'diagnosticResults' && pathParts[3]) {
+      const wsId = pathParts[1];
+      const isPractitioner = isAuthenticated && this.db.workspaces?.[wsId]?.ownerUid === auth.uid;
+      if (method === 'get') {
+        const order = this.db.diagnosticOrders?.[`${wsId}_${pathParts[3]}`];
+        const owns = isAuthenticated && Boolean(order) && (
+          order.participantUid === auth.uid || (auth.token?.email != null && order.participantEmail === auth.token.email)
+        );
+        return { allowed: isPractitioner || (order?.status === 'released' && owns) };
+      }
+      return { allowed: false };
+    }
+
     // --- EARLY ACCESS LEADS ---
     if (pathParts[0] === 'early_access_leads') {
       if (method === 'create') {
@@ -162,6 +199,10 @@ const mockDb = {
     'ws_clinic_a_sarah@example.com': { id: 'patient_1', email: 'sarah@example.com' },
     ws_clinic_b_patient_2: { id: 'patient_2', email: 'ananya@example.com', uid: 'uid_ananya' },
     ws_clinic_b_uid_ananya: { id: 'patient_2', email: 'ananya@example.com', uid: 'uid_ananya' }
+  },
+  diagnosticOrders: {
+    ws_clinic_a_dx_reported: { status: 'reported', participantUid: 'uid_sarah', participantEmail: 'sarah@example.com' },
+    ws_clinic_a_dx_released: { status: 'released', participantUid: 'uid_sarah', participantEmail: 'sarah@example.com' }
   }
 };
 
@@ -280,4 +321,41 @@ const test8Read = evaluator.evaluate({
 assert.strictEqual(test8Read.allowed, false, 'Public must not read leads');
 console.log('✅ Early access lead ingress verified: public create permitted, public read strictly blocked.');
 
+// [TEST 9-14] Diagnostics (Project Vial) boundaries
+console.log('\n[Test 9] Verifying diagnostics order rules: doctor-only create, workspace isolation, own-order reads...');
+assert.ok(rulesRaw.includes('diagnosticOrders') && rulesRaw.includes('diagnosticResults'), 'Rules must cover diagnostic orders and results');
+const dxDoc = { uid: 'doc_arjun', token: { email: 'arjun@example.com' } };
+const dxOrder = { workspaceId: 'ws_clinic_a', doctorId: 'doc_arjun', participantId: 'patient_1', status: 'ordered', origin: 'doctor_explicit' };
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'create', auth: dxDoc, requestResourceData: dxOrder }).allowed, true, 'Workspace doctor creates order');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'create', auth: { uid: 'uid_sarah', token: { email: 'sarah@example.com' } }, requestResourceData: dxOrder }).allowed, false, 'Patient cannot create order');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'create', auth: { uid: 'doc_trisha', token: {} }, requestResourceData: { ...dxOrder, doctorId: 'doc_trisha' } }).allowed, false, 'Other workspace doctor cannot create');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'create', auth: dxDoc, requestResourceData: { ...dxOrder, status: 'released' } }).allowed, false, 'Order cannot be created already released');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'create', auth: dxDoc, requestResourceData: { ...dxOrder, origin: 'system' } }).allowed, false, 'Only explicit doctor origin');
+console.log('✅ Diagnostic order create boundaries verified.');
+
+console.log('\n[Test 10] Verifying participant reads only own order; strangers and other tenants denied...');
+const ownOrder = { participantUid: 'uid_sarah', participantEmail: 'sarah@example.com', status: 'booked' };
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'get', auth: { uid: 'uid_sarah', token: { email: 'sarah@example.com' } }, resourceData: ownOrder }).allowed, true);
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'get', auth: { uid: 'uid_other', token: { email: 'other@example.com' } }, resourceData: ownOrder }).allowed, false);
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'get', auth: { uid: 'doc_trisha', token: {} }, resourceData: ownOrder }).allowed, false);
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'get', auth: null, resourceData: ownOrder }).allowed, false);
+console.log('✅ Own-order read boundary verified.');
+
+console.log('\n[Test 11] Verifying results are unreadable by the patient until released...');
+const sarah = { uid: 'uid_sarah', token: { email: 'sarah@example.com' } };
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticResults/dx_reported', method: 'get', auth: sarah }).allowed, false, 'Reported but unreleased: patient denied');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticResults/dx_released', method: 'get', auth: sarah }).allowed, true, 'Released: patient allowed');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticResults/dx_released', method: 'get', auth: { uid: 'uid_ananya', token: { email: 'ananya@example.com' } } }).allowed, false, 'Other patient denied even if released');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticResults/dx_reported', method: 'get', auth: dxDoc }).allowed, true, 'Practitioner reads unreleased results');
+console.log('✅ Result visibility gating verified.');
+
+console.log('\n[Test 12] Verifying only the practitioner releases/cancels and clients never write results...');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'update', auth: dxDoc, resourceData: { ...dxOrder, status: 'reported' }, requestResourceData: { ...dxOrder, status: 'released' } }).allowed, true, 'Doctor releases reported order');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'update', auth: dxDoc, resourceData: { ...dxOrder, status: 'booked' }, requestResourceData: { ...dxOrder, status: 'released' } }).allowed, false, 'Cannot release before report');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'update', auth: sarah, resourceData: { ...dxOrder, status: 'reported' }, requestResourceData: { ...dxOrder, status: 'released' } }).allowed, false, 'Patient cannot release');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticOrders/dx1', method: 'delete', auth: dxDoc, resourceData: dxOrder }).allowed, false, 'Orders are not deletable');
+assert.strictEqual(evaluator.evaluate({ path: '/workspaces/ws_clinic_a/diagnosticResults/dx1', method: 'create', auth: dxDoc, requestResourceData: {} }).allowed, false, 'Clients cannot write results');
+console.log('✅ Release/cancel/write boundaries verified.');
+
 console.log('\n🎉 ALL 8 FIRESTORE SECURITY RULES AUTHORIZATION BOUNDARIES VERIFIED!');
+console.log('🎉 DIAGNOSTICS RULE BOUNDARIES (tests 9-12) VERIFIED AGAINST THE EVALUATOR MIRROR (not the real emulator).');
