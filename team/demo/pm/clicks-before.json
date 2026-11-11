@@ -1,0 +1,360 @@
+[
+  {
+    "id": "1",
+    "name": "New doctor: landing to one programme assigned to one participant",
+    "width": 1280,
+    "status": "blocked",
+    "reason": "locator.waitFor: Timeout 8000ms exceeded.",
+    "clicks": 2,
+    "selects": 0,
+    "fields": 4,
+    "total": 6,
+    "smallTargets": [],
+    "steps": [
+      "click: Landing: onboarding button in the navbar [127x50]",
+      "(not counted) onboarding: submit button sits 2047px from the top of the page",
+      "field: Doctor full name [296x38]",
+      "field: Professional email [296x38]",
+      "field: Clinic name [296x38]",
+      "field: Clinic WhatsApp number [296x38]",
+      "click: Onboarding: create workspace [659x52]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "2",
+    "name": "Doctor daily: see who needs follow-up, act on one",
+    "width": 1280,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 4,
+    "selects": 1,
+    "fields": 0,
+    "total": 5,
+    "smallTargets": [],
+    "steps": [
+      "(not counted) follow-up queue shows David Miller with 0 clicks; row top is 607px from the top of a 900px viewport",
+      "click: Overview: open David Miller to review [477x70]",
+      "click: Detail modal: Close (no follow-up action in the modal) [32x32]",
+      "click: Nav: Follow-ups tab [64x52]",
+      "select: Target participant: David Miller [224x54]",
+      "click: Queue Simulated Reminder [322x36]",
+      "(not counted) verified in localStorage: one simulated reminder queued for David Miller (nothing is really sent)"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "3",
+    "name": "Patient daily: all of today's tasks done",
+    "width": 1280,
+    "status": "blocked",
+    "reason": "page.waitForFunction: Timeout 8000ms exceeded.",
+    "clicks": 1,
+    "selects": 0,
+    "fields": 0,
+    "total": 1,
+    "smallTargets": [],
+    "steps": [
+      "(not counted) 1 tasks today; first \"Mark Complete\" button is 1569px down the page",
+      "click: Mark Complete (task 1 of 1) [141x30]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "4b",
+    "name": "Doctor orders a lab test from the participant record",
+    "width": 1280,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 6,
+    "selects": 1,
+    "fields": 0,
+    "total": 7,
+    "smallTargets": [],
+    "steps": [
+      "(not counted) start: doctor is on the Clients list",
+      "click: Clients: open Marcus Vance [1154x64]",
+      "click: Detail modal: Close (no lab action in the modal) [32x32]",
+      "click: Nav: Lab Tests tab [53x52]",
+      "select: Participant: Marcus Vance [524x38]",
+      "(not counted) verified: Marcus Vance is the selected participant and no test is pre-ticked",
+      "click: Test: HbA1c [524x38]",
+      "click: Test: Lipid Profile [524x38]",
+      "click: Create order [107x32]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "4a",
+    "name": "Doctor orders a lab test (Lab Tests tab)",
+    "width": 1280,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 4,
+    "selects": 1,
+    "fields": 0,
+    "total": 5,
+    "smallTargets": [],
+    "steps": [
+      "click: Nav: Lab Tests tab [51x52]",
+      "select: Participant: Sarah Chen [524x38]",
+      "click: Test: HbA1c [524x38]",
+      "click: Test: Lipid Profile [524x38]",
+      "click: Create order [107x32]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "5",
+    "name": "Patient books that test (first booking)",
+    "width": 1280,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 5,
+    "selects": 0,
+    "fields": 1,
+    "total": 6,
+    "smallTargets": [],
+    "steps": [
+      "click: Book home collection (opens the form) [158x32]",
+      "field: Pincode [500x38]",
+      "click: Check pincode [64x38]",
+      "(not counted) verified: consent checkbox is unticked by default",
+      "click: Collection slot (first offered) [572x38]",
+      "click: Consent checkbox [548x18]",
+      "click: Book home collection (submit) [572x36]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "6",
+    "name": "Doctor reviews and releases a report",
+    "width": 1280,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 3,
+    "selects": 0,
+    "fields": 0,
+    "total": 3,
+    "smallTargets": [],
+    "steps": [
+      "click: Nav: Lab Tests tab [53x52]",
+      "click: Orders list: open the order awaiting review [524x62]",
+      "click: Release to patient [137x32]",
+      "(not counted) verified: patient portal shows values only after release"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "5b",
+    "name": "Patient books a second test (repeat booking)",
+    "width": 1280,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 5,
+    "selects": 0,
+    "fields": 1,
+    "total": 6,
+    "smallTargets": [],
+    "steps": [
+      "click: Book home collection (opens the form) [158x32]",
+      "field: Pincode [500x38]",
+      "click: Check pincode [64x38]",
+      "(not counted) verified: consent checkbox is unticked by default",
+      "click: Collection slot (first offered) [572x38]",
+      "click: Consent checkbox [548x18]",
+      "click: Book home collection (submit) [572x36]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "1",
+    "name": "New doctor: landing to one programme assigned to one participant",
+    "width": 390,
+    "status": "blocked",
+    "reason": "locator.waitFor: Timeout 8000ms exceeded.",
+    "clicks": 0,
+    "selects": 0,
+    "fields": 0,
+    "total": 0,
+    "smallTargets": [],
+    "steps": [],
+    "pageErrors": []
+  },
+  {
+    "id": "2",
+    "name": "Doctor daily: see who needs follow-up, act on one",
+    "width": 390,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 4,
+    "selects": 1,
+    "fields": 0,
+    "total": 5,
+    "smallTargets": [
+      "Detail modal: Close (no follow-up action in the modal) (32x32)",
+      "Queue Simulated Reminder (312x36)"
+    ],
+    "steps": [
+      "(not counted) follow-up queue shows David Miller with 0 clicks; row top is 1241px from the top of a 844px viewport",
+      "click: Overview: open David Miller to review [312x70]",
+      "click: Detail modal: Close (no follow-up action in the modal) [32x32]",
+      "click: Nav: Follow-ups tab [64x52]",
+      "select: Target participant: David Miller [224x54]",
+      "click: Queue Simulated Reminder [312x36]",
+      "(not counted) verified in localStorage: one simulated reminder queued for David Miller (nothing is really sent)"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "3",
+    "name": "Patient daily: all of today's tasks done",
+    "width": 390,
+    "status": "blocked",
+    "reason": "page.waitForFunction: Timeout 8000ms exceeded.",
+    "clicks": 1,
+    "selects": 0,
+    "fields": 0,
+    "total": 1,
+    "smallTargets": [],
+    "steps": [
+      "(not counted) 1 tasks today; first \"Mark Complete\" button is 1833px down the page",
+      "click: Mark Complete (task 1 of 1) [129x46]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "4b",
+    "name": "Doctor orders a lab test from the participant record",
+    "width": 390,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 6,
+    "selects": 1,
+    "fields": 0,
+    "total": 7,
+    "smallTargets": [
+      "Detail modal: Close (no lab action in the modal) (32x32)",
+      "Participant: Marcus Vance (312x38)",
+      "Test: HbA1c (312x38)",
+      "Test: Lipid Profile (312x38)",
+      "Create order (107x32)"
+    ],
+    "steps": [
+      "(not counted) start: doctor is on the Clients list",
+      "click: Clients: open Marcus Vance [938x64]",
+      "click: Detail modal: Close (no lab action in the modal) [32x32]",
+      "click: Nav: Lab Tests tab [53x52]",
+      "select: Participant: Marcus Vance [312x38]",
+      "(not counted) verified: Marcus Vance is the selected participant and no test is pre-ticked",
+      "click: Test: HbA1c [312x38]",
+      "click: Test: Lipid Profile [312x38]",
+      "click: Create order [107x32]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "4a",
+    "name": "Doctor orders a lab test (Lab Tests tab)",
+    "width": 390,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 4,
+    "selects": 1,
+    "fields": 0,
+    "total": 5,
+    "smallTargets": [
+      "Participant: Sarah Chen (312x38)",
+      "Test: HbA1c (312x38)",
+      "Test: Lipid Profile (312x38)",
+      "Create order (107x32)"
+    ],
+    "steps": [
+      "click: Nav: Lab Tests tab [51x52]",
+      "select: Participant: Sarah Chen [312x38]",
+      "click: Test: HbA1c [312x38]",
+      "click: Test: Lipid Profile [312x38]",
+      "click: Create order [107x32]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "5",
+    "name": "Patient books that test (first booking)",
+    "width": 390,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 5,
+    "selects": 0,
+    "fields": 1,
+    "total": 6,
+    "smallTargets": [
+      "Book home collection (opens the form) (158x32)",
+      "Pincode (218x38)",
+      "Check pincode (64x38)",
+      "Collection slot (first offered) (290x38)",
+      "Consent checkbox (266x18)",
+      "Book home collection (submit) (290x36)"
+    ],
+    "steps": [
+      "click: Book home collection (opens the form) [158x32]",
+      "field: Pincode [218x38]",
+      "click: Check pincode [64x38]",
+      "(not counted) verified: consent checkbox is unticked by default",
+      "click: Collection slot (first offered) [290x38]",
+      "click: Consent checkbox [266x18]",
+      "click: Book home collection (submit) [290x36]"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "6",
+    "name": "Doctor reviews and releases a report",
+    "width": 390,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 3,
+    "selects": 0,
+    "fields": 0,
+    "total": 3,
+    "smallTargets": [
+      "Release to patient (137x32)"
+    ],
+    "steps": [
+      "click: Nav: Lab Tests tab [53x52]",
+      "click: Orders list: open the order awaiting review [312x78]",
+      "click: Release to patient [137x32]",
+      "(not counted) verified: patient portal shows values only after release"
+    ],
+    "pageErrors": []
+  },
+  {
+    "id": "5b",
+    "name": "Patient books a second test (repeat booking)",
+    "width": 390,
+    "status": "ok",
+    "overflowPx": 0,
+    "clicks": 5,
+    "selects": 0,
+    "fields": 1,
+    "total": 6,
+    "smallTargets": [
+      "Book home collection (opens the form) (158x32)",
+      "Pincode (218x38)",
+      "Check pincode (64x38)",
+      "Collection slot (first offered) (290x38)",
+      "Consent checkbox (266x18)",
+      "Book home collection (submit) (290x36)"
+    ],
+    "steps": [
+      "click: Book home collection (opens the form) [158x32]",
+      "field: Pincode [218x38]",
+      "click: Check pincode [64x38]",
+      "(not counted) verified: consent checkbox is unticked by default",
+      "click: Collection slot (first offered) [290x38]",
+      "click: Consent checkbox [266x18]",
+      "click: Book home collection (submit) [290x36]"
+    ],
+    "pageErrors": []
+  }
+]
