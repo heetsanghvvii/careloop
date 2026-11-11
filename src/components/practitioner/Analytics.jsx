@@ -11,6 +11,7 @@ import {
   IconShield
 } from '../Icons.jsx';
 import { getIsoDateOffset } from '../../data/initialDemoData.js';
+import { computeDropOff, firstDropOffDay } from '../../utils/cohortDropOff.js';
 
 export const Analytics = ({ workspace, participants, programs, completions }) => {
   const activeParticipants = participants.filter(p => !p.archived);
@@ -47,6 +48,16 @@ export const Analytics = ({ workspace, participants, programs, completions }) =>
       rate
     };
   });
+
+  // Cohort drop-off by program day
+  const maxDays = Math.max(21, ...activeParticipants.map(p => p.totalDays || 0));
+  const dropOff = computeDropOff({
+    participants: activeParticipants,
+    completions,
+    today: getIsoDateOffset(0),
+    maxDays
+  }).filter(r => r.base > 0);
+  const dropOffDay = firstDropOffDay(dropOff, 50);
 
   // Participant Adherence Ranking
   const rankedParticipants = [...activeParticipants].sort((a, b) => b.completionRate - a.completionRate);
@@ -216,6 +227,26 @@ export const Analytics = ({ workspace, participants, programs, completions }) =>
         <div className="mt-3 flex justify-between items-center text-xs text-gray-500">
           <span>* Minimum 1 recorded check-in required to calculate daily adherence.</span>
           <span className="font-medium text-gray-700">7-Day Cohort Baseline</span>
+        </div>
+      </div>
+
+      {/* Cohort Drop-off by Program Day */}
+      <div className="bg-white rounded-2xl border border-[#E8EAE7] p-6 shadow-xs">
+        <h3 className="text-sm font-bold text-[#18231C]">Cohort Check-in Rate by Program Day</h3>
+        <p className="text-xs text-gray-500 mb-5">
+          Share of participants who logged a completed or skipped task on each program day. Only participants who have reached that day are counted.
+          {dropOffDay ? ` Check-ins first fall below 50% on day ${dropOffDay}.` : ' No day below 50% yet.'}
+        </p>
+        <div className="flex items-end gap-1 h-28">
+          {dropOff.map(r => (
+            <div key={r.day} className="flex-1 flex flex-col items-center justify-end h-full" title={`Day ${r.day}: ${r.active}/${r.base} (${r.rate}%)`}>
+              <div
+                className={`w-full rounded-t ${r.rate < 50 ? 'bg-rose-400' : 'bg-[#2D6A4F]'}`}
+                style={{ height: `${Math.max(4, r.rate)}%` }}
+              />
+              <span className="text-[9px] text-gray-400 mt-1">{r.day}</span>
+            </div>
+          ))}
         </div>
       </div>
 
